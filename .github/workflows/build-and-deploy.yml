@@ -33,8 +33,6 @@ jobs:
     steps:
       - name: Check out paper source
         uses: actions/checkout@v4
-        with:
-          path: paper-source
       - name: Compile ${{ matrix.slug }}
         run: |
           docker run --rm \
