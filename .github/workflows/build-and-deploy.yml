@@ -38,6 +38,9 @@ jobs:
       - name: Compile ${{ matrix.slug }}
         uses: xu-cheng/latex-action@v3
         with:
+          # The action's default texlive-full image no longer ships TeX
+          # executables. Pin a verified image that includes latexmk and BibTeX.
+          docker_image: texlive/texlive@sha256:1a1b8588cd73ac33fe1d7722c4065b3e6eaa3f3a20fb54d2934e42310264d134
           # Resolve the entry point from the checked-out source root.  The
           # action then changes into the entry point's directory so relative
           # \input, bibliography, and figure paths keep working.
