@@ -38,8 +38,11 @@ jobs:
       - name: Compile ${{ matrix.slug }}
         uses: xu-cheng/latex-action@v3
         with:
-          working_directory: paper-source/${{ matrix.directory }}
-          root_file: ${{ matrix.tex }}
+          # Resolve the entry point from the checked-out source root.  The
+          # action then changes into the entry point's directory so relative
+          # \input, bibliography, and figure paths keep working.
+          working_directory: paper-source
+          root_file: ${{ matrix.directory }}/${{ matrix.tex }}
           work_in_root_file_dir: true
           latexmk_use_xelatex: false
           args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
