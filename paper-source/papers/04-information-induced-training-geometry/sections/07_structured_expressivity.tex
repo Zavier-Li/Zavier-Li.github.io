@@ -1,0 +1,197 @@
+\section{Structured Expressivity Certificates}
+\label{sec:structured-expressivity}
+
+The full-SPD channel can realize every \(R\in\SPD^m\).  Implementable
+optimizers often restrict \(P\) to a coordinate, block, Kronecker, or other
+structured family.  For a family \(\Fcal\subset\SPD^d\) equipped with a
+within-family distance \(d_\Fcal\), define the visible restricted complexity
+\begin{equation}
+  D_{\Fcal}^{\mathrm{vis}}(A,R;P_0)
+  =
+  \inf_{\substack{P\in\Fcal\\A^\top PA=R}}d_\Fcal(P_0,P),
+  \label{eq:visible-restricted-complexity}
+\end{equation}
+with value \(+\infty\) when no structured completion exists.  This section
+characterizes finiteness for diagonal and block families.
+
+\subsection{Diagonal geometry}
+
+Let \(a_j^\top\) be the \(j\)-th row of \(A\in\R^{d\times m}\) and set
+\(G_j=a_ja_j^\top\in\PSD^m\).  A positive diagonal cometric
+\(D(p)=\diag(p_1,\ldots,p_d)\) has visible image
+\begin{equation}
+  A^\top D(p)A=\sum_{j=1}^d p_jG_j.
+  \label{eq:diagonal-image}
+\end{equation}
+Let \(\Kcal_{\mathrm{diag}}=\cone(G_1,\ldots,G_d)\).
+
+\begin{theorem}[Diagonal expressivity and facial alternative]
+\label{thm:diagonal-expressivity}
+\mbox{}\par\noindent
+Let \(D_0=\diag(p_1^0,\ldots,p_d^0)\) with \(p_j^0>0\), and define
+\begin{equation}
+  D_{\mathrm{diag}}^{\mathrm{vis}}
+  =
+  \inf_{\substack{p_j>0\\\sum_jp_jG_j=R}}
+  \left(\sum_{j=1}^d\log^2\frac{p_j}{p_j^0}\right)^{1/2}.
+  \label{eq:diagonal-complexity}
+\end{equation}
+Then \(D_{\mathrm{diag}}^{\mathrm{vis}}<\infty\) if and only if
+\begin{equation}
+  R\in\ri\Kcal_{\mathrm{diag}},
+  \label{eq:diagonal-ri}
+\end{equation}
+equivalently, \(R=\sum_jp_jG_j\) for some \(p_j>0\).  When finite, the
+infimum is attained.  If the \(G_j\) are linearly independent, the feasible
+diagonal cometric is unique.
+
+There are two distinct failure certificates.
+\begin{enumerate}[label=(\roman*),leftmargin=*]
+  \item If \(R\notin\Kcal_{\mathrm{diag}}\), there exists symmetric \(Y\)
+  such that
+  \[
+    \tr(YR)<0,
+    \qquad
+    \tr(YG_j)\ge0\quad\forall j.
+  \]
+  \item If
+  \(R\in\Kcal_{\mathrm{diag}}\setminus\ri\Kcal_{\mathrm{diag}}\), there
+  exists symmetric \(Y\) such that
+  \[
+    \tr(YR)=0,
+    \qquad
+    \tr(YG_j)\ge0\quad\forall j,
+    \qquad
+    \tr(YG_{j_\star})>0\quad\text{for some }j_\star.
+  \]
+\end{enumerate}
+The first strictly separates an infeasible target; the second exposes the
+proper face containing a boundary target that requires some diagonal weights
+to vanish.
+\end{theorem}
+
+\begin{example}[An end-to-end visible training channel]
+\label{ex:worked-training-channel}
+Let the rows of \(A\in\R^{3\times2}\) be
+\[
+  a_1^\top=(1,0),
+  \qquad
+  a_2^\top=(0,1),
+  \qquad
+  a_3^\top=(1,1).
+\]
+Take \(P_0=I_3\) and the visible target \(R=I_2\).  Since
+\[
+  R_0=A^\top A=\begin{pmatrix}2&1\\1&2\end{pmatrix},
+\]
+the full-SPD canonical completion is
+\[
+  P_\star=\Psi_{I_3,A}(I_2)
+  =\frac19
+  \begin{pmatrix}
+    8&-1&-2\\
+    -1&8&-2\\
+    -2&-2&5
+  \end{pmatrix},
+  \qquad A^\top P_\star A=I_2.
+\]
+Thus the visible request has a unique nearest full-SPD realization.  Within
+the diagonal family, however, it requires the semidefinite coefficient vector
+\(p=(1,1,0)\); no strictly positive diagonal geometry realizes it.  The
+matrix
+\[
+  Y=\begin{pmatrix}0&1\\1&0\end{pmatrix}
+\]
+is a facial certificate: \(\tr(YR)=0\),
+\(\tr(YG_1)=\tr(YG_2)=0\), and \(\tr(YG_3)=2\), so it is a nontrivial
+functional on \(\operatorname{span}\Kcal_{\mathrm{diag}}\).
+
+For the visible covector \(\alpha=Ae_1=(1,0,1)^\top\), the canonical update
+is
+\[
+  u_\star=-P_\star\alpha
+  =\left(-\frac23,\frac13,-\frac13\right)^\top,
+  \qquad A^\top u_\star=-e_1.
+\]
+Every feasible full geometry has this same visible update, while its invisible
+component may differ by any vector in
+\(\ker A^\top=\operatorname{span}\{(1,1,-1)^\top\}\).  The example
+therefore displays, in one calculation, exact visible reduction, canonical
+full completion, invisible drift, and a structured-family boundary
+certificate.
+\end{example}
+
+\subsection{Block geometry}
+
+Partition the rows of \(A\) into blocks \(A_b\).  A block cometric has the
+form \(P=\blockdiag(P_1,\ldots,P_B)\), \(P_b\succ0\), and visible image
+\begin{equation}
+  A^\top PA=\sum_bA_b^\top P_bA_b.
+  \label{eq:block-image}
+\end{equation}
+Define
+\[
+  \Kcal_{\mathrm{block}}
+  =\left\{\sum_bA_b^\top P_bA_b:P_b\succeq0\right\}.
+\]
+
+\begin{theorem}[Block expressivity]
+\label{thm:block-expressivity}
+\mbox{}\par\noindent
+For a block reference \(P_0=\blockdiag(P_1^0,\ldots,P_B^0)\), the quantity
+\begin{equation}
+  D_{\mathrm{block}}^{\mathrm{vis}}
+  =
+  \inf_{\substack{P_b\succ0\\\sum_bA_b^\top P_bA_b=R}}
+  \left(\sum_b\dai(P_b^0,P_b)^2\right)^{1/2}
+  \label{eq:block-complexity}
+\end{equation}
+is finite if and only if
+\(R\in\ri\Kcal_{\mathrm{block}}\), equivalently if positive definite
+blocks realize \(R\).  When finite, the infimum is attained.
+
+The cone \(\Kcal_{\mathrm{block}}\) is closed.  If
+\(R\notin\Kcal_{\mathrm{block}}\), there is symmetric \(Y\)
+such that
+\[
+  \tr(YR)<0,
+  \qquad
+  A_bYA_b^\top\succeq0\quad\forall b.
+\]
+If
+\(R\in\Kcal_{\mathrm{block}}\setminus
+\ri\Kcal_{\mathrm{block}}\), there is a facial certificate with
+\[
+  \tr(YR)=0,
+  \qquad
+  A_bYA_b^\top\succeq0\quad\forall b,
+  \qquad
+  A_{b_\star}YA_{b_\star}^\top\ne0\quad\text{for some }b_\star.
+\]
+\end{theorem}
+
+The proofs in \cref{app:expressivity-proofs} use the identity that a linear
+map sends the relative interior of a finite-dimensional convex cone onto the
+relative interior of its image.  The distinction between strict separation
+and facial exposure is essential: targets on a proper face are realizable by
+semidefinite structured geometries while remaining unreachable by strictly
+positive optimizer blocks.  In both facial alternatives, nontriviality is
+measured on the linear span of the image cone; ambient nonzero \(Y\) alone is
+insufficient because it may annihilate the entire cone.
+
+The certificates have direct finite-dimensional feasibility forms.  For the
+diagonal boundary case, scaling permits the normalization
+\(\sum_j\tr(YG_j)=1\), leaving linear equalities and inequalities in \(Y\);
+strict infeasibility can be normalized by \(\tr(YR)\le-1\).  For block
+geometry, the corresponding constraints
+\(A_bYA_b^\top\succeq0\) together with
+\(\sum_b\tr(A_bYA_b^\top)=1\) form an SDP feasibility problem.  These
+formulations make the certificates computable in principle; algorithmic
+complexity is outside the present characterization.  In finite precision,
+the normalization equality, cone residual, and strict separation margin
+should be reported together: a small residual with a vanishing margin signals
+proximity to a proper face, whereas the exact alternatives in the theorems
+concern exact feasibility.
+
+Kronecker, low-rank, and tensor families require separate image geometry and
+are not covered by the diagonal/block theorems.

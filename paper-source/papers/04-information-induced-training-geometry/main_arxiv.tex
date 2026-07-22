@@ -1,0 +1,70 @@
+\documentclass[10pt]{article}
+\usepackage[preprint]{tmlr}
+
+\input{preamble_arxiv}
+
+\title{Information-Induced Training Geometry:\\
+Exact Reduction, Canonical Completion, and Structured Expressivity}
+
+\author{\name Zavier Li \email zavierli888@gmail.com\\
+      \addr Xidian University\\
+      \addr Xi'an, China}
+
+\def\month{07}
+\def\year{2026}
+\def\openreview{\url{}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Training data constrains optimizer geometry through the covectors visible to
+a declared information channel.  We study how such partial information
+determines a full positive cometric relative to a reference and which degrees
+of freedom remain unidentified.  Our central result resolves the
+full-column-rank SPD channel
+\(\pi_A(P)=A^\top P A\) under affine-invariant Riemannian geometry.  The map
+is a split-Hadamard metric submetry and admits an explicit unique completion
+\(\Psi_{P_0,A}\), which is the AIRM-nearest full geometry realizing a visible
+target and yields exact full-to-visible variational reduction.  When the
+channel moves, the completions form a gauge-invariant rank stratification of
+the SPD cone.  Its closed-form pullback pair metric separates visible-metric
+motion from subspace rotation through the mismatch weight
+\(R+R^{-1}-2I\), yields an explicit positive-semidefinite multi-direction Gram
+matrix, and exposes the precise singularity of reference-valued rotation
+modes.  The
+mechanism is explained by a metric theorem equating ball
+submetry, attained fiber distance, and lossless reduction of every monotone
+radial visible decision problem; a smooth split-Hadamard theorem supplies
+coherent information sheets, proximal commutation, and solution-wise
+gradient-flow lifting.  The SPD realization also gives closed-form
+prior--data shrinkage.  Diagonal
+and block optimizer families then reduce to relative-interior conic image
+tests with valid facial certificates, while deterministic and finite-sample
+bounds quantify recovery of the visible geometry and its subspace.  Together
+these results characterize exact reduction, reference-dependent completion,
+and structured expressivity for the stated finite-dimensional AIRM model.
+\end{abstract}
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_metric_foundations}
+\input{sections/04_split_hadamard}
+\input{sections/05_spd_realization}
+\input{sections/06_stratified_geometry}
+\input{sections/07_structured_expressivity}
+\input{sections/08_statistical_recovery}
+\input{sections/09_discussion}
+\input{sections/10_statements}
+
+\bibliographystyle{tmlr}
+\bibliography{../../bibliography/references}
+
+\appendix
+\input{appendix/a_metric_split_proofs}
+\input{appendix/b_spd_proofs}
+\input{appendix/c_stratified_proofs}
+\input{appendix/d_expressivity_proofs}
+\input{appendix/e_recovery_proofs}
+
+\end{document}

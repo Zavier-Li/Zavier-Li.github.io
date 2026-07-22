@@ -1,0 +1,206 @@
+\section{Proof of the Reduction-Induced Interaction Theorem}
+\label{app:interaction-proof}
+
+For self-containment, we reproduce the P1 proof of
+\cref{thm:reduction-induced-interaction} and
+\cref{prop:reduction-mobius-noncommutation}, then prove the new observable
+readout law in \cref{thm:readout-interaction-transfer}.
+
+\subsection{Continuity and smoothness of the minimizer section}
+
+Fix $z_0=(y_0,u_0)$ and write $\sigma_0=\sigma_\star(z_0)$.  Let $z_n\to z_0$.  Evaluating each fiber objective at $\sigma_0$ shows that $E(z_n,\sigma_\star(z_n))$ is bounded above for large $n$.  Local uniform inf-compactness therefore places the minimizers in one relatively compact set.  Every subsequence has a further convergent subsequence, say $\sigma_\star(z_{n_j})\to\bar\sigma$.
+
+For any fixed $\sigma$, optimality gives
+\[
+E(z_{n_j},\sigma_\star(z_{n_j}))\le E(z_{n_j},\sigma).
+\]
+Continuity and passage to the limit yield $E(z_0,\bar\sigma)\le E(z_0,\sigma)$ for all $\sigma$.  Uniqueness at $z_0$ implies $\bar\sigma=\sigma_0$.  Every convergent subsequence has this limit, hence the full minimizer sequence converges.  Thus $\sigma_\star$ is continuous.
+
+The interior first-order condition is
+\begin{equation}
+E_\sigma(z,\sigma_\star(z))=0.
+\label{eq:appendix-stationarity}
+\end{equation}
+At every minimizer, $D_\sigma E_\sigma=H$ is invertible.  The implicit-function theorem gives a local $C^r$ critical section through each $(z,\sigma_\star(z))$.  Continuity of the global minimizer section makes it coincide locally with that critical section.  These local representations agree by uniqueness, so $\sigma_\star$ is globally $C^r$ on the parameter domain.
+
+\subsection{Hidden response and effective Hessian}
+
+Differentiate \cref{eq:appendix-stationarity} with respect to $z=(y,u)$:
+\[
+E_{\sigma z}+H D_z\sigma_\star=0.
+\]
+Since $H$ is invertible,
+\[
+D_z\sigma_\star=-H^{-1}E_{\sigma z},
+\]
+which proves \cref{eq:hidden-response-law}.
+
+For the reduced value, the chain rule and stationarity give the envelope identity
+\[
+D_z\bar E
+=E_z+E_\sigma D_z\sigma_\star
+=E_z.
+\]
+Differentiating again,
+\[
+D^2_{zz}\bar E
+=E_{zz}+E_{z\sigma}D_z\sigma_\star
+=E_{zz}-E_{z\sigma}H^{-1}E_{\sigma z}.
+\]
+This is \cref{eq:effective-schur-hessian}.  At a critical hidden point the displayed quadratic form is the Schur complement of the vertical Hessian, hence is invariant under smooth changes of hidden coordinates.
+
+\subsection{Affine interventions and interaction curvature}
+
+Under \cref{eq:affine-interventions}, $E_{uu}=0$ and $E_{\sigma u}=G$.  The $u$ block of \cref{eq:effective-schur-hessian} is therefore
+\[
+D^2_{uu}\bar E=-G^*H^{-1}G.
+\]
+For every $a\in\R^m$,
+\[
+a^\top D^2_{uu}\bar E\,a
+=-\ip{Ga}{H^{-1}Ga}\le0,
+\]
+because $H^{-1}$ is positive definite.  This proves \cref{eq:interaction-curvature}.  Componentwise,
+\begin{equation}
+\partial^2_{u_i u_j}\bar E
+=-\ip{D_\sigma\Delta_i}{H^{-1}D_\sigma\Delta_j}.
+\label{eq:appendix-component-curvature}
+\end{equation}
+
+The same concavity conclusion holds without differentiability whenever the infimum is finite: for fixed $(y,\sigma)$, the unreduced energy is affine in $u$, and a pointwise infimum of affine functions is concave.
+
+\subsection{Observable readout interaction}
+
+Fix $y$ and suppress it from the notation.  Write
+$v_i=\partial_{u_i}\sigma_\star$.  Differentiating stationarity once gives
+\[
+Hv_i+E_{\sigma u_i}=0,
+\qquad
+v_i=-H^{-1}E_{\sigma u_i}.
+\]
+Differentiate this identity with respect to $u_j$ along the minimizing
+section.  The total derivative of $H=E_{\sigma\sigma}$ contributes
+$E_{\sigma\sigma\sigma}[v_j,v_i]+E_{\sigma\sigma u_j}v_i$, while the total
+derivative of $E_{\sigma u_i}$ contributes
+$E_{\sigma\sigma u_i}v_j+E_{\sigma u_i u_j}$.  Therefore
+\[
+H\partial^2_{u_i u_j}\sigma_\star
++E_{\sigma\sigma\sigma}[v_i,v_j]
++E_{\sigma\sigma u_i}v_j
++E_{\sigma\sigma u_j}v_i
++E_{\sigma u_i u_j}=0.
+\]
+Invertibility of $H$ proves \cref{eq:second-hidden-response}.
+
+For $F_R(u)=R(u,\sigma_\star(u))$, the first derivative is
+\[
+\partial_{u_i}F_R=R_{u_i}+R_\sigma v_i.
+\]
+Differentiating with respect to $u_j$ and applying the product and chain rules
+gives
+\[
+\partial^2_{u_i u_j}F_R
+=R_{u_i u_j}+R_{u_i\sigma}v_j+R_{\sigma u_j}v_i
++R_{\sigma\sigma}[v_i,v_j]
++R_\sigma\partial^2_{u_i u_j}\sigma_\star,
+\]
+which is \cref{eq:readout-interaction-transfer}.  Applying the two coordinate
+finite-difference operators and the fundamental theorem of calculus proves
+\cref{eq:readout-mobius-integral}.  If $E$ is affine in $u$, direct
+differentiation gives $E_{\sigma u_i u_j}=0$ and
+$E_{\sigma\sigma u_i}=D^2_{\sigma\sigma}\Delta_i$.  No sign follows for the
+readout Hessian because its five terms need not form a negative Gram matrix.
+
+\subsection{M\"obius effects as integrated derivatives}
+
+For a coordinate $i$, let $\mathsf T_i$ replace $u_i=0$ by $u_i=1$.  The fundamental theorem of calculus gives
+\[
+(\mathsf T_i-I)\bar E(0)
+=\int_0^1\partial_{u_i}\bar E(t_ie_i)\,\dd t_i.
+\]
+The coordinate difference operators commute.  Repeating the identity for every $i\in T$ gives
+\[
+\prod_{i\in T}(\mathsf T_i-I)\bar E(0)
+=\int_{[0,1]^T}
+\partial_T^{|T|}\bar E\left(\sum_{i\in T}t_ie_i\right)
+\prod_{i\in T}\dd t_i.
+\]
+Expanding the product on the left yields
+\[
+\sum_{B\subseteq T}(-1)^{|T|-|B|}\bar E(\mathbf1_B)=\zeta_T,
+\]
+proving \cref{eq:mobius-derivative-integral}.  For $T=\{i,j\}$, substitution of \cref{eq:appendix-component-curvature} proves \cref{eq:mobius-schur-bridge}.
+
+A zero integral does not force the integrand to vanish because mixed curvature may change sign.  Pointwise vanishing is equivalent to inverse-Hessian orthogonality of $D_\sigma\Delta_i$ and $D_\sigma\Delta_j$.
+
+\subsection{Noncommutation and analytical examples}
+
+For \cref{prop:reduction-mobius-noncommutation}, let
+\[
+E_0(\sigma)=\sigma^2,
+\qquad
+E_1(\sigma)=(\sigma-1)^2.
+\]
+Both reduced values are zero, so their reduced first effect is zero.  The pointwise first difference is $E_1-E_0=1-2\sigma$, whose infimum is $-\infty$.  Thus no general exchange law exists.
+
+If instead $E_A(\sigma)=E_0(\sigma)+\sum_{i\in A}c_i$ with fiber constants $c_i$, then the constants leave the minimizer unchanged and move outside the infimum.  The reduced response is additive, with singleton effects $c_i$ and all higher effects zero.
+
+Finally, for
+\[
+E(\sigma,u)=\frac h2\sigma^2+u_1a\sigma+u_2b\sigma,
+\]
+stationarity yields $\sigma_\star=-(au_1+bu_2)/h$.  Substitution gives
+\[
+\bar E(u)=-\frac{(au_1+bu_2)^2}{2h}.
+\]
+The Boolean pair contrast is
+\[
+\bar E(1,1)-\bar E(1,0)-\bar E(0,1)+\bar E(0,0)
+=-\frac{ab}{h},
+\]
+matching \cref{eq:mobius-schur-bridge}.
+
+For the coupled log-preconditioner in
+\cref{eq:coupled-log-preconditioner}, $h>|\rho|$ makes
+\[
+H=\begin{pmatrix}h&\rho\\ \rho&h\end{pmatrix}
+\quad\text{positive definite},\qquad
+H^{-1}=\frac1{h^2-\rho^2}
+\begin{pmatrix}h&-\rho\\-\rho&h\end{pmatrix}.
+\]
+Stationarity gives
+\[
+H\sigma-b(g)+u=0,
+\qquad
+\sigma_\star(g,u)=H^{-1}(b(g)-u).
+\]
+Completing the square yields the reduced scalar calibration response
+\[
+\bar E(g,u)
+=-\frac12(b(g)-u)^\top H^{-1}(b(g)-u).
+\]
+Because $D_\sigma\Delta_1=e_1$, $D_\sigma\Delta_2=e_2$, and
+$G=I_2$, its mixed derivative is constant:
+\[
+\partial_{u_1u_2}^2\bar E
+=-e_1^\top H^{-1}e_2
+=\frac{\rho}{h^2-\rho^2}.
+\]
+The integral over the Boolean intervention square has the same value, proving
+\cref{eq:coupled-log-preconditioner-pair}.  The selected update
+$q(\sigma_\star,g)=-\diag(e^{-\sigma_{\star,1}/2},
+e^{-\sigma_{\star,2}/2})g$ is a positive diagonal preconditioned gradient
+step for every intervention amplitude.
+
+Let $D=h^2-\rho^2$ and $\sigma_\star(0)=H^{-1}b(g)$.  The first hidden
+coordinate is
+\[
+\sigma_{\star,1}(u)
+=\sigma_{\star,1}(0)-\frac hD u_1+\frac\rho D u_2.
+\]
+Substitution into $q_1=-g_1e^{-\sigma_{\star,1}/2}$ yields the exponential
+readout displayed in the main text.  For a function
+$q_1(0)e^{a u_1+c u_2}$, the Boolean pair difference is exactly
+$q_1(0)(e^a-1)(e^c-1)$.  Taking $a=h/(2D)$ and
+$c=-\rho/(2D)$ proves \cref{eq:coupled-update-readout-pair} and completes the
+optimizer realization.

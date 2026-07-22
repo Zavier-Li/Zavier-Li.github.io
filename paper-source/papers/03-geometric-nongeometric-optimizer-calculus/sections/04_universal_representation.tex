@@ -1,0 +1,50 @@
+\section{Universal Causal--Interventional Representation}
+\label{sec:universal-representation}
+
+\begin{theorem}[Universal causal--interventional optimizer representation]
+\label{thm:universal-interventional-calculus}
+Let $(\Pcal,\preceq)$ be lower-finite, let $F:\Pcal\to\Hspace$ be induced by \cref{eq:causal-response}, and let $\Kcal\subseteq\Pcal$ and $\Dcal$ be finite effect-support and design families.
+\begin{enumerate}[leftmargin=*,itemsep=3pt,label=(\roman*)]
+\item \emph{Minimal causal state.}  Every innovation-driven causal optimizer under the fixed protocol has a history-state realization.  Pathwise predictive-equivalence classes form a sufficient pathwise/unifilar realization.  Every other admissible sufficient reachable pathwise realization maps onto this quotient, and every behaviorally minimal reachable realization is isomorphic to it as a reachable transition--response system.
+\item \emph{Incidence completeness.}  Equation~\eqref{eq:mobius-response} is the unique incidence-algebra expansion of $F$.
+\item \emph{Complete experimental gauge.}  Two supported effect collections are observationally equivalent exactly when
+\[
+\zeta-\zeta'\in\ker(X_{\Dcal,\Kcal}\otimes I_{\Hspace}).
+\]
+If $\dim\Hspace=d$ and $r_{\Dcal}=\rank X_{\Dcal,\Kcal}$, every compatible fiber has dimension $d(|\Kcal|-r_{\Dcal})$.  Exact identification holds if and only if $r_{\Dcal}=|\Kcal|$.
+\item \emph{Sharp quotient stability.}  If $X=X_{\Dcal,\Kcal}$ has positive rank and $y=(X\otimes I_d)\zeta+e$, the minimum-norm inverse estimates the canonical representative $\zeta_{\rm can}\in\ker(X\otimes I_d)^\perp$ with
+\[
+\norm{\widehat\zeta-\zeta_{\rm can}}
+\le
+\frac{\norm{\Proj_{\range(X\otimes I_d)}e}}{\sigma_{\min}^+(X)}.
+\]
+The constant is sharp.
+\item \emph{Exact intervention complexity.}  Suppose $\Hspace\ne\{0\}$ and the supported class contains every collection in $\Hspace^{\Kcal}$.  In a noiseless expected-response oracle model, every fixed, deterministic adaptive, or randomized adaptive scheme that exactly recovers every supported law with probability one needs at least $|\Kcal|$ distinct configuration queries in the worst case.  Querying $\Dcal=\Kcal$ attains the bound:
+\[
+N_{\rm exact}(\Kcal)=|\Kcal|.
+\]
+\item \emph{Prediction and falsification.}  If $X_{\Dcal,\Kcal}$ has full column rank, the recovered effects predict
+\[
+F_{\Kcal}(b)=\sum_{t\in\Kcal:t\preceq b}\zeta_t
+\qquad\text{for every }b\in\Pcal.
+\]
+A held-out response inconsistent with this equation rejects the support model under the fixed protocol.
+\end{enumerate}
+\end{theorem}
+
+The proof is in \cref{app:theory-strengthening}.  The randomized lower bound uses the finite set of incidence row patterns induced by $\Kcal$; it does not require the ambient lower-finite poset itself to be finite.  The count $N_{\rm exact}$ is configuration complexity, not the number of noisy optimizer runs.  Replication under observation noise belongs to \cref{thm:projection-information-decision}.
+
+\paragraph{Boolean and graded complexity.}
+For $\Pcal=2^{[m]}$, unrestricted attribution costs $2^m$ configurations.  Under the order-$q$ support
+\[
+\Kcal_q=\{T\subseteq[m]:|T|\le q\},
+\qquad
+N_q=\sum_{j=0}^q\binom mj.
+\]
+Product-of-chain interventions yield graded mixed differences, with exact cost equal to the retained multi-index count.
+
+\paragraph{Passive impossibility.}
+If a finite poset has a greatest configuration $\top$, the one-row passive design $\Dcal=\{\top\}$ has rank one.  It leaves $d(|\Kcal|-1)$ unidentifiable coordinates.  A passive geometric residual can exclude a declared class, but universal causal attribution requires interventions or an equivalent injective observation.
+
+\paragraph{No universal dissipative representation.}
+The theorem includes causal rules with cycles.  For example, $x_{k+1}=x_k+1\pmod 3$ is causal but cannot satisfy a strict scalar Lyapunov law, since it would imply $V(0)>V(1)>V(2)>V(0)$.  Smooth gradient or Onsager dynamics are regular subclasses of the causal response theory.

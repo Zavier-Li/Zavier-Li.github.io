@@ -1,0 +1,77 @@
+name: Build papers and deploy Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  configure:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.config.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: config
+        run: node scripts/build-site.mjs matrix >> "$GITHUB_OUTPUT"
+
+  compile:
+    needs: configure
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.configure.outputs.matrix) }}
+    steps:
+      - name: Check out paper source
+        uses: actions/checkout@v4
+        with:
+          path: paper-source
+      - name: Compile ${{ matrix.slug }}
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: paper-source/${{ matrix.directory }}
+          root_file: ${{ matrix.tex }}
+          work_in_root_file_dir: true
+          latexmk_use_xelatex: false
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+      - name: Stage PDF
+        run: cp "paper-source/${{ matrix.directory }}/${{ matrix.pdf }}" "${{ runner.temp }}/${{ matrix.slug }}.pdf"
+      - name: Upload compiled paper
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-${{ matrix.slug }}
+          path: ${{ runner.temp }}/${{ matrix.slug }}.pdf
+          if-no-files-found: error
+
+  deploy:
+    needs: compile
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Collect compiled papers
+        uses: actions/download-artifact@v4
+        with:
+          pattern: paper-*
+          path: assets/papers
+          merge-multiple: true
+      - name: Generate paper pages
+        run: node scripts/build-site.mjs build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,955 @@
+\section{Kronecker Geometry and Reachability}
+\label{sec:kron-lowrank}
+
+Matrix and tensor parameters motivate Kronecker and low-rank restrictions.
+These families require more care than diagonal or block families because their
+parameterizations include gauge redundancies and nonconvex structure.
+They model the structural assumptions behind Kronecker-factored natural
+gradient and tensor preconditioning methods \cite{martens2015kfac,gupta2018shampoo}.
+They are also related to classical Kronecker approximation and separable
+covariance estimation \cite{vanloan1993kronecker,dutilleul1999mle,
+werner2008kronecker}; the objective here is affine-invariant metric geometry
+rather than Frobenius approximation or statistical likelihood.
+This section proves a local quotient line element, a fixed-basis spectral
+equivalence, and a general affine-invariant projection theorem for Kronecker
+metrics. The projection theorem does not give an elementary closed form in the
+fully noncommuting case, but it gives a unique target, partial-trace normal
+equations, certified residuals, and auxiliary self-conditioned \(K\)-target
+bounds. The Hessian-relative target has an exact endpoint reachability
+formulation as a nonconvex Kronecker Loewner sandwich, an associated
+expression threshold, residual-calibrated threshold brackets, and an exact
+fixed-basis primal--dual obstruction theorem; candidate Kronecker metrics give
+direct upper bounds on \(D_{K,\Kron}\) whenever they pass the generalized
+condition-number test against \(H\). The intended output is a certifying
+interface: a factor-path line element, spectral mismatch signals, fixed-basis
+primal or dual witnesses, and noncommuting Kronecker certificates that prove
+reachability, prove some global impossibility cases, or abstain.
+
+\subsection{Kronecker spectral surrogate}
+
+Let \(W\in\R^{m\times n}\), so that \(\operatorname{vec}(W)\in\R^{mn}\). A
+Kronecker metric has the form
+\[
+  G=B\otimes A,\qquad A\in\SPD^m,\quad B\in\SPD^n.
+\]
+If
+\[
+  A=U\diag(a_i)U^\top,\qquad B=V\diag(b_j)V^\top,
+\]
+then \(B\otimes A\) has eigenvectors \(v_j\otimes u_i\) and eigenvalues
+\(b_j a_i\). Its log-spectrum has the additive form
+\[
+  \log a_i+\log b_j.
+\]
+This motivates the additive subspace
+\[
+  \mathcal A_{\mathrm{kron}}
+  =
+  \{Z\in\R^{m\times n}:Z_{ij}=\alpha_i+\beta_j\}.
+\]
+
+\begin{remark}[Status of the spectral surrogate]
+The additive log-spectrum model below is a diagnostic subproblem. It becomes an
+intrinsic Kronecker complexity only in the shared fixed-eigenbasis regime of
+\cref{prop:kron-fixed-basis}. Outside that regime, Kronecker structure also
+constrains eigenvectors; the quotient geometry in
+\cref{prop:kron-line-element} and the projection theorem below are the
+geometric objects.
+\end{remark}
+
+In a fixed shared Kronecker eigenbasis, let \(Y\in\R^{m\times n}\) denote the
+current relative log-spectrum. A Kronecker spectral update can move inside the
+affine set \(Y+\mathcal A_{\mathrm{kron}}\). Define
+\[
+  \Yk=\{Z:\max_{i,j}Z_{ij}-\min_{i,j}Z_{ij}\le\log K\}.
+\]
+
+\begin{definition}[Kronecker spectral complexity]
+The Kronecker spectral surrogate is
+\[
+  D_{K,\mathrm{kron}}^{\mathrm{spec}}(Y)
+  =
+  \dist_F\bigl(
+  Y,\ (Y+\mathcal A_{\mathrm{kron}})\cap\Yk
+  \bigr),
+\]
+with value \(+\infty\) if the intersection is empty.
+\end{definition}
+
+\begin{proposition}[Spectral lower bound]
+\label{prop:kron-spec-lower}
+Let \(D_K(Y)=\dist_F(Y,\Yk)\). Then
+\[
+  D_{K,\mathrm{kron}}^{\mathrm{spec}}(Y)\ge D_K(Y).
+\]
+If the full projection \(\Pi_{\Yk}(Y)\) lies in
+\((Y+\mathcal A_{\mathrm{kron}})\), then equality holds.
+\end{proposition}
+
+This surrogate is useful but incomplete: the true Kronecker family also
+restricts eigenvectors to Kronecker product form.
+Consequently, a small value of \(D_{K,\mathrm{kron}}^{\mathrm{spec}}\) is a
+certificate only for the shared-eigenbasis subproblem unless accompanied by an
+eigenvector-compatibility argument.
+For a general Hessian, this missing compatibility can dominate the spectral
+width calculation: the additive log-spectrum may be favorable while no nearby
+Kronecker eigenbasis aligns with the curvature directions.
+
+\paragraph{Double-centering residual.}
+For \(Y\in\R^{m\times n}\), write
+\[
+  \bar Y=\frac{1}{mn}\sum_{i,j}Y_{ij},\qquad
+  r_i=\frac1n\sum_jY_{ij}-\bar Y,\qquad
+  c_j=\frac1m\sum_iY_{ij}-\bar Y,
+\]
+and define the residual
+\[
+  E_{ij}=Y_{ij}-\bar Y-r_i-c_j.
+\]
+Then \(E\) is orthogonal to \(\mathcal A_{\mathrm{kron}}\) in Frobenius inner
+product. The quantity
+\[
+  \Delta_{\mathrm{kron}}(Y)=\fro{E}
+\]
+is invariant under Kronecker spectral updates \(Y\mapsto Y+Z\) with
+\(Z\in\mathcal A_{\mathrm{kron}}\). It is therefore a structural mismatch
+signal. Turning it into a condition-number lower bound requires additional
+width or projection assumptions; the residual alone records nonadditivity.
+
+\subsection{Intrinsic Kronecker quotient geometry}
+
+The factorization has a gauge:
+\[
+  B\otimes A=(c^{-1}B)\otimes(cA),\qquad c>0.
+\]
+Thus the intrinsic factor space is a quotient of
+\(\SPD^n\times\SPD^m\). For an absolutely continuous factor path define
+\[
+  X_t=A_t^{-1/2}\dot A_tA_t^{-1/2},\qquad
+  Y_t=B_t^{-1/2}\dot B_tB_t^{-1/2}.
+\]
+
+\begin{proposition}[Restricted affine-invariant line element]
+\label{prop:kron-line-element}
+For \(G_t=B_t\otimes A_t\),
+\[
+  \norm{\dot G_t}_{G_t,\AI}^2
+  =
+  n\fro{X_t}^2
+  +
+  m\fro{Y_t}^2
+  +
+  2\tr(X_t)\tr(Y_t).
+\]
+The direction \(X_t=\alpha I_m,\ Y_t=-\alpha I_n\) has zero length and is
+exactly the factor-scale gauge direction.
+\end{proposition}
+
+\begin{proposition}[Distance between Kronecker metrics]
+\label{prop:kron-product-distance}
+For \(G_0=B_0\otimes A_0\) and \(G_1=B_1\otimes A_1\), set
+\[
+  L_A=\log(A_0^{-1/2}A_1A_0^{-1/2}),\qquad
+  L_B=\log(B_0^{-1/2}B_1B_0^{-1/2}).
+\]
+Then the ambient affine-invariant distance is
+\[
+  d_{\AI}(G_0,G_1)^2
+  =
+  n\fro{L_A}^2+m\fro{L_B}^2
+  +2\tr(L_A)\tr(L_B).
+\]
+\end{proposition}
+
+The line element identifies the degenerate gauge direction and the length
+assigned to a specified factor path. The product-distance formula gives exact
+distances between two Kronecker metrics. Projecting an arbitrary target Hessian
+onto the Kronecker family is a separate problem handled after the fixed-basis
+surrogate below.
+
+\begin{proposition}[Fixed-basis exactness of the spectral surrogate]
+\label{prop:kron-fixed-basis}
+Assume \(H\), \(G_0\), and all feasible \(G_t=B_t\otimes A_t\) share a fixed
+Kronecker eigenbasis. Let \(\alpha_i(t)=\log\lambda_i(A_t)\) and
+\(\beta_j(t)=\log\lambda_j(B_t)\), and set \(Z_{ij}(t)=\alpha_i(t)+\beta_j(t)\).
+Then
+\[
+  \norm{\dot G_t}_{G_t,\AI}^2=\fro{\dot Z_t}^2.
+\]
+Consequently, in the fixed-basis log-spectrum subproblem,
+\(D_{K,\mathrm{kron}}^{\mathrm{spec}}\) is the intrinsic Kronecker complexity.
+\end{proposition}
+
+\subsection{Affine-invariant Kronecker projection}
+
+The fixed-basis surrogate can be strengthened without assuming shared
+eigenvectors. Define
+\[
+  \Kron_{m,n}
+  =
+  \{B\otimes A:A\in\SPD^m,\ B\in\SPD^n\}
+  \subset\SPD^{mn},
+\]
+and the log-Kronecker subspace
+\[
+  \mathcal L_{m,n}
+  =
+  \{I_n\otimes X+Y\otimes I_m:
+    X\in\mathbb S^m,\ Y\in\mathbb S^n\}.
+\]
+For \(L\in\mathbb S^{mn}\), write \(L=[L_{pq}]_{p,q=1}^n\) in
+\(m\times m\) blocks and define partial traces
+\[
+  \operatorname{Tr}_B(L)=\sum_{p=1}^n L_{pp},
+  \qquad
+  \operatorname{Tr}_A(L)=[\tr(L_{pq})]_{p,q=1}^n.
+\]
+
+\begin{theorem}[Log-Kronecker mismatch and closed-form projection]
+\label{thm:kron-log-projection}
+For \(M\in\SPD^{mn}\),
+\[
+  M\in\Kron_{m,n}
+  \quad\Longleftrightarrow\quad
+  \log M\in\mathcal L_{m,n}.
+\]
+Moreover, the Frobenius projection of \(L\in\mathbb S^{mn}\) onto
+\(\mathcal L_{m,n}\) is
+\[
+  \Pi_{\mathcal L}L
+  =
+  \tau I_{mn}+I_n\otimes X_0+Y_0\otimes I_m,
+\]
+where
+\[
+  \tau=\frac{\tr L}{mn},\qquad
+  X_0=\frac1n\operatorname{Tr}_B(L)-\tau I_m,\qquad
+  Y_0=\frac1m\operatorname{Tr}_A(L)-\tau I_n.
+\]
+Thus
+\[
+  \delta_{\mathrm{kron}}^{\log}(M)
+  =
+  \fro{\log M-\Pi_{\mathcal L}\log M}
+\]
+is a closed-form, eigenvector-aware Kronecker mismatch certificate. It
+vanishes exactly on \(\Kron_{m,n}\).
+\end{theorem}
+
+The double-centering residual above is the special case of
+\cref{thm:kron-log-projection} in a fixed Kronecker eigenbasis. Outside that
+regime, \(\delta_{\mathrm{kron}}^{\log}\) also detects eigenvector
+incompatibility.
+
+\begin{lemma}[Hadamard projection and line-search facts]
+\label{lem:hadamard-projection-facts}
+Let \(M\) be a finite-dimensional Hadamard manifold and let \(C\subset M\) be
+closed and geodesically convex. Every \(x\in M\) has a unique metric
+projection \(P_C(x)\). For fixed \(x\), the function
+\[
+  f(y)=\frac12d(y,x)^2
+\]
+is \(1\)-strongly geodesically convex on \(C\). If the restricted gradient of
+\(f\) is Lipschitz on a compact geodesic neighborhood of an initial sublevel
+set, Armijo backtracking along the negative restricted gradient terminates at
+every step and accepts step sizes bounded below on that sublevel set.
+\end{lemma}
+
+\begin{theorem}[Affine-invariant Kronecker projection]
+\label{thm:kron-ai-projection}
+The family \(\Kron_{m,n}\) is a closed totally geodesic submanifold of the SPD
+cone under \(d_{\AI}\). Hence every \(M\in\SPD^{mn}\) has a unique projection
+\[
+  G_\star=P_{\Kron}(M)
+  =
+  \argminop_{G\in\Kron_{m,n}}d_{\AI}(M,G).
+\]
+If
+\[
+  R_\star=\log(G_\star^{-1/2}MG_\star^{-1/2}),
+\]
+then
+\[
+  \operatorname{Tr}_B(R_\star)=0,\qquad
+  \operatorname{Tr}_A(R_\star)=0.
+\]
+Conversely, any \(G\in\Kron_{m,n}\) satisfying these two equations equals
+\(G_\star\). Therefore
+\[
+  d_{\AI}(M,\Kron_{m,n})=\fro{R_\star}.
+\]
+\end{theorem}
+
+Theorem \ref{thm:kron-ai-projection} is the intrinsic replacement for the
+fixed-basis surrogate. It gives an implicit but global distance computation.
+The log-Euclidean certificate remains useful because the
+exponential-metric-increasing inequality gives
+\[
+  d_{\AI}(M,\Kron_{m,n})\ge \delta_{\mathrm{kron}}^{\log}(M).
+\]
+
+\subsection{When nearest geometry is condition-optimal}
+
+The unique AIRM projection need not minimize the Hessian-relative condition
+number.  The following theorem gives the exact compatibility condition and
+the regimes currently known to force or violate it.
+
+\begin{theorem}[Nearest Kronecker geometry versus best preconditioner]
+\label{thm:kron-nearest-versus-best}
+Let
+\[
+  P=P_{\Kron}(H),
+  \qquad S=P^{-1/2}HP^{-1/2},
+\]
+and let \(E_+\) and \(E_-\) be the largest- and smallest-eigenvalue
+eigenspaces of \(S\). Then \(P\) belongs to
+\[
+  \argminop_{G\in\Kron_{m,n}}\log\kappa(G^{-1}H)
+\]
+if and only if there exist density matrices \(Q_+,Q_-\succeq0\) such that
+\[
+  \tr Q_+=\tr Q_-=1,
+  \qquad
+  \operatorname{range}(Q_+)\subseteq E_+,
+  \qquad
+  \operatorname{range}(Q_-)\subseteq E_-,
+\]
+and
+\[
+  \operatorname{Tr}_B(Q_--Q_+)=0,
+  \qquad
+  \operatorname{Tr}_A(Q_--Q_+)=0.
+\]
+For simple extreme eigenvalues, writing \(u_+\) and \(u_-\) for unit extreme
+eigenvectors, this says exactly that the two pure states
+\(u_+u_+^\top\) and \(u_-u_-^\top\) have identical marginal density matrices
+on both tensor factors.
+
+If \(S\) has exactly two distinct eigenvalues, the condition above always
+holds: the nearest affine-invariant Kronecker geometry is automatically a
+globally best Kronecker preconditioner.  This universal guarantee does not
+extend to unrestricted richer spectra.  In particular, let
+\[
+  A=\diag(1,-1),
+  \qquad
+  B=\diag(2,-\tfrac12,-\tfrac32),
+  \qquad
+  H=\exp(B\otimes A)\in\SPD^6.
+\]
+Then
+\[
+  P_{\Kron_{2,3}}(H)=I_6,
+  \qquad
+  \log\kappa(H)=4,
+\]
+whereas the Kronecker metric
+\[
+  G=I_3\otimes\exp(\tfrac14A)
+\]
+satisfies
+\[
+  \log\kappa(G^{-1}H)=\frac72.
+\]
+Thus the unique nearest structured geometry need not be a best structured
+preconditioner.
+\end{theorem}
+
+\begin{corollary}[Two-by-two completeness and minimal separation dimension]
+\label{cor:kron-two-by-two-completeness}
+For \(m=n=2\) and every \(H\in\SPD^4\), the unique AIRM projection
+\(P_{\Kron}(H)\) is a globally best Kronecker preconditioner.  Consequently,
+apart from a trivial one-dimensional factor, strict separation between AIRM
+projection and condition-number optimality requires ambient dimension at least
+six.  The \(2\times3\) construction in
+\cref{thm:kron-nearest-versus-best} is therefore dimension-minimal among real
+two-factor SPD Kronecker families.
+\end{corollary}
+
+The mechanism is specific to real two-level factors: zero partial traces put
+the log residual, after local orthogonal conjugation, in a commuting
+Bell-diagonal form, and every Bell spectral projector has maximally mixed
+marginals.
+
+\begin{corollary}[Marginal-mismatch descent certificate]
+\label{cor:kron-marginal-mismatch}
+In the setting of \cref{thm:kron-nearest-versus-best}, define
+\[
+  \mathcal D_\pm
+  =
+  \{Q\succeq0:\tr Q=1,\ \operatorname{range}(Q)\subseteq E_\pm\}
+\]
+and the compact convex set of tangent subgradients
+\[
+  \mathcal G(P)
+  =
+  \{\Pi_{\mathcal L}(Q_--Q_+):Q_\pm\in\mathcal D_\pm\}.
+\]
+Let \(g_\star\) be its unique minimum-Frobenius-norm element and set
+\(\mu_{\mathrm{marg}}(P)=\fro{g_\star}\).  Then
+\[
+  \mu_{\mathrm{marg}}(P)=0
+  \quad\Longleftrightarrow\quad
+  P\in\argminop_{G\in\Kron_{m,n}}\log\kappa(G^{-1}H).
+\]
+If \(\mu_{\mathrm{marg}}(P)>0\), the Kronecker geodesic
+\[
+  G_t=P^{1/2}\exp(-t g_\star)P^{1/2}
+\]
+satisfies the strict one-sided descent identity
+\[
+  \frac{\dd}{\dd t}\bigg|_{t=0+}
+  \log\kappa(G_t^{-1}H)
+  =-\mu_{\mathrm{marg}}(P)^2.
+\]
+For simple extreme eigenvalues,
+\(g_\star=\Pi_{\mathcal L}(u_-u_-^\top-u_+u_+^\top)\).  With multiplicity,
+\(g_\star\) is obtained from a finite-dimensional convex conic problem over
+the two extreme eigenspaces.
+\end{corollary}
+
+\begin{corollary}[Residual certificate for the Kronecker projection solver]
+\label{cor:kron-residual-certificate}
+For \(G\in\Kron_{m,n}\), define
+\[
+  R_G(M)=\log(G^{-1/2}MG^{-1/2}),
+  \qquad
+  V(G)=\Pi_{\mathcal L}R_G(M).
+\]
+Then
+\[
+  V(G)=0\quad\Longleftrightarrow\quad G=P_{\Kron}(M),
+\]
+and
+\[
+  d_{\AI}(G,P_{\Kron}(M))\le\fro{V(G)},\qquad
+  0\le f(G)-f(P_{\Kron}(M))\le\frac12\fro{V(G)}^2,
+\]
+where \(f(G)=\frac12d_{\AI}(G,M)^2\). Consequently \(\fro{V(G)}\) is a
+certified stopping residual for a projected Riemannian solver.
+\end{corollary}
+
+\begin{corollary}[Armijo solver for the Kronecker projection]
+\label{cor:kron-armijo-solver}
+Fix \(G_0\in\Kron_{m,n}\), \(\bar\eta>0\), and
+\(\gamma,c\in(0,1)\). Let \(f(G)=\frac12d_{\AI}(G,M)^2\), let
+\[
+  \mathcal Q_0=\{G\in\Kron_{m,n}:f(G)\le f(G_0)\},
+\]
+and let \(L_0\) be a Lipschitz constant for the restricted gradient of \(f\) on
+a compact geodesic neighborhood of \(\mathcal Q_0\); such an \(L_0\) exists in
+the finite-dimensional SPD cone. At iteration \(r\), set
+\[
+  V_r=\Pi_{\mathcal L}R_{G_r}(M).
+\]
+If \(V_r=0\), stop. Otherwise choose the largest
+\(\eta_r\in\{\bar\eta,\bar\eta\gamma,\bar\eta\gamma^2,\ldots\}\) satisfying
+\[
+  f\!\left(G_r^{1/2}\exp(\eta_rV_r)G_r^{1/2}\right)
+  \le
+  f(G_r)-c\eta_r\fro{V_r}^2.
+\]
+Then
+\[
+  G_{r+1}=G_r^{1/2}\exp(\eta_rV_r)G_r^{1/2}
+\]
+is well defined, remains in \(\Kron_{m,n}\), and either terminates at
+\(P_{\Kron}(M)\) or converges to \(P_{\Kron}(M)\). Moreover, there exists
+\(\underline\eta\in(0,(2c)^{-1}]\), depending only on
+\(\mathcal Q_0,L_0,\bar\eta,\gamma\), and \(c\), such that
+\[
+  f(G_r)-f(P_{\Kron}(M))
+  \le
+  (1-2c\underline\eta)^r
+  \bigl[f(G_0)-f(P_{\Kron}(M))\bigr].
+\]
+\end{corollary}
+
+\begin{theorem}[Self-conditioned Kronecker \(K\)-target bounds]
+\label{thm:kron-k-target}
+Let
+\[
+  \Kron_{m,n,K}=\Kron_{m,n}\cap\Ck.
+\]
+Here \(\Ck\subset\SPD^{mn}\), so this target constrains the condition number of
+the Kronecker metric itself. It is an auxiliary self-conditioning target. For a
+fixed Hessian \(H\), the RDGC preconditioning target is instead
+\(\{G\in\Kron_{m,n}:\kappa(G^{-1}H)\le K\}\), equivalently
+\(\mathcal S_{\Kron}(H)\cap\Ck\) in relative coordinates. The two targets
+coincide only under additional compatibility assumptions.
+
+The self-conditioned set \(\Kron_{m,n,K}\) is closed and geodesically convex. If
+\(G_\star=P_{\Kron}(M)\), then
+\[
+  d_{\AI}(M,\Kron_{m,n,K})^2
+  \ge
+  d_{\AI}(M,\Kron_{m,n})^2
+  +
+  d_{\AI}(G_\star,\Kron_{m,n,K})^2,
+\]
+and
+\[
+  d_{\AI}(M,\Kron_{m,n,K})
+  \le
+  d_{\AI}(M,\Kron_{m,n})
+  +
+  d_{\AI}(G_\star,\Kron_{m,n,K}).
+\]
+Moreover, if \(G_0=B_0\otimes A_0\in\Kron_{m,n}\) and
+\[
+  A_0=U\diag(e^{a_1},\ldots,e^{a_m})U^\top,\qquad
+  B_0=V\diag(e^{b_1},\ldots,e^{b_n})V^\top
+\]
+with sorted \(a_i\) and \(b_j\), then
+\[
+  d_{\AI}(G_0,\Kron_{m,n,K})^2
+  =
+  \min_{x,y}
+  \sum_{i=1}^m\sum_{j=1}^n(x_i+y_j-a_i-b_j)^2
+\]
+subject to
+\[
+  x_1\le\cdots\le x_m,\qquad
+  y_1\le\cdots\le y_n,\qquad
+  (x_m-x_1)+(y_n-y_1)\le\log K.
+\]
+\end{theorem}
+
+\begin{theorem}[Hessian-relative Kronecker reachability]
+\label{thm:kron-relative-reachability}
+For a fixed \(H\in\SPD^{mn}\), define
+\[
+  \mathcal R_{K,\Kron}(H)
+  =
+  \{G\in\Kron_{m,n}:\kappa(G^{-1}H)\le K\}.
+\]
+Then the following are equivalent:
+\begin{enumerate}[leftmargin=*,itemsep=0.2em]
+  \item \(\mathcal R_{K,\Kron}(H)\ne\emptyset\);
+  \item \(\mathcal C_{K,\Kron}(H)=\mathcal S_{\Kron}(H)\cap\Ck\ne\emptyset\);
+  \item there exist \(A\succ0\), \(B\succ0\), and \(\lambda>0\) such that
+  \[
+    \lambda(B\otimes A)\preceq H\preceq K\lambda(B\otimes A).
+  \]
+\end{enumerate}
+Equivalently, because the scale \(\lambda\) can be absorbed into one factor,
+reachability is the feasibility of
+\[
+  B\otimes A\preceq H\preceq K(B\otimes A),
+  \qquad A\succ0,\quad B\succ0.
+\]
+If these equivalent conditions hold, fix \(G_0\in\Kron_{m,n}\) and set
+\(S_0=H^{-1/2}G_0H^{-1/2}\). Then
+\[
+  D_{K,\Kron}(S_0;H)
+  =
+  d_{\AI}\bigl(G_0,\mathcal R_{K,\Kron}(H)\bigr).
+\]
+Moreover, \(\mathcal R_{K,\Kron}(H)\) is a closed geodesically convex subset of
+the Kronecker manifold, and the displayed distance is attained at a unique
+projection point. Thus the endpoint reachability problem is exact, but the
+Kronecker Loewner sandwich is generally a nonconvex feasibility problem in the
+ambient matrix variable.
+
+More strongly, suppose a strict feasible certificate \(G_s\in\Kron_{m,n}\)
+satisfies
+\[
+  \log\kappa(G_s^{-1}H)\le\log K-\sigma,
+  \qquad \sigma>0,
+\]
+and let \(R=d_{\AI}(G_0,G_s)>0\). On
+\(\mathcal D=\Kron_{m,n}\cap\overline B_R(G_0)\), every
+\(\Lambda>2R^2/\sigma\) makes
+\[
+  \frac12d_{\AI}(G_0,G)^2
+  +\Lambda\pospart{\log\kappa(G^{-1}H)-\log K}
+\]
+an exact penalty for the unique target projection. The proximal iteration of
+\cref{thm:restricted-geometrodynamic-mother} converges to that projection with
+the global squared-distance contraction factor \((1+2\eta)^{-1}\) per step.
+\end{theorem}
+
+\begin{corollary}[Kronecker expression threshold]
+\label{cor:kron-kstar}
+Define
+\[
+  K_{\Kron}^\star(H)
+  =
+  \min_{G\in\Kron_{m,n}}\kappa(G^{-1}H).
+\]
+The minimum is attained. Moreover, for every \(K\ge1\),
+\[
+  \mathcal R_{K,\Kron}(H)\ne\emptyset
+  \quad\Longleftrightarrow\quad
+  K\ge K_{\Kron}^\star(H).
+\]
+Thus \(K_{\Kron}^\star(H)\) is the intrinsic endpoint threshold for whether a
+Kronecker metric can reach the Hessian-relative condition-number target.
+\end{corollary}
+
+\begin{theorem}[Residual-calibrated Kronecker threshold bracket]
+\label{thm:kron-residual-threshold}
+Assume \(mn\ge2\). Let \(H\in\SPD^{mn}\), \(G\in\Kron_{m,n}\), and
+\[
+  P=P_{\Kron}(H),\qquad
+  R_G(H)=\log(G^{-1/2}HG^{-1/2}),\qquad
+  V(G)=\Pi_{\mathcal L}R_G(H).
+\]
+Set
+\[
+  \eta=\fro{V(G)},\qquad
+  \rho=d_{\AI}(H,G),\qquad
+  \delta_-=\sqrt{\max\{\rho^2-\eta^2,0\}},
+\]
+and
+\[
+  \kappa_G=\kappa(G^{-1}H),\qquad
+  \alpha_{mn}=\sqrt{\frac{mn}{\lfloor (mn)^2/4\rfloor}}.
+\]
+Then
+\[
+  \delta_-
+  \le d_{\AI}(H,\Kron_{m,n})
+  \le \rho
+\]
+and
+\[
+  \exp(\alpha_{mn}\delta_-)
+  \le K_{\Kron}^\star(H)
+  \le \kappa_G.
+\]
+Consequently, if \(\kappa_G\le K\), then \(G\) is a primal
+Hessian-relative Kronecker certificate and
+\[
+  D_{K,\Kron}(S_0;H)\le d_{\AI}(G_0,G)
+\]
+for every \(G_0\in\Kron_{m,n}\), where \(S_0=H^{-1/2}G_0H^{-1/2}\). Moreover,
+with \(\kappa_P=\kappa(P^{-1}H)\),
+\[
+  e^{-2\eta}\kappa_G\le\kappa_P\le e^{2\eta}\kappa_G.
+\]
+Writing \(\delta_\star=d_{\AI}(H,\Kron_{m,n})\), the condition-number loss
+of using the nearest geometry rather than a best preconditioner obeys
+\[
+  0
+  \le
+  \log\frac{\kappa_P}{K_{\Kron}^\star(H)}
+  \le
+  \log\kappa_P-\alpha_{mn}\delta_\star
+  \le
+  \log\kappa_G+2\eta-\alpha_{mn}\delta_-.
+\]
+Thus \(e^{2\eta}\kappa_G\le K\) certifies that the exact projection
+\(P_{\Kron}(H)\) reaches the target, while \(e^{-2\eta}\kappa_G>K\) certifies
+that this particular projection candidate does not. Finally, if
+\[
+  \exp(\alpha_{mn}\delta_-)>K,
+\]
+then the full noncommuting Kronecker target
+\(\mathcal R_{K,\Kron}(H)\) is empty.
+\end{theorem}
+
+\begin{proposition}[Fixed-basis Hessian-relative Kronecker exactness]
+\label{prop:kron-fixed-basis-relative}
+Fix orthogonal matrices \(U\in\R^{m\times m}\) and
+\(V\in\R^{n\times n}\), and consider the fixed-basis subfamily
+\[
+  \Kron_{U,V}
+  =
+  \{(V\diag(e^{b_1},\ldots,e^{b_n})V^\top)
+    \otimes
+    (U\diag(e^{a_1},\ldots,e^{a_m})U^\top):a\in\R^m,\ b\in\R^n\}.
+\]
+Assume
+\[
+  H=(V\otimes U)\diag(h_{ij})(V\otimes U)^\top,
+  \qquad h_{ij}>0,
+\]
+and set \(\ell_{ij}=\log h_{ij}\). Then reachability in
+\(\Kron_{U,V}\) at target \(K\) is equivalent to the linear feasibility
+problem
+\[
+  \exists a\in\R^m,\ b\in\R^n,\ c\in\R
+  \quad\text{such that}\quad
+  c\le \ell_{ij}-a_i-b_j\le c+\log K
+  \quad\forall i,j.
+\]
+Equivalently, the fixed-basis threshold is
+\[
+  \log K^\star_{U,V}(H)
+  =
+  \min_{a,b}
+  \left[
+  \max_{i,j}(\ell_{ij}-a_i-b_j)
+  -
+  \min_{i,j}(\ell_{ij}-a_i-b_j)
+  \right].
+\]
+Feasibility for this fixed-basis subfamily is a primal certificate for the full
+Kronecker family. Infeasibility for the fixed-basis subfamily does not rule out
+a noncommuting Kronecker metric with different factor eigenvectors.
+\end{proposition}
+
+\begin{theorem}[Fixed-basis primal--dual Kronecker obstruction]
+\label{thm:kron-fixed-basis-dual}
+In the setting of \cref{prop:kron-fixed-basis-relative}, assume \(m,n\ge2\) and
+let \(L=(\ell_{ij})\). The optimal fixed-basis log-threshold
+\[
+  \tau^\star_{U,V}(H)
+  =
+  \min_{a,b}
+  \left[
+  \max_{i,j}(\ell_{ij}-a_i-b_j)
+  -
+  \min_{i,j}(\ell_{ij}-a_i-b_j)
+  \right]
+\]
+has the exact dual representation
+\[
+  \tau^\star_{U,V}(H)
+  =
+  \max_W \ip{W}{L},
+\]
+where the maximum is over \(W\in\R^{m\times n}\) satisfying
+\[
+  \sum_j W_{ij}=0\quad\forall i,\qquad
+  \sum_i W_{ij}=0\quad\forall j,\qquad
+  \sum_{i,j}|W_{ij}|\le2.
+\]
+Equivalently, any nonzero optimal witness can be normalized so that
+\(\sum_{ij}W_{ij}^+=\sum_{ij}W_{ij}^-=1\). Hence any feasible dual witness
+with
+\[
+  \ip{W}{L}>\log K
+\]
+certifies that the fixed-basis Kronecker target is infeasible.
+\end{theorem}
+
+\begin{theorem}[Soundness of \(\mathrm{KRON\text{-}CERTIFY}\)]
+\label{thm:kron-certify-soundness}
+Consider the following certificate procedure. If a fixed Kronecker eigenbasis
+is supplied, solve the primal--dual fixed-basis LP in
+\cref{prop:kron-fixed-basis-relative,thm:kron-fixed-basis-dual}.  It records
+the fixed-basis feasible status for a primal solution, and the fixed-basis
+obstruction status when a feasible dual witness satisfies
+\(\ip{W}{L}>\log K\).
+
+In the full noncommuting branch, compute \(\rho,\eta,\delta_-\), and
+\(\kappa_G\) for an iterate \(G\in\Kron_{m,n}\) as in
+\cref{thm:kron-residual-threshold}.  The four non-inconclusive tests are
+\begin{enumerate}[leftmargin=*,itemsep=0.1em]
+  \item \(\mathrm{GLOBAL\_INFEASIBLE}\) if
+  \(\exp(\alpha_{mn}\delta_-)>K\);
+  \item \(\mathrm{FEASIBLE\_DIRECT}\) if \(\kappa_G\le K\);
+  \item \(\mathrm{PROJECTED\_FEASIBLE}\) if
+  \(e^{2\eta}\kappa_G\le K\);
+  \item \(\mathrm{PROJECTED\_INFEASIBLE}\) if
+  \(e^{-2\eta}\kappa_G>K\).
+\end{enumerate}
+If no certificate fires, the procedure records \(\mathrm{INCONCLUSIVE}\).
+
+Every non-inconclusive statement returned by this procedure is correct, with
+the stated scope: full-family infeasibility, full-family direct feasibility,
+exact-projection feasibility or infeasibility, fixed-basis feasibility, or
+fixed-basis obstruction.
+\end{theorem}
+
+\begin{corollary}[Interval-safe full Kronecker certification]
+\label{cor:kron-certify-interval}
+Let the exact quantities in \cref{thm:kron-residual-threshold} have validated
+enclosures
+\[
+  0\le \underline\rho\le\rho,
+  \qquad
+  0\le\eta\le\overline\eta,
+  \qquad
+  1\le\underline\kappa\le\kappa_G\le\overline\kappa.
+\]
+Set
+\[
+  \underline\delta
+  =
+  \sqrt{\max\{\underline\rho^2-\overline\eta^2,0\}}.
+\]
+If the displayed exponentials, products, and final comparisons are also
+evaluated with outward rounding, equivalently as validated log-domain
+comparisons, then each of the following finite-precision tests is sound:
+\[
+\begin{array}{rcl}
+\exp(\alpha_{mn}\underline\delta)>K
+&\Longrightarrow& \mathcal R_{K,\Kron}(H)=\emptyset,\\[0.2em]
+\overline\kappa\le K
+&\Longrightarrow& G\in\mathcal R_{K,\Kron}(H),\\[0.2em]
+e^{2\overline\eta}\overline\kappa\le K
+&\Longrightarrow& P_{\Kron}(H)\in\mathcal R_{K,\Kron}(H),\\[0.2em]
+e^{-2\overline\eta}\underline\kappa>K
+&\Longrightarrow& P_{\Kron}(H)\notin\mathcal R_{K,\Kron}(H).
+\end{array}
+\]
+If none fires, the interval-safe full-family branch returns
+\(\mathrm{INCONCLUSIVE}\).  The enclosures may come from interval arithmetic
+or from certified backward-error bounds for the eigensolver and matrix
+logarithm; unvalidated floating-point estimates alone do not meet the
+hypothesis.
+\end{corollary}
+
+\begin{proposition}[Hessian-relative Kronecker candidate certificate]
+\label{prop:kron-relative-candidate}
+Let \(H\in\SPD^{mn}\), \(G_0=B_0\otimes A_0\in\Kron_{m,n}\), and
+\(G_c=B_c\otimes A_c\in\Kron_{m,n}\). Define
+\[
+  S_0=H^{-1/2}G_0H^{-1/2},
+  \qquad
+  S_c=H^{-1/2}G_cH^{-1/2}.
+\]
+If
+\[
+  \kappa(S_c)\le K,
+\]
+equivalently \(\kappa(G_c^{-1}H)\le K\), then \(G_c\) is a primal
+Hessian-relative Kronecker certificate and
+\[
+  D_{K,\Kron}(S_0;H)\le d_{\AI}(G_0,G_c).
+\]
+With
+\[
+  L_A=\log(A_0^{-1/2}A_cA_0^{-1/2}),\qquad
+  L_B=\log(B_0^{-1/2}B_cB_0^{-1/2}),
+\]
+this upper bound has the closed form
+\[
+  d_{\AI}(G_0,G_c)^2
+  =
+  n\fro{L_A}^2+m\fro{L_B}^2
+  +2\tr(L_A)\tr(L_B).
+\]
+Thus any candidate Kronecker metric passing the generalized condition-number
+test supplies a finite restricted-complexity upper bound. If a proposed
+candidate fails the test, no infeasibility conclusion follows.
+\end{proposition}
+
+Taking \(G_c=P_{\Kron}(H)\) gives a projection-based sufficient certificate:
+one checks the Hessian-relative condition number of the projected Kronecker
+metric and, if it is at most \(K\), obtains the path-length upper bound above.
+Failure of this projected candidate only means that this particular candidate
+does not reach the RDGC target; another Kronecker metric may still do so.
+
+\begin{proposition}[Nonsmooth active \(K\)-target condition]
+\label{prop:kron-kkt}
+Assume \(K>1\). Let \(Q_\star=P_{\Kron_{m,n,K}}(M)\), and set
+\[
+  R_\star=\log(Q_\star^{-1/2}MQ_\star^{-1/2}),\qquad
+  \omega(Q)=\log\kappa(Q).
+\]
+If \(\omega(Q_\star)<\log K\), then
+\[
+  \Pi_{\mathcal L}R_\star=0.
+\]
+If \(\omega(Q_\star)=\log K\), then there exist \(\mu\ge0\) and
+\(W_\star\in\partial\omega(Q_\star)\) such that
+\[
+  \Pi_{\mathcal L}R_\star=\mu\Pi_{\mathcal L}W_\star.
+\]
+Here \(\partial\omega(Q_\star)\) denotes the subdifferential in the whitened
+AIRM tangent coordinate
+\(X\mapsto\omega(Q_\star^{1/2}\exp(X)Q_\star^{1/2})\) at \(X=0\).  It is the
+convex hull of
+\[
+  uu^\top-vv^\top,\qquad
+  u\in E_{\max},\ \norm{u}=1,\quad
+  v\in E_{\min},\ \norm{v}=1,
+\]
+with \(E_{\max}\) and \(E_{\min}\) the extremal eigenspaces of \(Q_\star\).
+For simple extremal eigenvalues this reduces to the usual multiplier equation
+with \(W_\star=u_{\max}u_{\max}^\top-u_{\min}u_{\min}^\top\).
+\end{proposition}
+
+\begin{proposition}[Projection diagnostics for K-FAC-style metrics]
+\label{prop:kfac-certificates}
+Suppose an optimizer uses damped Kronecker metric states
+\[
+  G_t=(B_t+\lambda_BI_n)\otimes(A_t+\lambda_AI_m).
+\]
+Let \(H_t\succ0\) be a reference curvature and
+\(P_t=P_{\Kron}(H_t)\). Then the quantities
+\[
+  M_t=d_{\AI}(H_t,P_t),\quad
+  A_t=d_{\AI}(P_t,G_t),\quad
+  E_t=d_{\AI}(H_t,G_t),\quad
+  C_{K,t}=d_{\AI}(P_t,\Kron_{m,n,K})
+\]
+satisfy
+\[
+  E_t^2\ge M_t^2+A_t^2,
+\]
+and
+\[
+  (M_t^2+C_{K,t}^2)^{1/2}
+  \le
+  d_{\AI}(H_t,\Kron_{m,n,K})
+  \le
+  M_t+C_{K,t}.
+\]
+Here \(A_t\) and the discrete increment \(d_{\AI}(G_t,G_{t+1})\) have the
+closed form of \cref{prop:kron-product-distance}, \(M_t\) is computed by
+\cref{thm:kron-ai-projection}, and \(C_{K,t}\) is the convex QP in
+\cref{thm:kron-k-target}.
+These quantities diagnose distance to the Kronecker family, optimizer-state
+lag inside that family, and distance to the auxiliary self-conditioned target.
+They do not by themselves certify \(\kappa(G_t^{-1}H_t)\le K\). A full
+preconditioning certificate must use the Hessian-relative target
+\(\{G\in\Kron_{m,n}:\kappa(G^{-1}H_t)\le K\}\) and must specify how the
+optimizer state, damping, bias correction, and discrete path realize an
+admissible family trajectory.
+\end{proposition}
+
+\subsection{Scoped low-rank extension}
+
+Low-rank structures split into three different models:
+\begin{enumerate}[leftmargin=*,itemsep=0.2em]
+  \item additive metric families, \(G=D+UU^\top\), which are close to practical
+  low-rank preconditioners;
+  \item log-low-rank families, \(G=\exp(cI+L)\) with \(\rank(L)\le r\), which
+  are cleaner for spectral theory;
+  \item inverse Woodbury forms, useful for implementation cost.
+\end{enumerate}
+This paper uses low-rank as an extension layer. The result below is a spectral
+surrogate for practical additive forms \(D+UU^\top\); their intrinsic geometry
+requires a separate stratified analysis. The clean spectral model assumes a
+shared eigenbasis and lets at most \(r\) log-eigenvalue coordinates move away
+from an overall shift:
+\[
+  \mathcal Y_{K,r}(y)
+  =
+  \{z\in\Yk:\exists c\in\R,\ |\{i:z_i\ne y_i+c\}|\le r\}.
+\]
+The corresponding spectral low-rank complexity is
+\[
+  D_{K,r}^{\mathrm{spec}}(y)=\dist_{\ell^2}(y,\mathcal Y_{K,r}(y)).
+\]
+
+\begin{proposition}[Low-rank spectral monotonicity]
+\label{prop:lowrank-monotonicity}
+If \(r_1\le r_2\), then
+\[
+  D_{K,r_1}^{\mathrm{spec}}(y)
+  \ge
+  D_{K,r_2}^{\mathrm{spec}}(y)
+  \ge
+  D_K(y).
+\]
+When \(r\ge d\), the low-rank spectral complexity equals the full spectral
+benchmark \(D_K(y)\).
+\end{proposition}
+
+\begin{remark}[Role of low rank]
+The proposition captures the intended hierarchy: more spectral correction
+directions cannot hurt, and full rank recovers the unconstrained benchmark.
+For practical additive forms \(D+UU^\top\), the same monotonicity should be
+studied in a stratified metric space rather than in this shared-eigenbasis
+spectral surrogate.
+The proposition therefore supports the hierarchy of spectral correction
+families under the stated shared-eigenbasis surrogate. Claims about a concrete
+low-rank preconditioner additionally require its update parameterization,
+damping convention, and admissible interpolation to be mapped into one of these
+geometric realizations.
+\end{remark}

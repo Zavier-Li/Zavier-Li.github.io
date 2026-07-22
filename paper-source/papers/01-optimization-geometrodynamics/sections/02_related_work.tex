@@ -1,0 +1,86 @@
+\section{Related Work}
+\label{sec:related-work}
+
+\paragraph{Adaptive geometry and variational reduction.}
+Natural gradient, K-FAC, AdaGrad, Adam, Shampoo, SOAP, and related methods use
+Fisher, moment, Kronecker, or tensor states as changing positive update
+operators \cite{amari1998natural,martens2015kfac,duchi2011adagrad,
+kingma2014adam,gupta2018shampoo,morwani2024shampoo,vyas2025soap}.
+Riemannian optimization provides the coordinate-free gradient language
+\cite{absil2008optimization,boumal2023introduction}.  Partial minimization,
+marginal functions, envelope sensitivity, and variable projection are
+classical \cite{rockafellar1970convex,rockafellar1998variational,
+bonnans2000perturbation,golub1973variableprojection}.  In fixed affine
+parameter coordinates, the Schur complement is the reduced coordinate Hessian
+of a marginal objective.  Global
+first-order complexity for geodesically convex objectives on Hadamard
+manifolds is established in \cite{zhang2016firstorder}, and metric projection
+and convex optimization in Hadamard spaces are developed systematically by
+\cite{bacak2014convex}.  Our use of these tools is tied to the action
+constraint: the global fiber coordinates expose an exact logarithmic
+residual, a current-sublevel curvature majorant attained by the action family,
+an active realization, and posterior controller certificates.
+
+\paragraph{AIRM approximation and totally geodesic submanifolds.}
+The affine-invariant SPD geometry is classical
+\cite{bhatia2007positive,pennec2006riemannian}.  AIRM approximation from
+special sets, best approximation in geodesic SPD submanifolds, and general
+total-geodesy criteria and projections are studied by
+\cite{bhatia2014approximation}, \cite{lim2004best}, and
+\cite{tumpach2024totally}; conic geodesic optimization supplies a broader
+algorithmic SPD setting \cite{sra2015conic}.  Algebraic identities and
+definiteness conditions for Hermitian solutions of \(AX=B\) are studied by
+\cite{tian2013hermitian}.  These results supply feasibility and block-Schur
+algebra, while Hadamard projection theory supplies uniqueness once a fiber is
+known to be closed and geodesically convex.  \cite{lim2004best} additionally
+gives explicit formulas for selected involutive block models, including
+low-dimensional block cases.
+
+The comparison is result-specific.  Tian's matrix-equation analysis supplies
+algebraic existence, definiteness, and solution identities for Hermitian
+equations; our \(A^\top B\succ0\) condition is used at that feasibility level,
+whereas the determinant-one AIRM minimizer and its iteration are variational
+objects.  Lim studies best approximation in Riemannian geodesic SPD
+submanifolds and gives explicit formulas for selected involutive block models;
+we use the same nearest-point geometry only after proving that every
+action-indexed fiber is closed and totally geodesic.  Tumpach and Larotonda
+give general total-geodesy criteria and structural results for SPD
+submanifolds; our contribution identifies the full \(PA=B\) family, constructs
+its global analytic bundle over \(B\), and derives the normal equation.  None
+of these three results supplies the action residual iteration, its
+current-sublevel rate and posterior certificates, the active-compatible
+\(r\le2m\) realization, or the rank-\(d-1\) normalized recovery law.  Conversely,
+projection uniqueness and the general variational/Schur principles are used as
+established ingredients rather than claimed as new.  The theorem-level map in
+\cref{app:closest-comparison} records these boundaries.
+
+\paragraph{Secant updates and positive-definite completion.}
+Inverse-Hessian multi-secant equations have the form \(PY=S\)
+\cite{schnabel1983multiple}; compatibility with positive definiteness and
+modern block or grouped updates have been studied separately
+\cite{passy1984secant,gao2018block,boutet2022grouped}.  Classical least-change
+and variational BFGS/DFP updates use weighted norms or log-determinant
+divergences \cite{dennis1979leastchange,fletcher1991variational}; Bregman and
+weighted secant extensions use related selection principles
+\cite{kanamori2013bregman,gratton2015weighted}.  Bounded and sparse
+quasi-Newton updates and positive-definite completion are treated in
+\cite{calamai1987bounds,yamashita2007sparse,dai2014sparse,grone1984positive}.
+
+Our action formulation gives a global analytic trivialization of
+\(P\mapsto PA\), identifies its determinant-one fibers, and proves their total
+geodesy before applying the nearest-point principle.  It then yields a
+globally convergent residual solver and the sharp completion rank for
+shape-normalized nested actions.  The rank-\(d-1\) theorem uses a supplied
+determinant scale, making its information model different from ordinary
+scale-free secant observations.  Condition-constrained SPD approximation and
+preconditioning have separate literatures
+\cite{tanaka2014condition,marechal2009optimizing,lu2011minimizing,
+gao2023scalable,qu2024optimal,dogan2025geodesicpreconditioning}.  A
+theorem-level comparison is given in \cref{app:closest-comparison}.
+
+\paragraph{Scope.}
+The companion information-compression map \(P\mapsto A^\top PA\) has different
+fibers \informationgeometrycite.  The present paper is self-contained and
+treats the full-SPD exact-action problem.  Structured controller families,
+noisy secants, unknown scalar gauges, historical state estimation, and regret
+lead to distinct constrained-optimization and statistical problems.

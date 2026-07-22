@@ -1,0 +1,193 @@
+\section{Recovery of Visible and Completed Geometry}
+\label{sec:statistical-recovery}
+
+The isometric fixed-channel section transfers visible SPD error exactly.  When
+the information subspace is estimated, the stratified line element adds a
+second, mismatch-weighted Grassmann term.
+
+All results below are stated after congruence whitening the reference to
+\(P_0=I\); AIRM congruence invariance transports them to an arbitrary fixed
+reference.  In these coordinates, for an orthonormal frame
+\(U\in\St(d,m)\), write
+\begin{equation}
+  \Cpl(U,R)=I+U(R-I)U^\top.
+  \label{eq:normalized-completion}
+\end{equation}
+
+Two observation regimes must be distinguished.  The exact visible space in
+\cref{sec:introduction} is the span of the observed covectors.  The
+known-subspace result below conditions on any such fixed space.  The
+unknown-subspace result instead adopts a population second-moment model and
+\emph{defines} its target space as the leading \(m\)-dimensional eigenspace
+of \(\Sigma\).  This spectral target agrees with the population covector
+support under a rank-\(m\) population model; a finite observed span equals it
+only when the sampled covectors span that support.  With nonzero spectral
+tails it instead represents a chosen principal approximation.  No automatic
+identification of the two regimes is assumed.
+
+For \(W,\widetilde W\in\Gr(m,d)\), let \(\dgr(W,\widetilde W)\) be the
+Euclidean norm of their principal-angle vector.  Define
+\begin{equation}
+  \chi(R)=\opnorm{\Xiop(R)}^{1/2}
+  =\max_{\lambda\in\operatorname{spec}(R)}
+  \frac{|\lambda-1|}{\sqrt\lambda}.
+  \label{eq:chi}
+\end{equation}
+
+\begin{theorem}[Joint deterministic perturbation]
+\label{thm:joint-perturbation}
+Let \(U,V\) be endpoint frames connected by a horizontal minimizing
+Grassmann geodesic, and express \(R,S\in\SPD^m\) in the parallel endpoint
+frames.  With reference \(I\),
+\begin{equation}
+  \boxed{
+  \dai(\Cpl(U,R),\Cpl(V,S))
+  \le
+  \dai(R,S)
+  +\sqrt2\min\{\chi(R),\chi(S)\}\dgr(W,\widetilde W).}
+  \label{eq:joint-perturbation}
+\end{equation}
+The first term is visible geometry error.  The second is subspace error, and
+it vanishes for reference-valued visible geometry.
+\end{theorem}
+
+The endpoint-frame condition is a gauge choice, not an additional statistical
+assumption.  Given arbitrary orthonormal endpoint frames, align them by the
+orthogonal Procrustes factor associated with the minimizing Grassmann geodesic
+and conjugate the endpoint visible matrix accordingly.  The statement then
+applies in the aligned coordinates, and its value is independent of the
+initial endpoint gauges.
+
+For a known fixed visible subspace, a direct concentration theorem retains
+the intrinsic dimension.  In an orthonormal coordinate frame of \(W\), let
+\(X_1,\ldots,X_n\in\R^m\) be i.i.d. copies of \(X\), define the uncentered
+second moment \(R=\E[XX^\top]\succ0\), assume
+\(\norm{R^{-1/2}X}_2\le L\) almost surely, and set
+\(\Rhat=n^{-1}\sum_iX_iX_i^\top\).
+
+\begin{theorem}[Known-subspace finite-sample recovery]
+\label{thm:known-subspace-recovery}
+For \(0<\varepsilon\le1\), if
+\begin{equation}
+  n\ge
+  \frac{8L^4}{\varepsilon^2}
+  \left(m\log9+\log\frac{2}{\delta}\right),
+  \label{eq:known-subspace-sample-size}
+\end{equation}
+then with probability at least \(1-\delta\),
+\begin{equation}
+  e^{-\varepsilon}R\preceq\Rhat\preceq e^\varepsilon R,
+  \qquad
+  \dai(\Cpl(U,R),\Cpl(U,\Rhat))\le\sqrt m\,\varepsilon.
+  \label{eq:known-subspace-bound}
+\end{equation}
+\end{theorem}
+
+This self-contained net--Hoeffding bound is deliberately conservative.  In
+fact
+\[
+  m=\E\norm{R^{-1/2}X}_2^2\le L^2,
+\]
+so the displayed sufficient sample size can have order
+\(m^3/\varepsilon^2\) when only this envelope is retained.  Matrix
+Chernoff or Bernstein inequalities can replace the net argument and often
+improve the dependence to a logarithmic dimension or an effective-rank
+factor under their corresponding variance or tail assumptions
+\citep{tropp2015matrix}.  We use the elementary bound for transparency and
+do not claim an optimal statistical rate.
+
+We next allow the visible eigenspace to be unknown.  Let \(1\le m<d\) and
+\(\Sigma\in\PSD^d\) have eigenvalues
+\(\lambda_1\ge\cdots\ge\lambda_d\), assume
+\(\gamma=\lambda_m-\lambda_{m+1}>0\), and let \(U\) span its leading
+\(m\)-dimensional eigenspace.  Put
+\[
+  R=U^\top\Sigma U,
+  \qquad
+  P=\Cpl(U,R).
+\]
+For an estimator \(\Sigmahat\), let \(V\) span its leading eigenspace,
+\(\Rhat=V^\top\Sigmahat V\), and \(\Phat=\Cpl(V,\Rhat)\).
+
+\begin{theorem}[Unknown-subspace completed-geometry recovery]
+\label{thm:unknown-subspace-recovery}
+Let
+\[
+  \opnorm{\Sigmahat-\Sigma}\le\delta
+  <\min\{\gamma/2,\lambda_m\},
+  \qquad
+  s_\delta=\frac{\delta}{\gamma-\delta},
+\]
+\[
+  \varepsilon_{\mathrm{vis}}
+  =\delta+2\sqrt2\lambda_1s_\delta,
+  \qquad
+  \eta_\delta=\frac{\varepsilon_{\mathrm{vis}}}{\lambda_m}<1,
+\]
+and
+\[
+  \omega_\delta
+  =\max_{x\in[\lambda_m-\delta,\lambda_1+\delta]}
+  \frac{|x-1|}{\sqrt x}.
+\]
+Then
+\begin{equation}
+  \boxed{
+  \dai(P,\Phat)
+  \le
+  \sqrt m\left[-\log(1-\eta_\delta)
+  +\sqrt2\,\omega_\delta\arcsin(s_\delta)\right].}
+  \label{eq:unknown-subspace-bound}
+\end{equation}
+The first term controls the aligned visible second moment; the second is the
+mismatch-weighted rotation of the estimated eigenspace.
+\end{theorem}
+
+\begin{corollary}[A self-contained sample bound]
+\label{cor:unknown-subspace-sample}
+Let \(X_1,\ldots,X_n\in\R^d\) be i.i.d. copies of \(X\), with uncentered
+second moment \(\Sigma=\E[XX^\top]\), \(\norm X_2\le L\) almost surely,
+and
+\(\Sigmahat=n^{-1}\sum_iX_iX_i^\top\).  Define
+\begin{equation}
+  \delta_n(\alpha)
+  =L^2\sqrt{\frac{2(d\log9+\log(2/\alpha))}{n}}.
+  \label{eq:ambient-delta}
+\end{equation}
+With probability at least \(1-\alpha\),
+\(\opnorm{\Sigmahat-\Sigma}\le\delta_n(\alpha)\).  If
+\(\delta_n(\alpha)\) satisfies the hypotheses of
+\cref{thm:unknown-subspace-recovery}, then
+  \eqref{eq:unknown-subspace-bound} holds with
+  \(\delta=\delta_n(\alpha)\).
+
+In particular, put
+\begin{equation}
+  c_\gamma=1+\frac{8\sqrt2\lambda_1}{3\gamma},
+  \qquad
+  \delta_\star
+  =\min\left\{\frac{\gamma}{4},
+  \frac{\lambda_m}{2c_\gamma}\right\}.
+  \label{eq:explicit-delta-threshold}
+\end{equation}
+The directly checkable sufficient condition
+\begin{equation}
+  n\ge
+  \frac{2L^4}{\delta_\star^2}
+  \left(d\log9+\log\frac{2}{\alpha}\right)
+  \label{eq:explicit-unknown-sample-size}
+\end{equation}
+implies \(\delta_n(\alpha)\le\delta_\star\), hence
+\(s_\delta\le4\delta/(3\gamma)\) and
+\(\eta_\delta\le1/2\).  It therefore guarantees all hypotheses of
+\cref{thm:unknown-subspace-recovery}.
+\end{corollary}
+
+The ambient dimension in \eqref{eq:ambient-delta} is the price of estimating
+the subspace with a self-contained bounded-i.i.d. net argument.  Matrix
+concentration or effective-rank assumptions may improve this factor, but an
+eigengap or another identifiable subspace condition remains necessary.  The
+reference \(I\) here is the whitened reference geometry, and \(\Sigma\) is an
+uncentered second moment; it coincides with covariance only when the mean is
+zero.  Proofs are in
+\cref{app:recovery-proofs}.

@@ -1,0 +1,724 @@
+\section{Path-Space Reduction and Jacobi Response}
+\label{sec:path-reduction}
+
+This section separates the algebraic, variational, and differential layers of
+restricted geometric control.  The first layer needs only path concatenation.
+The second adds compactness and convexity.  The third studies a smooth
+nondegenerate optimal path through its second variation.
+
+\subsection{Transition costs and min-plus composition}
+
+Let \(\mathcal M\) be a state space and let
+\(\Path_{s,t}(x,y)\) be a declared class of admissible paths from \(x\) at
+time \(s\) to \(y\) at time \(t\).  A path has action
+\(\mathcal A_{s,t}(\gamma)\in\R\cup\{+\infty\}\).  Empty path classes have
+value \(+\infty\).
+
+\begin{assumption}[Composable path system]
+\label{ass:path-composition}
+For every \(s<r<t\):
+\begin{enumerate}[leftmargin=*,itemsep=0.15em]
+  \item restricting \(\gamma\in\Path_{s,t}(x,z)\) at time \(r\) produces
+  paths in \(\Path_{s,r}(x,\gamma(r))\) and
+  \(\Path_{r,t}(\gamma(r),z)\);
+  \item any two admissible segments with a common state at time \(r\) can be
+  concatenated into an admissible path;
+  \item the action is additive under restriction and concatenation.
+  \item for every fixed interval \([a,b]\), there is
+  \(m_{a,b}>-\infty\) such that
+  \(\mathcal A_{a,b}(\gamma)\ge m_{a,b}\) for every admissible segment.
+\end{enumerate}
+\end{assumption}
+
+Define the transition cost
+\begin{equation*}
+  c_{s,t}(x,y)
+  =
+  \inf_{\gamma\in\Path_{s,t}(x,y)}\mathcal A_{s,t}(\gamma).
+\end{equation*}
+
+\begin{theorem}[Path-elimination semigroup]
+\label{thm:path-dpp}
+Under \cref{ass:path-composition}, for every \(s<r<t\),
+\begin{equation}
+  \boxed{
+  c_{s,t}(x,z)
+  =
+  \inf_{y\in\mathcal M}
+  \{c_{s,r}(x,y)+c_{r,t}(y,z)\}.}
+  \tag{P1}
+\end{equation}
+Both sides lie in \(\R\cup\{+\infty\}\), so the min-plus sum is always
+defined.  The equality does not require minimizers, smoothness, or convexity.
+\end{theorem}
+
+For a terminal cost \(\Gamma:\mathcal M\to\R\cup\{+\infty\}\) bounded
+below, define
+\[
+  V(s,x)
+  =
+  \inf_y\{c_{s,T}(x,y)+\Gamma(y)\}.
+\]
+
+\begin{corollary}[Bellman principle]
+\label{cor:path-bellman}
+Under the same assumptions,
+\begin{equation}
+  \boxed{
+  V(s,x)
+  =
+  \inf_y\{c_{s,r}(x,y)+V(r,y)\},
+  \qquad s<r<T.}
+  \tag{P2}
+\end{equation}
+Thus Bellman recursion is associativity of path elimination across time
+slices.
+\end{corollary}
+
+\subsection{The fixed-horizon energy gauge}
+
+Let \(\mathcal C\subset\mathcal M\) be a terminal set and let
+\(\Path_T(x,\mathcal C)\) be an admissible class of absolutely continuous
+paths on \([0,T]\) starting at \(x\) and ending in \(\mathcal C\).  Suppose
+the class is closed under orientation-preserving absolutely continuous
+reparameterization and every finite-length path admits its constant-speed
+reparameterization within the class.  Define
+\[
+  D(x,\mathcal C)=\inf_{\gamma\in\Path_T(x,\mathcal C)}\Len(\gamma),
+  \qquad
+  \mathcal E_T(x,\mathcal C)
+  =\inf_{\gamma\in\Path_T(x,\mathcal C)}
+  \frac12\int_0^T\norm{\dot\gamma_t}^2\,\dd t.
+\]
+
+\begin{theorem}[Length--energy gauge for RDGC]
+\label{thm:length-energy-gauge}
+Under the preceding reparameterization assumptions,
+\begin{equation}
+  \boxed{
+  \mathcal E_T(x,\mathcal C)
+  =\frac{D(x,\mathcal C)^2}{2T}.}
+  \tag{P3}
+\end{equation}
+The identity holds with value \(+\infty\).  When the common value is finite,
+a finite-energy path attains the energy minimum if and only if it has constant
+speed and attains the length minimum.  Consequently, whenever
+the RDGC path class has this reparameterization property,
+\[
+  \mathcal E_{K,\F,T}(S_0;H)
+  =\frac{D_{K,\F}(S_0;H)^2}{2T}.
+\]
+Thus fixed time is a gauge choice that removes the reparameterization
+degeneracy of the length functional without changing its optimal geometric
+path.
+\end{theorem}
+
+\begin{remark}[A checkable intervention-cube margin]
+The convexity hypothesis (MJ2) follows from a uniform Hessian margin.  For
+example, suppose \(\mathcal U_0\subset(-\delta,1+\delta)^m\),
+\[
+  \operatorname{Hess}W_0\succeq\alpha_W g,
+  \qquad
+  \norm{\operatorname{Hess}w_i}_{\mathrm{op}}\le b_i,
+\]
+uniformly on \([0,T]\times\mathcal N\), and
+\(\alpha_W>(1+\delta)\sum_i b_i\).  Then every \(W_u\) is geodesically
+convex on \(\mathcal U_0\).  The analogous condition
+\(\alpha_\Phi>(1+\delta)\sum_i c_i\) for
+\(\operatorname{Hess}\Phi_0\succeq\alpha_\Phi g\) and
+\(\norm{\operatorname{Hess}\phi_i}_{\mathrm{op}}\le c_i\) treats the terminal
+potential.  Affine interventions have \(b_i=c_i=0\), as in
+\cref{thm:diag-forced-response}.
+\end{remark}
+
+\subsection{Existence and Hamilton--Jacobi characterization}
+
+We next give one sufficient analytic realization.  Let
+\((\mathcal M,g)\) be a finite-dimensional Hadamard manifold and
+\(\F\subset\mathcal M\) a nonempty closed geodesically convex set.  Admissible
+paths are absolutely continuous curves in \(\F\) satisfying
+\(\dot\gamma(t)\in\mathcal A_t(\gamma(t))\) almost everywhere, and
+\[
+  \mathcal A_{s,t}(\gamma)
+  =
+  \int_s^t
+  \{L_r(\gamma(r),\dot\gamma(r))+U(r,\gamma(r))\}\,\dd r.
+\]
+
+\begin{assumption}[Tonelli--viability conditions]
+\label{ass:tonelli}
+The admissible velocity multifunction has nonempty closed convex values and a
+Borel graph.  In every smooth coordinate chart, the extended integrand
+\[
+  \overline L(t,G,Z)
+  =L_t(G,Z)+U(t,G)+\iota_{\mathcal A_t(G)}(Z)
+\]
+is a normal integrand: it is Borel measurable in \(t\), lower semicontinuous
+in \((G,Z)\) for almost every \(t\), and convex in \(Z\).  For some
+\(p>1\), \(a>0\), and \(b\ge0\), uniformly in \((t,G,Z)\),
+\[
+  \overline L(t,G,Z)\ge a\norm{Z}_G^p-b.
+\]
+The viability constraint is sequentially closed under uniformly convergent
+base paths and weakly convergent chart velocities.  The terminal cost
+\(\Gamma\) is proper, lower semicontinuous, and bounded below, and at least one
+finite-action competitor exists whenever the value under consideration is
+finite.  The path system is composable in the sense of
+\cref{ass:path-composition}.
+\end{assumption}
+
+\begin{theorem}[Tonelli existence for restricted paths]
+\label{thm:path-tonelli}
+Under \cref{ass:tonelli}, every finite value \(V(s,x)\) is attained.  If
+pointwise geodesic interpolation preserves admissibility and the complete
+action plus terminal cost is strictly geodesically convex for paths with a
+common initial state, then the minimizing path is unique.
+\end{theorem}
+
+For the HJB layer we use a separate, directly checkable control realization.
+Suppose \(\F\) is a smooth complete manifold without boundary,
+\(\mathcal U\) is a compact metric control space, and admissible paths solve
+\[
+  \dot G_t=b(t,G_t,a_t)
+\]
+for measurable controls \(a_t\in\mathcal U\).  Assume \(b\) is continuous,
+locally Lipschitz in \(G\) uniformly in \((t,a)\), and tangent to \(\F\).
+Let the running cost \(\ell(t,G,a)\) and terminal cost \(\Gamma(G)\) be
+continuous and bounded below, and define
+\[
+  \mathcal H(t,G,p)
+  =\sup_{a\in\mathcal U}
+  \{\ip{p}{b(t,G,a)}-\ell(t,G,a)\}.
+\]
+
+\begin{proposition}[HJB layer with explicit analytic boundary]
+\label{prop:path-hjb}
+Assume the preceding compact-control realization is nonexplosive on
+\([0,T]\), its value \(V\) is finite and continuous, and admissible controls
+are closed under concatenation.  Then \(V\) is a viscosity solution of
+\begin{equation}
+  -\partial_tV(t,G)
+  +\mathcal H(t,G,-\dd_GV(t,G))=0,
+  \qquad
+  V(T,\cdot)=\Gamma.
+  \tag{P4}
+\end{equation}
+At every differentiability point this equation holds classically.  If the
+Hamiltonian and terminal data satisfy a comparison principle in a declared
+solution class, then \(V\) is the unique viscosity solution in that class.
+When the maximizing control is unique, the optimal path satisfies
+\[
+  \dot G_t=b(t,G_t,a^\star(t,G_t,-\dd_GV(t,G_t)))
+\]
+at classical points.  Compactness of \(\mathcal U\) gives maximizers and local
+velocity compactness; continuity and the uniform local Lipschitz condition
+give the short-time realizability used in the viscosity test.  No comparison
+or uniqueness claim is made without the stated comparison hypothesis.
+\end{proposition}
+
+The layers above have different force.  \Cref{thm:path-dpp} is an exact
+algebraic identity, \cref{thm:length-energy-gauge} fixes the time gauge without
+changing the optimal geometric path, \cref{thm:path-tonelli} is a direct-method
+theorem, and \cref{prop:path-hjb} is an analytic characterization for the
+declared compact-control realization, conditional on comparison only for
+uniqueness.
+
+\subsection{Jacobi--Schur response}
+
+Let \(\mathcal Z\) be a finite-dimensional visible parameter space and
+\(\Hilb_0\) a real Hilbert space of zero-boundary path fluctuations.  A local
+trivialization of the admissible path space writes
+\[
+  \gamma=Rz+\eta,
+  \qquad z\in\mathcal Z,
+  \quad \eta\in\Hilb_0,
+\]
+where \(R\) is a fixed continuous right inverse for the visible boundary or
+constraint map.  Let
+\(\mathfrak A:\mathcal Z\times\Hilb_0\to\R\) be the resulting action.
+We use the Riesz isomorphism to identify \(\Hilb_0^*\) with \(\Hilb_0\).
+
+\begin{theorem}[Jacobi--Schur path-response law]
+\label{thm:path-schur}
+Suppose \(\mathfrak A\in C^3\) near \((z_0,\eta_0)\), where
+\(\eta_0\) is the unique local minimizer at \(z_0\).  Assume the vertical
+second variation
+\[
+  \Jac
+  =D^2_{\eta\eta}\mathfrak A(z_0,\eta_0)
+\]
+is represented by a bounded self-adjoint operator satisfying
+\[
+  \ip{h}{\Jac h}\ge\mu\norm{h}^2,
+  \qquad \mu>0,
+  \quad h\in\Hilb_0.
+\]
+Then there are neighborhoods \(Z_0\) of \(z_0\) and \(N_0\) of \(\eta_0\)
+such that every \(z\in Z_0\) has a unique minimizing critical point
+\(\eta_\star(z)\in N_0\), and this local minimizing section is \(C^2\).  Write
+\[
+  \Jac(z)=D^2_{\eta\eta}\mathfrak A(z,\eta_\star(z)).
+\]
+With
+\(\Val(z)=\mathfrak A(z,\eta_\star(z))\),
+\begin{equation}
+  \boxed{
+  D\eta_\star
+  =
+  -\Jac^{-1}\mathfrak A_{\eta z},}
+  \tag{P5}
+\end{equation}
+and
+\begin{equation}
+  \boxed{
+  D^2\Val
+  =
+  \mathfrak A_{zz}
+  -\mathfrak A_{z\eta}\Jac^{-1}\mathfrak A_{\eta z}.}
+  \tag{P6}
+\end{equation}
+All derivatives on the right are evaluated along the minimizing path.  The
+effective value curvature is therefore the Schur complement of the vertical
+Jacobi block.
+\end{theorem}
+
+\begin{corollary}[Coercive kinetic bridge on a Hadamard family]
+\label{cor:rdgc-jacobi-bridge}
+Let \(\F\) be a finite-dimensional Hadamard manifold realized as a totally
+geodesic submanifold of the ambient geometry, and let \(\gamma_0\) be the constant-speed geodesic from
+\(x\in\F\) to a fixed endpoint \(q\in\F\).  On zero-boundary fluctuations
+\(h\in H_0^1(\gamma_0^*T\F)\), the second variation of kinetic energy is
+\[
+  I(h,h)=\int_0^T
+  \left(\norm{D_th}^2
+  -\ip{R(\dot\gamma_0,h)h}{\dot\gamma_0}\right)\dd t
+  \ge\int_0^T\norm{D_th}^2\dd t.
+\]
+Hence the weak Jacobi operator is coercive in the derivative norm on
+\(H_0^1\).  If \(q\) is the unique RDGC target projection, then
+\cref{thm:length-energy-gauge} identifies \(\gamma_0\) with the energy-gauged
+RDGC minimizer.  Every \(C^3\) endpoint perturbation that preserves the fixed
+boundary chart therefore satisfies the full Schur formula in
+\cref{thm:path-schur}, including its direct visible Hessian term.  Affine
+additive-action intensities with fixed endpoint additionally satisfy the
+negative-Gram formula in \cref{cor:path-interaction} locally.
+\end{corollary}
+
+\subsection{Global Hadamard M\"obius--Jacobi realization}
+
+The abstract Schur law becomes a global theorem on a whole intervention cube
+for mechanical actions on Hadamard path space.  Let \((\mathcal N,g)\) be a
+finite-dimensional Hadamard manifold, fix \(x_0\in\mathcal N\) and \(T>0\),
+and set
+\[
+  \Omega_{x_0}
+  =\{\gamma\in H^1([0,T],\mathcal N):\gamma(0)=x_0\}.
+\]
+Let the open set \(\mathcal U_0\Subset\mathcal U\subset\R^m\) contain
+\([0,1]^m\), and
+consider
+\[
+  W_u=W_0+\sum_{i=1}^m u_iw_i,
+  \qquad
+  \Phi_u=\Phi_0+\sum_{i=1}^m u_i\phi_i,
+\]
+\begin{equation}
+  \mathcal A_u(\gamma)
+  =\int_0^T
+  \left(\frac12\norm{\dot\gamma}^2+W_u(t,\gamma(t))\right)\dd t
+  +\Phi_u(\gamma(T)).
+  \tag{MJ1}
+\end{equation}
+
+\begin{theorem}[Global path-space M\"obius--Jacobi theorem]
+\label{thm:global-mobius-jacobi}
+Fix \(r\ge2\).  Assume the bulk potentials are continuous in \(t\), all bulk
+and terminal potentials are \(C^{r+2}\) in the state variable with covariant
+derivatives locally uniform in \((t,u)\), and, for every
+\(u\in\mathcal U_0\),
+\begin{equation}
+  \operatorname{Hess}W_u(t,\cdot)\succeq0,
+  \qquad
+  \operatorname{Hess}\Phi_u\succeq0.
+  \tag{MJ2}
+\end{equation}
+Assume also that the values and gradients of \(W_u(t,\cdot)\) and \(\Phi_u\)
+at \(x_0\) are uniformly bounded over \([0,T]\times\mathcal U_0\).
+Then the following conclusions hold.
+
+\begin{enumerate}[leftmargin=*,itemsep=0.35em]
+  \item For every \(u\in\mathcal U_0\), \(\mathcal A_u\) has a unique global
+  minimizer \(\gamma_u\), and \(u\mapsto\gamma_u\) is \(C^r\) on
+  \(\mathcal U_0\).  No global lower bound on the potentials is required.
+  The minimizer satisfies
+  \begin{equation}
+    D_t\dot\gamma_u=\operatorname{grad}W_u(t,\gamma_u),
+    \qquad
+    \dot\gamma_u(T)+\operatorname{grad}\Phi_u(\gamma_u(T))=0.
+    \tag{MJ3}
+  \end{equation}
+
+  \item On
+  \(\mathcal V_u=\{\xi\in H^1(\gamma_u^*T\mathcal N):\xi(0)=0\}\), the
+  second variation is
+  \begin{equation}
+  \begin{aligned}
+    \mathfrak B_u(\xi,\eta)
+    ={}&\int_0^T\bigl[
+    \ip{D_t\xi}{D_t\eta}
+    -\ip{R(\xi,\dot\gamma_u)\dot\gamma_u}{\eta}
+    +\operatorname{Hess}W_u[\xi,\eta]\bigr]\dd t\\
+    &+\operatorname{Hess}\Phi_u[\xi(T),\eta(T)],
+  \end{aligned}
+  \tag{MJ4}
+  \end{equation}
+  and it obeys the uniform bound
+  \begin{equation}
+    \mathfrak B_u(\xi,\xi)
+    \ge\int_0^T\norm{D_t\xi}^2\dd t.
+    \tag{MJ5}
+  \end{equation}
+  Hence its weak Jacobi map
+  \(\mathfrak J_u:\mathcal V_u\to\mathcal V_u^*\) is a positive
+  self-adjoint isomorphism.
+
+  \item Define
+  \[
+    \Delta_i(\gamma)
+    =\int_0^T w_i(t,\gamma(t))\dd t+\phi_i(\gamma(T)),
+    \qquad
+    \mathfrak f_i^u=D\Delta_i(\gamma_u),
+  \]
+  and \(\chi_i^u=\mathfrak J_u^{-1}\mathfrak f_i^u\).  Then
+  \begin{equation}
+    \partial_{u_i}\gamma_u=-\chi_i^u.
+    \tag{MJ6}
+  \end{equation}
+  The response is equivalently the unique solution of
+  \begin{equation}
+  \begin{aligned}
+    J_u\chi_i^u&=\operatorname{grad}w_i(t,\gamma_u),
+    &\chi_i^u(0)&=0,\\
+    D_t\chi_i^u(T)+\operatorname{Hess}\Phi_u\,\chi_i^u(T)
+    &=\operatorname{grad}\phi_i(\gamma_u(T)),
+  \end{aligned}
+  \tag{MJ7}
+  \end{equation}
+  where
+  \[
+    J_u\xi=-D_t^2\xi-R(\xi,\dot\gamma_u)\dot\gamma_u
+    +\operatorname{Hess}W_u\,\xi.
+  \]
+  Thus bulk and terminal intervention forces share one Green--Jacobi inverse.
+
+  \item The value \(\mathcal V(u)=\mathcal A_u(\gamma_u)\) is \(C^r\) and
+  \begin{equation}
+    \partial_{u_i}\mathcal V=\Delta_i(\gamma_u),
+    \qquad
+    \partial_{u_i u_j}^2\mathcal V
+    =-\mathfrak B_u(\chi_i^u,\chi_j^u).
+    \tag{MJ8}
+  \end{equation}
+  Equivalently,
+  \(D_{uu}^2\mathcal V=-\mathfrak F_u^*\mathfrak J_u^{-1}\mathfrak F_u
+  \preceq0\), where \(\mathfrak F_ua=\sum_i a_i\mathfrak f_i^u\).
+  More precisely,
+  \begin{equation}
+  \begin{aligned}
+    \frac{\norm{\mathfrak F_ua}_{\mathcal V_u^*}^2}
+    {\norm{\mathfrak J_u}}
+    &\le -a^\top D_{uu}^2\mathcal V(u)a\\
+    &\le
+    \norm{\mathfrak J_u^{-1}}
+    \norm{\mathfrak F_ua}_{\mathcal V_u^*}^2,
+  \end{aligned}
+  \tag{MJ8a}
+  \end{equation}
+  and therefore
+  \begin{equation}
+    \ker(-D_{uu}^2\mathcal V)=\ker\mathfrak F_u,
+    \qquad
+    \rank(-D_{uu}^2\mathcal V)=\rank\mathfrak F_u.
+    \tag{MJ8b}
+  \end{equation}
+
+  \item For \(F(A)=\mathcal V(\mathbf1_A)\) and
+  \(\zeta_S=\sum_{B\subseteq S}(-1)^{|S|-|B|}F(B)\), every
+  \(|S|\le r\) satisfies
+  \begin{equation}
+    \zeta_S
+    =\int_{[0,1]^S}
+    \partial_S^{|S|}\mathcal V
+    \left(\sum_{i\in S}u_ie_i\right)\prod_{i\in S}\dd u_i.
+    \tag{MJ9}
+  \end{equation}
+  In particular,
+  \begin{equation}
+  \boxed{
+    \zeta_{\{i,j\}}
+    =-\int_0^1\!\int_0^1
+    \mathfrak B_{se_i+te_j}
+    (\chi_i^{se_i+te_j},\chi_j^{se_i+te_j})\,\dd s\,\dd t.}
+    \tag{MJ10}
+  \end{equation}
+  The same formula on the face
+  \(u=\mathbf1_C+se_i+te_j\) gives the conditional pair contrast for every
+  background \(C\cap\{i,j\}=\varnothing\), with every coordinate outside
+  \(C\cup\{i,j\}\) fixed at zero.
+\end{enumerate}
+\end{theorem}
+
+\begin{corollary}[Arbitrary finite-order Green--Jacobi recursion]
+\label{cor:all-order-mobius-jacobi}
+Choose a smooth local path chart, let \(I\subseteq[m]\) satisfy
+\(1\le|I|\le r\), and write
+\(\eta_I^u=\partial_I^{|I|}\gamma_u\), and interpret the displayed higher
+derivatives in that chart (equivalently, under one fixed covariant
+differentiation convention).  Let \(\Pi(J)\) denote the set of
+partitions of \(J\), with \(\Pi(\varnothing)=\{\varnothing\}\), and put
+\(\mathscr F(u,\gamma)=D_\gamma\mathcal A_u(\gamma)\).  Then
+\begin{equation}
+  \eta_I^u=-\mathfrak J_u^{-1}\mathcal R_I^u,
+  \tag{MJ11}
+\end{equation}
+where
+\begin{equation}
+  \mathcal R_I^u
+  =\sum_{\substack{S\subseteq I,\ |S|\le1,\ \pi\in\Pi(I\setminus S)\\
+  (S,\pi)\ne(\varnothing,\{I\})}}
+  D_u^S D_\gamma^{|\pi|}\mathscr F
+  \bigl[\eta_B^u\bigr]_{B\in\pi}.
+  \tag{MJ12}
+\end{equation}
+Thus the same inverse Jacobi operator recursively generates every path
+derivative through order \(r\) and, through (MJ9), every Boolean M\"obius
+effect of that order.  Since \(r\) may be prescribed arbitrarily, the result
+covers any fixed finite order under the corresponding \(C^{r+2}\) regularity;
+\(C^\infty\) data give all finite orders simultaneously.  If \(r\ge3\), then
+for distinct \(i,j,k\),
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  \partial_{u_i u_j u_k}^3\mathcal V
+  ={}&-D_\gamma^3\mathcal A_u[\chi_i,\chi_j,\chi_k]\\
+  &+D_\gamma^2\Delta_i[\chi_j,\chi_k]
+  +D_\gamma^2\Delta_j[\chi_i,\chi_k]
+  +D_\gamma^2\Delta_k[\chi_i,\chi_j].
+  \end{aligned}}
+  \tag{MJ13}
+\end{equation}
+\end{corollary}
+
+The intermediate chart derivatives \(\eta_I^u\) and the displayed recursive
+representation depend on the chosen path chart, or equivalently on the fixed
+covariant-differentiation convention.  The scalar derivatives
+\(\partial_I^{|I|}\mathcal V\) and the resulting Boolean M\"obius effects are
+intrinsic.
+
+\subsection{Hard-target response on a smooth active stratum}
+
+We now differentiate the terminal constraint itself.  This gives the missing
+hard-target counterpart of the Robin response above.  Let
+\(c:\mathcal U\times\mathcal N\to\R\) be smooth and consider
+\begin{equation}
+  \mathcal V_{\rm hard}(u)
+  =\inf\{\mathcal A_u(\gamma):
+  \gamma\in\Omega_{x_0},\ c_u(\gamma(T))\le0\}.
+  \tag{HT1}
+\end{equation}
+The statement is local in the parameter and in one smooth active stratum;
+the inequality itself remains hard.
+
+\begin{theorem}[Bordered Jacobi response for an active hard target]
+\label{thm:hard-target-jacobi}
+Fix \(u_0\in\mathcal U\).  Suppose that \(\mathcal A_u\) and \(c_u\) are
+\(C^{r+2}\), \(r\ge2\), in compatible local path and state charts.  Let
+\(\gamma_0\) be a constrained local minimizer of \textup{(HT1)} with active
+constraint, and suppose that there is a strictly positive multiplier
+\(\lambda_0\) such that, for
+\[
+  \mathscr L(u,\gamma,\lambda)
+  =\mathcal A_u(\gamma)+\lambda c_u(\gamma(T)),
+\]
+the KKT equations are
+\begin{equation}
+  D_\gamma\mathscr L(u_0,\gamma_0,\lambda_0)=0,
+  \qquad c_{u_0}(\gamma_0(T))=0.
+  \tag{HT2}
+\end{equation}
+On
+\(\mathcal V_0=\{\xi\in H^1(\gamma_0^*T\mathcal N):\xi(0)=0\}\), set
+\[
+  \mathfrak J_0=D_{\gamma\gamma}^2\mathscr L,
+  \qquad
+  \mathfrak B_0\xi
+  =\dd c_{u_0}(\gamma_0(T))[\xi(T)].
+\]
+Assume that \(\mathfrak J_0:\mathcal V_0\to\mathcal V_0^*\) is bounded,
+self-adjoint, and coercive, and that \(\mathfrak B_0\ne0\).  Then:
+\begin{enumerate}[leftmargin=*,itemsep=0.3em]
+  \item there is a neighborhood \(U_0\) of \(u_0\) and a unique \(C^r\)
+  branch \(u\mapsto(\gamma_u,\lambda_u)\) of active KKT points near
+  \((\gamma_0,\lambda_0)\), with \(\lambda_u>0\); every \(\gamma_u\) is the
+  unique constrained local minimizer in a common path neighborhood;
+
+  \item on \(\mathcal Y_u=\mathcal V_u\times\R\), the bordered Jacobi--KKT
+  map
+  \begin{equation}
+    \mathfrak K_u
+    =
+    \begin{pmatrix}
+      \mathfrak J_u&\mathfrak B_u^*\\
+      \mathfrak B_u&0
+    \end{pmatrix}
+    :\mathcal Y_u\longrightarrow\mathcal Y_u^*
+    \tag{HT3}
+  \end{equation}
+  is a self-adjoint isomorphism, where
+  \(\mathfrak J_u=D_{\gamma\gamma}^2\mathscr L\) and
+  \(\mathfrak B_u\xi=\dd c_u(\gamma_u(T))[\xi(T)]\);
+
+  \item if
+  \[
+    \mathfrak b_i^u
+    =D_{(\gamma,\lambda)}\partial_{u_i}\mathscr L
+      (u,\gamma_u,\lambda_u)\in\mathcal Y_u^*,
+  \]
+  then the path and multiplier response and the constrained value Hessian are
+  \begin{equation}
+    \boxed{
+    \partial_{u_i}(\gamma_u,\lambda_u)
+    =-\mathfrak K_u^{-1}\mathfrak b_i^u,}
+    \tag{HT4}
+  \end{equation}
+  \begin{equation}
+    \boxed{
+    \partial_{u_i u_j}^2\mathcal V_{\rm hard}
+    =\partial_{u_i u_j}^2\mathscr L
+    -\left\langle
+      \mathfrak b_i^u,\mathfrak K_u^{-1}\mathfrak b_j^u
+    \right\rangle_{\mathcal Y_u^*,\mathcal Y_u}.}
+    \tag{HT5}
+  \end{equation}
+  The direct derivative in \textup{(HT5)} holds \((\gamma,\lambda)\) fixed.
+\end{enumerate}
+If \(\mathcal A_u\) and \(c_u\) are affine in \(u\), the direct term in
+\textup{(HT5)} vanishes.  If the same active branch and bordered
+invertibility persist on a Boolean two-face, its exact conditional pair
+effect is
+\begin{equation}
+  \boxed{
+  \zeta_{\{i,j\}\mid C}
+  =-\int_0^1\!\int_0^1
+  \left\langle
+  \mathfrak b_i^u,\mathfrak K_u^{-1}\mathfrak b_j^u
+  \right\rangle\,\dd s\,\dd t,\quad
+  u=\mathbf1_C+se_i+te_j.}
+  \tag{HT6}
+\end{equation}
+Here every coordinate outside \(C\cup\{i,j\}\) is fixed at zero.
+Unlike the unconstrained Gram formula, the bordered inverse is indefinite, so
+hard-target interactions need not have one sign.
+\end{theorem}
+
+The terminal contribution to \(\mathfrak J_u\) is
+\(\lambda_u\operatorname{Hess}c_u\), while
+\(\mathfrak B_u\) linearizes motion of the active boundary.  Thus
+\textup{(HT3)} couples the interior Jacobi equation, endpoint transversality,
+and active-target motion in one invertible system.
+
+For fixed endpoints, the same theorem holds on Dirichlet fluctuations and the
+terminal forces disappear.  For a general regular Lagrangian it remains valid
+when existence, uniqueness, smoothness, and uniform coercivity of the complete
+second variation are verified.  At active-set changes the correct object is a
+normal-cone graphical derivative coupled to a Jacobi variational inequality;
+a classical Hessian need not exist.
+
+Accordingly, \cref{thm:global-mobius-jacobi} is the smooth mechanical
+extension of the RDGC path framework, while
+\cref{thm:hard-target-jacobi,cor:hard-condition-response} gives the classical
+hard-target response on a fixed smooth active stratum.  Neither theorem
+asserts classical differentiability through eigenvalue multiplicities or
+active-index changes.
+
+The theorem applies to a smooth integral action when its second-variation
+bilinear form is continuous and coercive on the chosen Sobolev fluctuation
+space.  The Riesz map identifies that bilinear form with \(\Jac\); in a
+classical Euler--Lagrange problem this is the weak Jacobi operator with the
+declared boundary conditions.
+
+\begin{corollary}[Associative second-order path elimination]
+\label{cor:path-schur-associativity}
+If \(\eta=(\eta_1,\eta_2)\) and the complete vertical Hessian is coercive,
+then eliminating \(\eta_2\) and subsequently \(\eta_1\) gives the same value
+Hessian as eliminating \((\eta_1,\eta_2)\) in one step:
+\begin{equation}
+  \operatorname{Schur}_{(\eta_1,\eta_2)}\mathbb H
+  =
+  \operatorname{Schur}_{\eta_1}
+  \bigl(\operatorname{Schur}_{\eta_2}\mathbb H\bigr).
+  \tag{P7}
+\end{equation}
+\end{corollary}
+
+\subsection{Interaction curvature generated by path relaxation}
+
+Let \(u\in U\subset\R^m\) parameterize smooth mechanism intensities and
+suppose the unreduced action is affine in \(u\):
+\[
+  \mathfrak A(\eta,u)
+  =
+  \mathfrak A_0(\eta)+\sum_{i=1}^m u_i\Delta_i(\eta).
+\]
+Define \(\mathcal G:\R^m\to\Hilb_0^*\) by
+\[
+  \mathcal G a=\sum_i a_iD_\eta\Delta_i.
+\]
+
+The finite-dimensional form of the following Schur identity is established
+in the companion hidden-state reduction theory
+\cite{li2026optimizationgeometrodynamics}.  We record its path-Hilbert form to
+connect the abstract reduction formula to the Jacobi and Green operators
+constructed above; the generic negative-Gram algebra is used as an established
+ingredient.
+
+\begin{corollary}[Path interaction curvature]
+\label{cor:path-interaction}
+Under \cref{thm:path-schur}, the local reduced value satisfies
+\begin{equation}
+  \boxed{
+  D^2_{uu}\Val
+  =
+  -\mathcal G^*\Jac^{-1}\mathcal G
+  \preceq0.}
+  \tag{P8}
+\end{equation}
+In components,
+\begin{equation}
+  \partial^2_{u_i u_j}\Val
+  =
+  -\ip{D_\eta\Delta_i}
+  {\Jac^{-1}D_\eta\Delta_j}.
+  \tag{P9}
+\end{equation}
+If the same minimizing branch exists smoothly and the vertical second
+variation remains uniformly coercive on an open set containing
+\([0,1]^m\), then for two Boolean endpoint settings, with all other
+intensities fixed at zero, the mixed finite difference is exactly
+\begin{equation}
+\begin{aligned}
+  &\Val(e_i+e_j)-\Val(e_i)-\Val(e_j)+\Val(0)\\
+  &\quad=
+  -\int_0^1\!\int_0^1
+  \ip{D_\eta\Delta_i}
+  {\Jac^{-1}D_\eta\Delta_j}_{\eta_\star(se_i+te_j)}
+  \,\dd s\,\dd t.
+\end{aligned}
+\tag{P10}
+\end{equation}
+Thus hidden path relaxation creates an observable interaction whenever the two
+path perturbations fail to be orthogonal in the inverse-Jacobi metric.  A zero
+integrated interaction can also arise through cancellation; only pointwise
+zero curvature implies pointwise orthogonality.
+\end{corollary}
+

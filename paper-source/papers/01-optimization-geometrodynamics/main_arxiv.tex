@@ -1,0 +1,71 @@
+\documentclass[10pt]{article}
+\usepackage[preprint]{tmlr}
+
+\input{math_commands.tex}
+\input{preamble.tex}
+
+\title{Affine-Invariant SPD Action Completion:\\
+Global Geometry, Posterior Certificates, and Active Complexity}
+
+\author{\name Zavier Li \email zavierli888@gmail.com\\
+      \addr Xidian University\\
+      \addr Xi'an, China}
+
+\def\month{07}
+\def\year{2026}
+\def\openreview{\url{}}
+\newcommand{\informationgeometrycite}{%
+  \citep{li2026informationgeometry}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study affine-invariant least-deformation completion of a positive-definite
+operator from its prescribed action on a subspace.  For full-column-rank
+matrices \(A,B\in\mathbb R^{d\times m}\), the principal problem minimizes
+the squared affine-invariant Riemannian distance from a reference over
+determinant-one \(P\succ0\) satisfying \(PA=B\).  We first formulate hidden-state
+elimination by infimal pushforward.  It composes across nested maps, and in
+fixed product coordinates its smooth sensitivity is governed by a Schur
+complement; affine perturbations before elimination induce the
+negative-semidefinite interaction curvature \(-G^*H^{-1}G\).  For the action
+map \(P\mapsto PA\), we prove a global analytic bundle whose fibers are closed
+and totally geodesic, yielding a unique analytic nearest-controller section.
+An explicit logarithmic residual then generates a globally linearly convergent
+iteration from every initial hidden coordinate, with nonasymptotic value,
+distance, and residual bounds and computable a posteriori stopping
+certificates.  The guarantees extend conditionally when a residual oracle
+supplies certified direction-error bounds.  From the identity, or any hidden
+state compatible with the active symmetry, the iteration has an exact
+realization on a subspace of dimension \(r\le 2m\), reducing its dense spectral
+kernel to \(r\times r\) operations.  Controlled synthetic experiments verify
+the certificates, full--active equivalence, dimension reduction, and
+deterioration of the radius constant near the feasibility boundary.  Finally,
+nested shape-normalized multi-secant projections satisfy a CAT(0) Pythagorean
+decrease; a residual-controlled version covers finite inner solves, and the
+fibers recover the determinant-one inverse-Hessian shape at the sharp
+cumulative rank \(d-1\), given its scalar determinant gauge.
+\end{abstract}
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_variational_reduction}
+\input{sections/04_response_interaction}
+\input{sections/06_spd_action_bundle}
+\input{sections/05_certified_solver}
+\input{sections/07_numerical_validation}
+\input{sections/06_multisecant_recovery}
+\input{sections/09_discussion}
+\input{sections/10_statements}
+
+\bibliographystyle{tmlr}
+\bibliography{references}
+
+\appendix
+\input{appendix/a_reduction_response}
+\input{appendix/b_action_bundle}
+\input{appendix/f_solver_recovery_proofs}
+\input{appendix/e_closest_comparison}
+
+\end{document}

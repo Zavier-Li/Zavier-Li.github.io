@@ -1,0 +1,209 @@
+\section{Hidden Response and Interaction Curvature}
+\label{sec:interaction}
+
+The algebraic reduction becomes a differential theory when the canonical
+minimizer varies smoothly.  We fix a local product chart throughout this
+section, and every ordinary second derivative below is taken in that chart.
+The Schur formula is therefore a coordinate Hessian identity.  It defines an
+intrinsic bilinear form at a full reduced critical point
+\(D_z\bar E=0\), or after ordinary derivatives are replaced by covariant
+derivatives for specified connections.  Fiber stationarity
+\(E_\sigma=0\) alone does not make the visible coordinate Hessian a tensor.
+The mechanism amplitudes below carry a fixed affine structure, under which
+their Hessian transforms by congruence.
+
+\subsection{Smooth response and effective curvature}
+
+Let \(z=(y,u)\) range over a finite-dimensional manifold locally represented
+in Euclidean coordinates, and let \(\Sigspace\) be a finite-dimensional
+smooth manifold with local hidden coordinate \(\sigma\).  Consider
+\[
+  E:(z,\sigma)\longmapsto E(z,\sigma)\in\mathbb R.
+\]
+
+\begin{assumption}[Smooth stable reduction]
+\label{ass:smooth-reduction}
+For some \(r\ge2\), the energy is \(C^{r+1}\).  It is locally uniformly
+inf-compact in \(\sigma\): for every compact parameter set \(K\) and every
+\(c\in\mathbb R\), the union of the fiber sublevel sets
+\[
+  \{\sigma:\exists z\in K,\ E(z,\sigma)\le c\}
+\]
+is relatively compact.  Every \(z\) has a unique interior minimizer
+\(\sigma_\star(z)\), and
+\[
+  H(z):=E_{\sigma\sigma}(z,\sigma_\star(z))
+\]
+is positive definite.
+\end{assumption}
+
+\begin{theorem}[Hidden response and Schur reduced Hessian]
+\label{thm:response-schur}
+Under Assumption~\ref{ass:smooth-reduction}, the minimizer section and reduced energy
+\[
+  \sigma_\star(z)=\argmin_\sigma E(z,\sigma),
+  \qquad
+  \bar E(z)=E(z,\sigma_\star(z))
+\]
+are \(C^r\).  At the canonical lift,
+\begin{align}
+  D_z\sigma_\star&=-H^{-1}E_{\sigma z},
+  \label{eq:hidden-response}\\
+  D_z\bar E&=E_z,
+  \label{eq:envelope}\\
+  D^2_{zz}\bar E
+  &=E_{zz}-E_{z\sigma}H^{-1}E_{\sigma z}.
+  \label{eq:schur-effective-hessian}
+\end{align}
+If \(\sigma=(\alpha,\beta)\), let \(\mathbb H\) denote the full Hessian in
+\((z,\alpha,\beta)\) at the canonical lift.  When its joint hidden block is
+positive definite, sequential and joint second-order elimination agree:
+\begin{equation}
+  \Schur_{(\alpha,\beta)}\mathbb H
+  =\Schur_\alpha\bigl(\Schur_\beta\mathbb H\bigr).
+  \label{eq:schur-associativity}
+\end{equation}
+\end{theorem}
+
+The response formula is familiar from parametric optimization and variable
+projection \cite{golub1973variableprojection,bonnans2000perturbation}.  Here
+it supplies the local law inside a globally defined geometric action bundle
+and composes with the optimizer hierarchy in \cref{thm:algebraic-reduction}.
+
+\subsection{Affine perturbations before reduction}
+
+Let \(u\in\Uspace\subset\mathbb R^p\) denote continuous mechanism amplitudes.
+Suppose
+\begin{equation}
+  E(y,\sigma,u)
+  =E_0(y,\sigma)+\sum_{i=1}^p u_i\Delta_i(y,\sigma).
+  \label{eq:affine-interventions}
+\end{equation}
+At the canonical lift define
+\begin{equation}
+  G:T_u\Uspace\to T_\sigma^*\Sigspace,
+  \qquad
+  Ga=\sum_{i=1}^p a_iD_\sigma\Delta_i.
+  \label{eq:interaction-map}
+\end{equation}
+
+\begin{theorem}[Reduction-induced interaction curvature]
+\label{thm:interaction-curvature}
+Under Assumption~\ref{ass:smooth-reduction} and
+\cref{eq:affine-interventions},
+\begin{equation}
+  \boxed{
+  D^2_{uu}\bar E=-G^*H^{-1}G\preceq0.}
+  \label{eq:interaction-curvature}
+\end{equation}
+Equivalently,
+\begin{equation}
+  \partial^2_{u_i u_j}\bar E
+  =-
+  \left\langle
+  D_\sigma\Delta_i,
+  H^{-1}D_\sigma\Delta_j
+  \right\rangle.
+  \label{eq:pair-interaction-curvature}
+\end{equation}
+Thus the self-curvature of every mechanism is nonpositive.  A pointwise mixed
+interaction vanishes exactly when the corresponding vertical perturbations
+are orthogonal in the inverse-Hessian metric.  Mixed entries may have either
+sign.
+\end{theorem}
+
+Even without smoothness, \(u\mapsto\bar E(y,u)\) is concave wherever finite,
+because it is a pointwise infimum of affine functions.  Smoothness identifies
+the exact curvature responsible for that concavity.
+
+The affine hypothesis is essential for the sign.  With general smooth
+\(u\)-dependence, \cref{eq:schur-effective-hessian} gives
+\begin{equation}
+  D^2_{uu}\bar E
+  =E_{uu}-E_{u\sigma}H^{-1}E_{\sigma u},
+  \label{eq:nonaffine-interaction-curvature}
+\end{equation}
+so the direct curvature \(E_{uu}\) need not be negative semidefinite.  The
+quadratic form is covariant under an affine reparameterization
+\(u=T\tilde u+u_0\), transforming as
+\(D^2_{\tilde u\tilde u}\bar E=T^*D^2_{uu}\bar E\,T\).  Individual mixed
+entries therefore have meaning only after the mechanism basis, direction,
+and units are fixed; all comparisons in this paper refer to the specified
+amplitude protocol.
+
+Factorial finite differences are iterated integrals of the corresponding
+mixed derivatives; \cref{cor:factorial-contrast} states the general identity.
+In particular,
+\begin{equation}
+  \delta_{\{i,j\}}\bar E
+  =-
+  \int_0^1\!\int_0^1
+  \left\langle D_\sigma\Delta_i,
+  H^{-1}D_\sigma\Delta_j\right\rangle
+  \,\dd u_i\,\dd u_j,
+  \label{eq:pair-factorial-integral}
+\end{equation}
+where all quantities are evaluated along the canonical minimizer with the
+other amplitudes fixed at zero.
+The integral may vanish by cancellation even when pointwise interaction does
+not.  Reduction must precede finite differencing; the counterexample and the
+exact commuting special case are given in \cref{app:finite-contrasts}.
+
+\subsection{Action-fiber specialization}
+
+The global action chart makes the same response tensor computational.  For
+fixed \(B\in\Bact\), perturb the canonical fiber objective by
+\begin{equation}
+  F_B(\Sigma,u)
+  =f_B(\Sigma)+\sum_{i=1}^p u_i\Delta_i(B,\Sigma),
+  \qquad \Sigma\in\mathscr P_{d-m}.
+  \label{eq:perturbed-action-fiber}
+\end{equation}
+Let \(H_B=\operatorname{Hess}f_B(\Sigma_\star)\) and
+\(G_Ba=\sum_i a_iD_\Sigma\Delta_i(B,\Sigma_\star)\).  Strong convexity of
+the action objective gives \(H_B\succeq\operatorname{Id}\) as a self-adjoint
+operator with respect to the AIRM metric.  For an intrinsic perturbation,
+we require the natural complement-frame covariance
+\(\Delta_{i,VR}(B,R^\top\Sigma R)=\Delta_{i,V}(B,\Sigma)\); otherwise the
+chosen \(\Delta_i\) deliberately selects a hidden frame.
+Derivatives with respect to \(B\) use the natural affine structure of the open
+matrix domain \(\Bact\subset\mathbb R^{d\times m}\).
+
+\begin{corollary}[Interaction response of the canonical action controller]
+\label{cor:action-interaction-response}
+Assume the \(\Delta_i\) are \(C^2\) near \(\Sigma_\star\).  For sufficiently
+small \(u\), there is a unique critical point \(\Sigma_\star(B,u)\) near
+\(\Sigma_\star\); it is a strict local minimizer.  Define the corresponding
+local value branch by
+\(\bar F_B^{\rm loc}(u)=F_B(\Sigma_\star(B,u),u)\).  Then
+\begin{equation}
+  D_u\Sigma_\star(B,0)=-H_B^{-1}G_B,
+  \qquad
+  D^2_{uu}\bar F_B^{\rm loc}(0)
+  =-G_B^*H_B^{-1}G_B.
+  \label{eq:action-interaction-response}
+\end{equation}
+The same inverse vertical Hessian \(H_B^{-1}\) governs the hidden-coordinate
+response to the visible action \(B\).  The full section derivative also
+contains the chart's direct term:
+\[
+  D_Bs_A=D_B\Phi_A+D_\Sigma\Phi_A[D_B\Sigma_\star].
+\]
+Thus interaction curvature, action susceptibility, and the residual solver
+are local response, base response, and computation for one canonical fiber
+problem.
+\end{corollary}
+
+This response statement is local in the perturbation.  A global perturbed
+minimum requires separate coercivity or growth control on the \(\Delta_i\).
+
+\begin{proof}
+At \((\Sigma_\star,0)\), the derivative in \(\Sigma\) of the stationarity
+equation is the invertible operator \(H_B\).  The implicit-function theorem
+therefore gives the unique nearby critical branch; continuity of its Hessian
+makes it a strict local minimum after shrinking the \(u\)-neighborhood.
+Differentiating stationarity and then the local value branch gives
+\cref{eq:action-interaction-response}.  The covariance law makes this branch
+independent of complement coordinates.  Differentiation with respect to \(B\)
+uses the same stationarity equation with \(E_{\Sigma B}\) in place of \(G_B\).
+\end{proof}

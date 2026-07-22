@@ -1,0 +1,109 @@
+\section{Introduction}
+
+Positive-definite preconditioners define the geometry in which an optimization
+method converts gradients into motion.  A full matrix can reshape every
+direction, whereas practical methods often restrict the geometry to diagonal,
+block, Kronecker, or low-rank structure.  The restriction creates two matrix
+problems.  The first asks whether the family can reach a prescribed
+Hessian-relative condition number.  The second asks which structured geometry
+is nearest to a given full matrix.  These objectives are related, but they
+need not select the same matrix.
+
+Let \(H\in\SPD^d\) and let \(G\in\SPD^d\) be a candidate geometry.  The
+preconditioned condition number is
+\[
+  \kappa(G^{-1}H)
+  =
+  \kappa(H^{-1/2}GH^{-1/2}).
+\]
+We measure matrix displacement with the affine-invariant distance
+\[
+  d_{\AI}(G_0,G_1)
+  =
+  \fro{\log(G_0^{-1/2}G_1G_0^{-1/2})}.
+\]
+This metric is congruence invariant and turns the SPD cone into a Hadamard
+manifold.  It therefore supplies unique projection onto closed geodesically
+convex sets and a natural intrinsic geometry for structured matrix families.
+
+Our first layer treats spectral targets.  For \(H_a\succ0\), let
+\[
+  \Omega_a(G)
+  =
+  \phi_a\!\left(
+  \log\lambda(G^{-1/2}H_aG^{-1/2})
+  \right),
+\]
+where \(\phi_a\) is convex and permutation invariant.  Coordinatewise
+nondecreasing convex aggregation preserves geodesic convexity.  This class
+contains log condition number and smooth spectral surrogates.  Its sublevel
+sets have unique affine-invariant projection, an explicit exact penalty under
+a Slater margin, and a proximal iteration with a global contraction bound.
+For closed geodesically convex smooth families, optimality is equivalent to
+the whitened spectral subgradient lying in the normal space.
+
+The second layer gives family-specific certificates.  Diagonal and fixed-block
+families reach a threshold \(K\) exactly when a structured positive matrix
+\(E\) satisfies
+\[
+  E\preceq H\preceq KE.
+\]
+This is an LMI feasibility problem and admits explicit dual obstructions.
+For Kronecker metrics, the factorization \(G=A\otimes B\) has a scale gauge:
+\((cA)\otimes(c^{-1}B)=A\otimes B\).  After quotienting that gauge, we derive
+the intrinsic affine-invariant line element and distance, prove that the
+Kronecker set is a complete totally geodesic manifold, and characterize its
+nearest-point projection by partial-trace normal equations.
+
+The projection geometry exposes the paper's central structural distinction.
+The nearest
+Kronecker point to \(H\) minimizes \(d_{\AI}(G,H)\), whereas the best
+Kronecker preconditioner minimizes \(\kappa(G^{-1}H)\).  We prove an exact
+criterion for when the unique projection is a condition-number minimizer, in
+terms of the tensor marginals of the extreme eigenspaces of the relative
+matrix.  We also turn the criterion into a quantitative marginal-mismatch
+residual and a strict descent direction.  Two relative spectral levels force
+the criterion.  Independently, every \(2\times2\) Kronecker projection is
+condition-optimal, while an explicit \(2\times3\) example gives the
+dimension-minimal strict separation.
+
+\paragraph{Contributions.}
+The paper makes four main contributions.
+
+\begin{enumerate}[leftmargin=*,itemsep=0.25em]
+  \item We characterize exactly when the unique AIRM-nearest Kronecker matrix
+  is also condition-optimal, express the criterion through extreme-state
+  tensor marginals, derive a computable mismatch/descent certificate, prove
+  projection optimality for every two-level relative spectrum and every
+  \(2\times2\) problem, and exhibit dimension-minimal strict separation in
+  \(2\times3\).
+
+  \item Building on the established Fisher/AIRM quotient geometry of
+  Kronecker covariances, we prove global projection normal equations and give
+  residual point-error, objective-gap, threshold, and projection-suboptimality
+  certificates together with an Armijo solver.
+
+  \item We place these results inside a geodesically convex log-spectral
+  target framework with a global normal-response law, exact penalty,
+  proximal contraction, and a sharp scale-closed distance lower bound.  The
+  full Kronecker certificate admits an interval-safe form when validated
+  enclosures of the numerical inputs are supplied.
+
+  \item As supporting comparisons, we restate classical diagonal and block
+  reachability as Loewner-sandwich LMIs in the same target-distance notation,
+  record dual and fixed-basis obstructions, and validate the matrix identities
+  with deterministic, randomized, and independent-oracle checks.
+\end{enumerate}
+
+The geometric objects are motivated by diagonal adaptive methods, K-FAC,
+Shampoo, and factored statistics, but the exact claims are deterministic
+finite-dimensional matrix statements.  Small-SPD experiments verify
+projection residuals, reachability, dual obstructions, and strict separation;
+they are not used as optimizer-ranking evidence.
+
+\paragraph{Organization.}
+\Cref{sec:related} reviews SPD geometry, scaling, and Kronecker approximation.
+\Cref{sec:information-rdgc} develops spectral targets and normal response.
+\Cref{sec:diag-block} gives diagonal and block certificates.
+\Cref{sec:kron-lowrank} develops Kronecker projection and separation.
+\Cref{sec:verification,sec:discussion} give verification and scope.

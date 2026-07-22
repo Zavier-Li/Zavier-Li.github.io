@@ -1,0 +1,308 @@
+\section{Proofs for the SPD Specialization and Diagonal Model}
+\label{app:spd-diagonal-proofs}
+
+\begin{proof}[Proof of \cref{thm:full-spd-benchmark}]
+Let \(S_1\in\Ck\), and let \(z_1\le\cdots\le z_d\) be its ordered
+log-eigenvalues.  The affine-invariant distance satisfies the spectral lower
+bound
+\[
+  d_{\AI}(S_0,S_1)\ge\norm{y-z}_2
+\]
+\cite{bhatia2007positive}.  Since \(S_1\in\Ck\), the vector \(z\) has
+width at most \(\log K\), so \(z_i\in[c,c+\log K]\) for some \(c\).
+Therefore
+\[
+  d_{\AI}(S_0,S_1)^2
+  \ge
+  \sum_{i=1}^d\dist(y_i,[c,c+\log K])^2.
+\]
+
+Conversely, fix \(c\) and set
+\[
+  z_i(c)=\Pi_{[c,c+\log K]}(y_i).
+\]
+Choose \(S_1\) with the same eigenvectors as \(S_0\) and log-eigenvalues
+\(z_i(c)\).  Then \(S_1\in\Ck\), the matrices commute, and
+\(d_{\AI}(S_0,S_1)=\norm{y-z(c)}_2\).  Minimizing over \(c\) proves the
+formula.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:hard-condition-response}]
+Simplicity of the extreme generalized eigenvalues makes \(c_u|_{\F}\)
+smooth near \((u_0,q_0)\).  For each fixed \(u\), geodesic convexity of the
+log-condition number makes \(\mathcal T_u\) geodesically convex.  The AIRM
+projection is therefore unique, and the fixed-horizon kinetic minimizer is the
+constant-speed geodesic to that projection by
+\cref{prop:rdgc-target-projection,thm:length-energy-gauge}.
+
+Since \(G_0\) lies outside the target, the endpoint constraint is active.
+Regularity of its restricted differential gives LICQ.  Projection
+transversality has the form
+\[
+  \dot\gamma_{u_0}(T)
+  +\lambda_0\operatorname{grad}^{\AI}(c_{u_0}|_{\F})(q_0)=0.
+\]
+The multiplier is positive: if it vanished, the terminal velocity and hence
+the constant speed would vanish, contradicting
+\(G_0\notin\mathcal T_{u_0}\).
+
+The second variation of the endpoint Lagrangian is
+\[
+  \int_0^T\left(
+  \norm{D_t\xi}^2
+  -\ip{R^{\AI}(\xi,\dot\gamma)\dot\gamma}{\xi}
+  \right)\dd t
+  +\lambda_0\operatorname{Hess}^{\AI}(c_{u_0}|_{\F})
+  [\xi(T),\xi(T)].
+\]
+Nonpositive curvature and geodesic convexity make the last two contributions
+nonnegative, so this form is coercive in the fixed-initial derivative norm.
+All hypotheses of \cref{thm:hard-target-jacobi} hold.  Its implicit branch is
+the unique global projection branch because the endpoint objective is
+strictly convex and \(\mathcal T_u\) is convex.  The value identity follows
+from the length--energy gauge, and the response and Hessian formulas follow
+from \textup{(HT4)}--\textup{(HT6)}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:rdgc-target-projection}]
+The function \(G\mapsto\log\kappa(G)\) is geodesically convex on the SPD
+cone, so \(\Ck\) is closed and geodesically convex.  Hence
+\(\mathcal T_{K,\F}(H)\) is closed and geodesically convex.  A nonempty
+closed geodesically convex subset of a finite-dimensional Hadamard manifold
+has a unique metric projection.  The geodesic from \(S_0\) to this projection
+stays inside \(\mathcal S_\F(H)\) and has length equal to the metric
+distance; every admissible curve has length at least the distance between its
+endpoints.  This proves the RDGC identity and uniqueness.
+
+For a remaining horizon \(h=T-t\), Cauchy--Schwarz gives
+\[
+  \frac12\int_t^T\norm{\dot\gamma_s}^2\,\dd s
+  \ge
+  \frac{\Len(\gamma)^2}{2h}
+  \ge
+  \frac{d_{\AI}(S,\mathcal T_{K,\F}(H))^2}{2h}.
+\]
+The constant-speed geodesic to the projection attains equality.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:spd-spectral-convexity}]
+For \(A,B\in\SPD^d\), \(t\in[0,1]\), and \(1\le k\le d\), exterior powers
+commute with the weighted geometric mean.  Monotonicity of that mean yields
+\[
+  \prod_{i=1}^k\lambda_i^\downarrow(A\#_tB)
+  \le
+  \prod_{i=1}^k
+  \lambda_i^\downarrow(A)^{1-t}
+  \lambda_i^\downarrow(B)^t.
+\]
+Equality holds for \(k=d\).  After taking logarithms,
+\begin{equation}
+  \log\lambda(A\#_tB)
+  \prec
+  (1-t)\log\lambda(A)+t\log\lambda(B).
+  \tag{B.1}
+\end{equation}
+
+Fix \(H\succ0\), let \(G_t=G_0\#_tG_1\), and set
+\(A_i=H^{-1/2}G_iH^{-1/2}\).  Congruence is an affine-invariant isometry and
+preserves geometric means.  The relative eigenvalues
+\(G^{-1/2}HG^{-1/2}\) are the reciprocals of those of
+\(H^{-1/2}GH^{-1/2}\).  Multiplication by \(-1\) preserves majorization, and
+a convex permutation-invariant function is Schur convex.  Applying
+\textup{(B.1)} and ordinary convexity of \(\phi\) gives
+\[
+  \Omega_{\phi,H}(G_t)
+  \le
+  (1-t)\Omega_{\phi,H}(G_0)
+  +t\Omega_{\phi,H}(G_1).
+\]
+Coordinatewise monotonicity followed by convexity of \(\rho\) proves the
+claim for \(\mathcal J\).  Closedness follows from continuity of the
+finite-dimensional convex spectral functions.  Finally,
+\[
+  \log\lambda((cG)^{-1/2}H(cG)^{-1/2})
+  =
+  \log\lambda(G^{-1/2}HG^{-1/2})-(\log c)\mathbf1,
+\]
+which proves scale invariance.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:2d-diag}]
+For \(D(u)=\diag(e^{u/2},e^{-u/2})\),
+\[
+  \log D(u)=\diag(u/2,-u/2),
+\]
+so the induced line element is \(\dd s^2=\frac12\,\dd u^2\).
+Let
+\[
+  A(u)=D(u)^{-1/2}HD(u)^{-1/2}.
+\]
+Because \(\det D(u)=1\), one has \(\det A(u)=\det H\).  If the eigenvalues
+of \(A(u)\) are \(\mu\le\nu\), the condition \(\nu/\mu\le K\) with
+fixed product \(\mu\nu=\det H\) is equivalent to
+\[
+  \mu+\nu
+  \le
+  \left(\sqrt K+\frac1{\sqrt K}\right)\sqrt{\det H}
+  =R_K.
+\]
+Moreover,
+\[
+  \tr A(u)=H_{11}e^{-u/2}+H_{22}e^{u/2}.
+\]
+With \(x=e^{u/2}\), the target condition is
+\[
+  H_{22}x^2-R_Kx+H_{11}\le0.
+\]
+Below \(K_{\diag}^\ast(H)\) the feasible set is empty.  Otherwise its roots
+are \(x_\pm(K)\), so the feasible set in \(u\)-coordinates is
+\([2\log x_-(K),2\log x_+(K)]\).  The one-dimensional line element gives
+the claimed distance.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:diag-forced-response}]
+Write every admissible path as
+\[
+  v(t)=v_0(t)+\eta(t),
+  \qquad
+  v_0(t)=u_0+\frac{q-u_0}{T}t,
+  \qquad
+  \eta\in H_0^1(0,T).
+\]
+The vertical second variation is
+\[
+  D_{vv}^2\mathfrak A[h,k]
+  =\frac12\int_0^T\dot h(t)\dot k(t)\,\dd t,
+\]
+which is coercive on \(H_0^1(0,T)\).  The weak Euler--Lagrange equation is
+\[
+  \frac12\int_0^T\dot v_a\dot h\,\dd t
+  =
+  a_1\int_0^T h\,\dd t
+  +a_2\int_0^T\frac{t}{T}h\,\dd t.
+\]
+The affine path \(v_0\) has zero weak second derivative, while
+\[
+  -\frac12w_1''=1,
+  \qquad
+  -\frac12w_2''=\frac{t}{T},
+  \qquad
+  w_i(0)=w_i(T)=0.
+\]
+Thus the displayed \(v_a\) is the unique global minimizer.
+
+At \(a=0\),
+\[
+  \mathfrak A(v_0;0)
+  =\frac{(q-u_0)^2}{4T}
+  =\frac{D_{K,\diag}^{2D}(u_0;H)^2}{2T}.
+\]
+The envelope identity gives
+\[
+  \partial_{a_i a_j}^2\Val
+  =-\int_0^T f_i(t)w_j(t)\,\dd t,
+  \qquad
+  f_1(t)=1,
+  \quad f_2(t)=t/T.
+\]
+Direct integration yields
+\[
+  \int_0^T w_1\,\dd t=\frac{T^3}{6},
+  \qquad
+  \int_0^T w_2\,\dd t
+  =\int_0^T\frac{t}{T}w_1\,\dd t=\frac{T^3}{12},
+\]
+and
+\[
+  \int_0^T\frac{t}{T}w_2\,\dd t=\frac{2T^3}{45}.
+\]
+The determinant of the positive matrix in \textup{(D2)} is \(1/2160\), so
+it is positive definite and \(D_a^2\Val\prec0\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:diag-moving-hard-target}]
+For the diagonal Hessian and metric in the theorem,
+\[
+  D(v)^{-1/2}H_uD(v)^{-1/2}
+  =\diag\left(e^{(\rho(u)-v)/2},e^{(v-\rho(u))/2}\right).
+\]
+Hence
+\[
+  \log\kappa_{\rm gen}(H_u,D(v))=|v-\rho(u)|,
+\]
+and the hard target in the \(v\)-coordinate is the interval
+\([\rho(u)-\log K,\rho(u)+\log K]\).  Assumption \textup{(D3)} keeps
+\(v_0\) strictly above this interval throughout \(\mathcal U_0\), so its
+projection is the upper endpoint \(q_u\).  The unique kinetic minimizer is the
+straight path in \textup{(D4)}, and direct integration gives the displayed
+value.
+
+On this active stratum use
+\[
+  c_u(v)=v-\rho(u)-\log K\le0.
+\]
+The endpoint first variation is
+\(\frac12\dot v_u(T)\xi(T)\).  KKT transversality therefore reads
+\[
+  \frac12\dot v_u(T)+\lambda_u=0,
+\]
+which gives the positive multiplier in \textup{(D4)}.  Differentiating the
+closed forms gives the path and multiplier responses in \textup{(D5)}.  Since
+\(q_u\) is affine,
+\[
+  \partial_{u_i u_j}^2\mathcal V_{\rm hard}
+  =\frac{b_i b_j}{2T}.
+\]
+This mixed derivative is constant on every Boolean face, so two applications
+of the coordinate fundamental theorem of calculus prove \textup{(D6)}.
+Finally, \(c_u\) is affine in \(u\), its endpoint differential is one, the
+multiplier stays positive by \textup{(D3)}, and the kinetic Jacobi form is
+coercive.  These are exactly the full-face hypotheses of
+\cref{thm:hard-target-jacobi,cor:hard-condition-response}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:sequential-diagonal-rdgc}]
+The AIRM line element in the log-coordinate chart is
+\[
+  \dd s^2
+  =\dd x_1^2+\dd x_2^2+(\dd x_1+\dd x_2)^2.
+\]
+Along a sequential path this reduces to
+\(\dd s=\sqrt2|\dd x_i|\) on every coordinate segment.  Hence every such
+path from \(x\) to \(y\) has length at least
+\[
+  \sqrt2\left(
+  |y_1-x_1|+|y_2-x_2|\right).
+\]
+Changing the first coordinate monotonically and then the second attains this
+bound, proving the transition-distance formula in \textup{(D7)}.  The three
+log-eigenvalues of \(D_3(y)\) are \(y_1,y_2,-y_1-y_2\), so its condition
+target is exactly \(\mathcal H_k\).  Minimization of the transition distance
+over that target proves the RDGC formula.
+
+For \(x_0=(a,a)\), symmetry and convexity give a symmetric ambient AIRM
+projection.  On the line \(y_1=y_2=s\), the target condition is
+\(3|s|\le k\), so the projection is \(q=(k/3,k/3)\).  The same point minimizes
+the \(\ell_1\) distance: for every \(y\in\mathcal H_k\),
+\[
+  2y_1+y_2\le k,
+  \qquad
+  y_1+2y_2\le k,
+\]
+and hence \(y_1+y_2\le2k/3\).  Since
+\(|a-y_i|\ge a-y_i\),
+\[
+  \norm{x_0-y}_1
+  \ge2a-y_1-y_2
+  \ge2\left(a-\frac{k}{3}\right),
+\]
+with equality at \(q\).  Finally,
+\[
+  d_{\AI}(D_3(x_0),D_3(q))^2
+  =2\left(a-\frac{k}{3}\right)^2
+   +4\left(a-\frac{k}{3}\right)^2,
+\]
+which gives \textup{(D8)} and the strict ratio.
+\end{proof}
+
+

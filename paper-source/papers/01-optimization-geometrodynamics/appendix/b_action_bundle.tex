@@ -1,0 +1,230 @@
+\section{Proof of the Global SPD Action Bundle}
+\label{app:action-bundle}
+
+\begin{proof}[Proof of \cref{thm:action-bundle}]
+We proceed in seven steps.
+
+\paragraph{Step 1: coordinates on the action base.}
+Put \(Y=BC^{-1}\).  Since \(Q=[U,V]\) is orthogonal,
+\[
+  Y=UM+VN,
+  \qquad M=U^\top Y,
+  \qquad N=V^\top Y.
+\]
+Moreover,
+\[
+  A^\top B=C^\top M C,
+\]
+so \(A^\top B\in\SPD^m\) exactly when \(M\in\SPD^m\).  The map
+\(B\mapsto(M,N)\) has the analytic inverse
+\begin{equation}
+  B=(UM+VN)C.
+  \label{eq:appendix-base-inverse}
+\end{equation}
+Thus \(\Bact\cong\SPD^m\times\mathbb R^{n\times m}\).
+
+\paragraph{Step 2: every SPD completion.}
+Suppose \(P\in\SPD^d\) satisfies \(PA=B\).  Because \(A=UC\), this is
+equivalent to \(PU=Y\).  In the \(Q\) coordinates, symmetry fixes the first
+block row and column:
+\[
+  \widehat P:=Q^\top P Q
+  =\begin{pmatrix}M&N^\top\\N&D\end{pmatrix}.
+\]
+The Schur-complement criterion gives
+\[
+  \widehat P\succ0
+  \quad\Longleftrightarrow\quad
+  S:=D-NM^{-1}N^\top\succ0.
+\]
+With \(T=NM^{-1}\), every positive solution and only such a solution is
+\begin{equation}
+  \widehat P
+  =L\begin{pmatrix}M&0\\0&S\end{pmatrix}L^\top.
+  \label{eq:appendix-all-completions}
+\end{equation}
+Since \(\det L=1\),
+\[
+  \det P=\det M\det S.
+\]
+The determinant-one constraint is therefore equivalent to
+\[
+  S=\rho\Sigma,
+  \qquad \rho=(\det M)^{-1/n},
+  \qquad \det\Sigma=1,
+\]
+which is exactly \cref{eq:action-bundle-map}.  Conversely, direct block
+multiplication and \cref{eq:appendix-base-inverse} give
+\[
+  \Phi_A(B,\Sigma)A
+  =Q\begin{pmatrix}M\\N\end{pmatrix}C=B.
+\]
+
+\paragraph{Step 3: analytic inverse.}
+Given \(P\in\Pdet\), recover \(B=PA\), then \(M(B),N(B)\), and the unique
+Schur complement
+\[
+  S=D-NM^{-1}N^\top.
+\]
+The unique determinant-one hidden coordinate is
+\begin{equation}
+  \Sigma=(\det M)^{1/n}S.
+  \label{eq:appendix-hidden-inverse}
+\end{equation}
+All operations are analytic on their SPD domains.  Thus \(\Phi_A\) is a
+global analytic diffeomorphism and \(\pi_A\) is projection onto its first
+factor.
+
+\paragraph{Step 4: fiber geometry.}
+Fix \(B\).  Before congruence by \(QL\), the fiber is
+\[
+  \mathcal C_B
+  =\{\operatorname{diag}(M,\rho\Sigma):\Sigma\in\mathscr P_n\}.
+\]
+The ambient AIRM geodesic between two such points is
+\[
+  \operatorname{diag}(M,\rho\Sigma_0)
+  \#_t
+  \operatorname{diag}(M,\rho\Sigma_1)
+  =\operatorname{diag}(M,\rho(\Sigma_0\#_t\Sigma_1)).
+\]
+Because log determinant is affine along AIRM geodesics,
+\(\det(\Sigma_0\#_t\Sigma_1)=1\).  Hence the fiber is totally geodesic.
+It is closed, and block distance splitting gives
+\[
+  \dai(\operatorname{diag}(M,\rho\Sigma_0),
+       \operatorname{diag}(M,\rho\Sigma_1))
+  =\dai(\Sigma_0,\Sigma_1).
+\]
+Congruence by \(QL\) is an AIRM isometry, proving all fiber claims.
+
+\paragraph{Step 5: canonical projection and analyticity.}
+The determinant-one SPD slice is a finite-dimensional Hadamard manifold.  A
+nonempty closed geodesically convex set has a unique metric projection, so
+\cref{eq:canonical-controller} defines a global section.
+
+In the global coordinates define
+\[
+  F(B,\Sigma)=\frac12\fro{\log\Phi_A(B,\Sigma)}^2.
+\]
+This function is analytic.  For fixed \(B\), its hidden variable parameterizes
+an isometric totally geodesic fiber.  Squared distance to \(I\), restricted to
+that fiber, is strongly geodesically convex.  At the unique critical point the
+vertical Hessian is positive definite.  The analytic implicit-function theorem
+therefore gives a local analytic minimizer \(\Sigma_\star(B)\); global
+uniqueness makes these local sections agree.  Hence
+\[
+  s_A(B)=\Phi_A(B,\Sigma_\star(B))
+\]
+and \(\mathfrak C_A(B)^2=2F(B,\Sigma_\star(B))\) are analytic.
+
+\paragraph{Step 6: equivariance.}
+For \(D\in\operatorname{GL}_m\),
+\[
+  P(AD)=BD\quad\Longleftrightarrow\quad PA=B,
+\]
+so the two action fibers are identical and have the same unique projection.
+For \(R\in O(d)\),
+\[
+  PA=B
+  \quad\Longleftrightarrow\quad
+  (RPR^\top)(RA)=RB.
+\]
+Orthogonal congruence preserves determinant and distance to \(I\), so
+uniqueness gives \cref{eq:controller-equivariance}.
+
+\paragraph{Step 7: normal equation and certificate.}
+Congruence invariance reduces the hidden objective to
+\[
+  f_B(\Sigma)=\frac12\dai(R_0,\mathcal Q_\Sigma)^2.
+\]
+We use the convention that a function is \(1\)-strongly geodesically convex
+when every constant-speed geodesic \(\gamma_t\) satisfies
+\begin{equation}
+  f(\gamma_t)
+  \le (1-t)f(\gamma_0)+t f(\gamma_1)
+  -\frac12t(1-t)d(\gamma_0,\gamma_1)^2.
+  \label{eq:cat0-strong-convexity-convention}
+\end{equation}
+On a CAT(0) space this inequality holds for
+\(f(\cdot)=\tfrac12d(\cdot,R_0)^2\).  The AIRM SPD manifold is Hadamard, and
+restriction to the isometric totally geodesic determinant-one fiber preserves
+the same constant \cite{bhatia2007positive,lim2004best}.
+A whitened tangent to the determinant-one hidden block has the form
+\[
+  Z=\begin{pmatrix}0&0\\0&Z_{22}\end{pmatrix},
+  \qquad Z_{22}=Z_{22}^\top,
+  \qquad \tr Z_{22}=0.
+\]
+The whitened negative gradient is the tangent projection of
+\(\mathcal R(\Sigma)\) in \cref{eq:action-residual}.  Orthogonality to every
+trace-free \(Z_{22}\) is exactly
+\(\mathcal R_{22}(\Sigma)^\circ=0\).  Strong convexity makes this condition
+necessary and sufficient.
+
+Let \(D=\dai(\Sigma,\Sigma_\star)\), let
+\(\xi=\operatorname{Log}_\Sigma(\Sigma_\star)\), and let \(V(\Sigma)\) be the restricted
+negative gradient.  The first-order form of
+\cref{eq:cat0-strong-convexity-convention} gives
+\[
+  f_B(\Sigma)-f_B(\Sigma_\star)
+  \le \langle V(\Sigma),\xi\rangle-\frac12D^2
+  \le\norm{V(\Sigma)}D-\frac12D^2,
+\]
+while the same inequality based at the minimizer, whose gradient vanishes,
+gives
+\[
+  f_B(\Sigma)-f_B(\Sigma_\star)\ge\frac12D^2.
+\]
+Adding the two bounds yields
+\[
+  D^2\le\norm{V(\Sigma)}D,
+\]
+and hence, also for \(D=0\),
+\[
+  D\le\norm{V(\Sigma)}
+  =\fro{\mathcal R_{22}(\Sigma)^\circ}.
+\]
+Finally,
+\[
+  f_B(\Sigma)-f_B(\Sigma_\star)
+  \le \sup_{D\ge0}
+  \left(\norm{V(\Sigma)}D-\frac12D^2\right)
+  =\frac12\norm{V(\Sigma)}^2.
+\]
+This proves the exact constants in
+\cref{eq:action-distance-certificate,eq:action-value-certificate}.
+\end{proof}
+
+\subsection{Proof of active reduction}
+
+Let \(J\) be the orthogonal reflection that equals \(+I\) on \(W\) and
+\(-I\) on \(W^\perp\).  Since the columns of \(A\) and \(B\) lie in \(W\),
+\[
+  JA=A,
+  \qquad JB=B.
+\]
+If \(P\in\Pfiber(B)\), then \((JPJ)A=B\), and \(JPJ\) has the same
+determinant and distance from \(I\) as \(P\).  Uniqueness of the canonical
+controller yields
+\[
+  Js_A(B)J=s_A(B).
+\]
+Hence the cross blocks between \(W\) and \(W^\perp\) vanish:
+\(s_A(B)=H_\star\oplus C_\star\).
+
+For fixed feasible \(H\), the inactive log-eigenvalues \(z_i\) satisfy
+\[
+  \sum_{i=1}^qz_i=-\log\det H.
+\]
+Cauchy--Schwarz gives
+\[
+  \fro{\log C}^2=\sum_i z_i^2
+  \ge\frac{(\log\det H)^2}{q},
+\]
+with equality exactly when all \(z_i\) are equal.  Thus
+\[
+  C_\star=(\det H_\star)^{-1/q}I_q,
+\]
+and substitution yields \cref{eq:active-controller-problem}.  Uniqueness
+follows from uniqueness of \(s_A(B)\).

@@ -1,0 +1,96 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Variational optimization and optimal control.}
+Continuous-time optimization has been studied through gradient flows,
+accelerated ODEs, Bregman Lagrangians, mirror descent, and natural-gradient
+geometry
+\cite{su2016differential,wibisono2016variational,krichene2015accelerated,
+beck2003mirror,amari1998natural}.  Our controlled variable is the metric
+itself, the terminal set is determined by preconditioning quality, and the
+value measures the intrinsic deformation required to reach that set.
+
+Min-plus semigroups, dynamic programming, and Hamilton--Jacobi equations are
+classical in optimal control \cite{fleming2006controlled}.  Geometric control
+also supplies the classical second variation, Jacobi fields, and conjugate
+point analysis \cite{agrachev2004control}.  We use these ingredients as the
+analytic foundation for a different reduction target: an entire metric path
+ending at a preconditioning-quality set.  The new response statements are the
+intervention-cube Green representation and its bordered hard-target analogue.
+
+\paragraph{Parametric optimization and Jacobi response.}
+Reduced Hessians, variable projection, solution-map sensitivity, and implicit
+differentiation eliminate optimized variables through Schur complements
+\cite{golub1973differentiation,bonnans2000perturbation,
+dontchev2014implicit,amos2017optnet,blondel2022efficient,
+franceschi2018bilevel}.  We do not claim the generic finite-dimensional Schur
+formula as new.  The contribution is its coercive path-Hilbert realization,
+the derivation of that coercivity from Hadamard geometry on an entire
+intervention neighborhood, the joint bulk/terminal Green operator, and the
+resulting finite- and arbitrary-order interaction formulas.  For an active hard
+terminal inequality, the closest general framework is parametric constrained
+optimization and generalized equations
+\cite{bonnans2000perturbation,dontchev2014implicit}; our bordered theorem
+identifies the derivative explicitly as a Jacobi--KKT boundary operator and
+specializes it to the moving condition-number projection.
+
+Jacobi fields and index forms classically describe variations of geodesics.
+Here the Jacobi operator contains kinetic, curvature, bulk-potential, and
+terminal Robin terms.  Nonpositive curvature contributes a nonnegative term
+to the index form, allowing global control even when the convex potentials
+have linear negative growth.
+
+The finite-dimensional companion theory already contains the generic hidden
+response, Schur reduced Hessian, affine-intervention negative Gram operator,
+and its pair finite-difference integral
+\cite{li2026optimizationgeometrodynamics}.  The local formulas in
+\cref{thm:path-schur,cor:path-interaction} are their Hilbert-path lift and are
+used here as infrastructure.  The additions proved in this paper are the
+Hadamard hypotheses that derive global path existence, uniqueness, and
+cube-wide coercivity; the strong Green--Jacobi boundary problem that unifies
+bulk and Robin forcing; arbitrary prescribed finite-order path recursion; and
+the bordered Jacobi--KKT response of a moving hard target.  These conclusions
+are absent from the finite-dimensional companion reduction theorem.
+
+\paragraph{Positive-definite geometry and structured preconditioning.}
+The affine-invariant geometry of positive-definite matrices supplies the
+distance, exponential map, and nonpositive curvature used in the SPD
+specialization
+\cite{bhatia2007positive,pennec2006riemannian,higham2008functions}.
+Geodesic convex analysis and metric projection on Hadamard spaces are
+developed in
+\cite{sra2015conic,lim2004best,bacak2014convex}.
+Smoothness on a fixed simple-eigenvalue stratum and loss of classical
+differentiability at spectral multiplicities follow the spectral-function
+theory in \cite{lewis1996derivatives,lewis2001twice,lewis2003eigenvalue}.
+
+Classical equilibration and condition-number minimization optimize an endpoint
+scaling or matrix approximation
+\cite{vandersluis1969equilibration,marechal2009optimizing,
+lu2011minimizing,diamond2016stochastic,tanaka2013positive,
+qu2024optimal,dogan2025geodesicpreconditioning}.  These works clarify the
+endpoint benchmark addressed by \cref{thm:full-spd-benchmark}.  RDGC adds the
+initial metric and an admissible path geometry; its hard-target theorem
+differentiates the projection path in addition to the endpoint condition
+number.
+
+Diagonal, block, and Kronecker preconditioners arise in adaptive and
+second-order optimization
+\cite{duchi2011adagrad,kingma2014adam,shazeer2018adafactor,
+martens2015kfac,grosse2016kfc,gupta2018shampoo,anil2020scalable}.
+These algorithms motivate restricted metric families, but a concrete
+optimizer-to-path statement must additionally specify the optimizer state,
+damping, bias correction, step map, and interpolation.  RDGC is conditional
+on that realization and measures the geometric effort once it has been
+declared.
+
+\paragraph{Finite interaction decompositions.}
+Boolean and factorial interactions can be represented by finite differences,
+M\"obius coefficients, and higher-order attribution indices
+\cite{pukelsheim2006optimal,dasgupta2015causal,dhamdhere2020shapley,
+janizek2021explaining}.  The result here is a path-geometric representation:
+the pair coefficient is a cube-face integral of an inverse-Jacobi Gram kernel,
+conditional effects use the same kernel on subfaces, and all higher
+coefficients follow from one Green recursion.
+
+

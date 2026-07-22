@@ -1,0 +1,1333 @@
+\section{Proofs for Spectral Targets and Structured Families}
+\label{app:matrix-proofs}
+
+\begin{proof}[Proof of \cref{thm:full-spd-benchmark}]
+Let \(S_1\in\Ck\), and let \(z_1\le\cdots\le z_d\) be the ordered
+log-eigenvalues of \(S_1\). The affine-invariant distance satisfies the
+spectral lower bound
+\[
+  d_{\AI}(S_0,S_1)\ge \norm{y-z}_2,
+\]
+where \(y\) is the ordered log-spectrum of \(S_0\). This is the standard
+eigenvalue majorization lower bound for the affine-invariant metric on
+positive-definite matrices \cite{bhatia2007positive}. Since \(S_1\in\Ck\), the
+vector \(z\) has width at most \(\log K\), so \(z_i\in[c,c+\log K]\) for some
+\(c\). Hence
+\[
+  d_{\AI}(S_0,S_1)^2
+  \ge
+  \sum_{i=1}^d \dist(y_i,[c,c+\log K])^2.
+\]
+Taking the infimum over \(S_1\in\Ck\) gives the lower bound.
+
+For the reverse inequality, fix \(c\) and define
+\[
+  z_i(c)=\Pi_{[c,c+\log K]}(y_i),
+\]
+the scalar projection of \(y_i\) onto the interval. The vector \(z(c)\) has
+width at most \(\log K\). Choose \(S_1\) with the same eigenvectors as \(S_0\)
+and log-eigenvalues \(z_i(c)\). Then \(S_1\in\Ck\) and the commuting
+affine-invariant distance is exactly \(\norm{y-z(c)}_2\). Minimizing over
+\(c\in\R\) proves the formula.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:monotonicity}]
+Under the stated compatibility assumption, every admissible \(\F_1\)-path from
+the common initial point \(S_0\) to the \(\F_1\)-target is also an admissible
+\(\F_2\)-path with the same length. Moreover
+\(\mathcal C_{K,\F_1}(H)\subseteq\mathcal C_{K,\F_2}(H)\). Thus the feasible
+path set for \(\F_2\) contains the feasible path set for \(\F_1\), and the
+infimum cannot increase. Enlarging the target threshold \(K\) similarly
+enlarges the feasible endpoint set. The ambient SPD cone contains every
+admissible restricted path considered in the lower-bound statement, giving
+\(D_{K,\F}\ge D_K\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:submanifold-distance}]
+Under the smooth embedded submanifold assumption, admissible paths are exactly
+absolutely continuous paths in \(\mathcal S_\F(H)\) from \(S_0\) to
+\(\mathcal C_{K,\F}(H)\). The induced length is the ambient affine-invariant
+length restricted to that submanifold. Hence the infimum is the intrinsic
+distance to the target. If no path connects the component of \(S_0\) to the
+target, the intrinsic distance is \(+\infty\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:scale-closed-threshold}]
+We first record the sharp vector inequality used below. For
+\(x\in\R^d\), write
+\[
+  \operatorname{osc}(x)=\max_i x_i-\min_i x_i,\qquad
+  \dist(x,\R\mathbf 1)=\min_{s\in\R}\norm{x-s\mathbf 1}_2.
+\]
+Let \(\tau=\operatorname{osc}(x)\). Translating \(x\) by a scalar multiple of
+\(\mathbf 1\) changes neither side, so assume \(\min_i x_i=0\) and
+\(\max_i x_i=\tau\). Then \(0\le x_i\le\tau\). The squared distance to
+\(\R\mathbf 1\) is \(\sum_i(x_i-\bar x)^2\), which is the variance numerator.
+Among vectors in the box \([0,\tau]^d\), this convex function is maximized at a
+vertex. If \(k\) coordinates equal \(\tau\) and \(d-k\) equal \(0\), then
+\[
+  \sum_i(x_i-\bar x)^2=\frac{k(d-k)}{d}\tau^2
+  \le\frac{\lfloor d^2/4\rfloor}{d}\tau^2.
+\]
+Thus
+\[
+  \operatorname{osc}(x)
+  \ge
+  \sqrt{\frac{d}{\lfloor d^2/4\rfloor}}
+  \dist(x,\R\mathbf 1).
+\]
+The constant is attained by placing \(\lfloor d/2\rfloor\) coordinates at one
+endpoint and the remaining coordinates at the other endpoint.
+
+Now fix \(Q\in\F\) and let
+\[
+  \lambda_i(Q^{-1/2}HQ^{-1/2})=\exp(\ell_i).
+\]
+Then
+\[
+  \log\kappa(Q^{-1}H)=\operatorname{osc}(\ell).
+\]
+Because \(\F\) is scale closed, \(cQ\in\F\) for every \(c>0\). The eigenvalues
+of \(H^{-1/2}(cQ)H^{-1/2}\) are \(\exp(\log c-\ell_i)\), so
+\[
+  \inf_{c>0}d_{\AI}(H,cQ)
+  =
+  \dist(\ell,\R\mathbf 1).
+\]
+The vector inequality gives
+\[
+  \log\kappa(Q^{-1}H)
+  \ge
+  \alpha_d\inf_{c>0}d_{\AI}(H,cQ)
+  \ge
+  \alpha_d d_{\AI}(H,\F).
+\]
+Taking the infimum over \(Q\in\F\) proves the lower bound. Sharpness follows
+from the scale family \(\F=\{cI:c>0\}\) and any equality vector in the sharp
+oscillation-distance inequality, used as the log-spectrum of \(H\).
+\end{proof}
+
+\begin{proof}[Proof of
+\cref{thm:structured-log-spectral-mother,thm:restricted-geometrodynamic-mother}]
+We first prove the log-majorization statement that drives the theorem. For
+\(A,B\in\SPD^d\), \(t\in[0,1]\), and \(1\le k\le d\), the exterior-power
+representation commutes with the weighted geometric mean:
+\[
+  \bigwedge^k(A\#_tB)
+  =
+  \left(\bigwedge^kA\right)\#_t
+  \left(\bigwedge^kB\right).
+\]
+For positive-definite \(X,Y\), monotonicity of the geometric mean gives
+\[
+  \norm{X\#_tY}_{\mathrm{op}}
+  \le
+  \norm{X}_{\mathrm{op}}^{1-t}
+  \norm{Y}_{\mathrm{op}}^t,
+\]
+because \(X\preceq\norm{X}_{\mathrm{op}}I\) and
+\(Y\preceq\norm{Y}_{\mathrm{op}}I\). Applying this inequality to the
+exterior powers yields
+\[
+  \prod_{i=1}^k\lambda_i^\downarrow(A\#_tB)
+  \le
+  \prod_{i=1}^k
+  \lambda_i^\downarrow(A)^{1-t}
+  \lambda_i^\downarrow(B)^t.
+\]
+Equality holds for \(k=d\) because
+\(\det(A\#_tB)=\det(A)^{1-t}\det(B)^t\). Taking logarithms proves
+\begin{equation}
+  \log\lambda(A\#_tB)
+  \prec
+  (1-t)\log\lambda(A)+t\log\lambda(B),
+  \tag{A.1}
+\end{equation}
+up to the irrelevant common choice of decreasing order.
+
+Fix an index \(a\), abbreviate \(H=H_a\) and \(\phi=\phi_a\), and set
+\[
+  s_H(G)=\log\lambda(G^{-1/2}HG^{-1/2}).
+\]
+Now fix
+\(G_0,G_1\in\F\) and let \(G_t=G_0\#_tG_1\). Congruence by
+\(H^{-1/2}\) is an affine-invariant isometry and preserves geometric means, so
+with \(A_i=H^{-1/2}G_iH^{-1/2}\) we have
+\[
+  H^{-1/2}G_tH^{-1/2}=A_0\#_tA_1.
+\]
+The eigenvalues of \(G^{-1/2}HG^{-1/2}\) are the reciprocals of those of
+\(H^{-1/2}GH^{-1/2}\). Majorization is preserved by multiplication by
+\(-1\), and a convex permutation-invariant function is Schur convex.
+Therefore (A.1) and ordinary convexity of \(\phi\) give
+\[
+\begin{aligned}
+  \Omega_{\phi,H}(G_t)
+  &\le
+  \phi\!\left((1-t)s_H(G_0)+t s_H(G_1)\right)\\
+  &\le
+  (1-t)\Omega_{\phi,H}(G_0)+t\Omega_{\phi,H}(G_1).
+\end{aligned}
+\]
+This proves geodesic convexity of each component \(\Omega_a\). Since
+\(\rho\) is coordinatewise nondecreasing,
+\[
+  \rho(\Omega_1(G_t),\ldots,\Omega_q(G_t))
+  \le
+  \rho((1-t)\Omega(G_0)+t\Omega(G_1)),
+\]
+and convexity of \(\rho\) proves geodesic convexity of \(\mathcal J\).
+All functions in the statement are finite convex functions on Euclidean
+spaces and hence continuous, so \(\mathcal J\) is closed.
+
+If \(\phi_a(x+c\mathbf1)=\phi_a(x)\), then
+\[
+  \log\lambda((cG)^{-1/2}H_a(cG)^{-1/2})
+  =s_{H_a}(G)-(\log c)\mathbf1,
+\]
+which proves scale invariance. For stability, the standard affine-invariant
+spectral inequality gives
+\[
+  \norm{s_{H_a}(G)-s_{\widehat H_a}(G)}_2
+  \le
+  d_{\AI}(H_a,\widehat H_a),
+\]
+because congruence by \(G^{-1/2}\) is an isometry. The Lipschitz bounds for
+\(\phi_a\) and \(\rho\), followed by Cauchy--Schwarz, give the displayed
+uniform perturbation estimate.
+
+  We now prove the static projection theorem.  For quadratic kinetic action,
+  \(U=0\) and
+\(\Gamma=\iota_{\mathcal C_\tau}\), every curve over the
+remaining horizon \(h=T-t\) satisfies
+\[
+  \frac12\int_t^T\norm{\dot\gamma}^2\dd s
+  \ge\frac{\Len(\gamma)^2}{2h}
+  \ge\frac{d(G,\mathcal C_\tau)^2}{2h}.
+\]
+Equality is attained by the constant-speed geodesic to the metric projection,
+which proves the closed form for \(V\).
+
+A sublevel set of a closed geodesically convex function on a closed
+geodesically convex family is closed
+and geodesically convex. In a finite-dimensional Hadamard manifold it has a
+unique metric projection: existence follows by restricting a minimizing
+sequence to a closed bounded ball and applying Hopf--Rinow, while uniqueness
+follows from strict geodesic convexity of squared distance. The geodesic from
+\(G_0\) to the projection stays in \(\F\) and reaches the target with length
+equal to the metric distance. Every admissible curve has length at least the
+distance between its endpoints, proving the least-action identity and the
+uniqueness of the constant-speed minimizer. The displayed Pythagorean
+inequality is the standard projection inequality in a Hadamard manifold.
+Family and threshold monotonicity follow from inclusion of the corresponding
+target and path sets. Finally,
+\[
+  |\widehat{\mathcal J}-\mathcal J|\le\varepsilon
+\]
+immediately gives the two target inclusions; applying target monotonicity gives
+the perturbation bracket for the dynamic cost.
+
+It remains to prove exactness and convergence of the algorithm. Let
+\(P=P_\tau\). Since \(G_s\) is feasible,
+\(d(G_0,P)\le R\), so \(P\in\mathcal D\). Closed balls in a Hadamard
+manifold are geodesically convex, hence \(\mathcal D\) is closed and
+geodesically convex. Write
+\[
+  f(G)=\frac12d(G_0,G)^2,
+  \qquad h(G)=\mathcal J(G)-\tau.
+\]
+Take any infeasible \(G\in\mathcal D\), set \(a=h(G)>0\), and follow the
+geodesic from \(G\) to \(G_s\). At
+\[
+  t=\frac{a}{a+\sigma}
+\]
+the point \(Y=G\#_tG_s\) is feasible, because geodesic convexity gives
+\(h(Y)\le(1-t)a-t\sigma=0\). Both endpoints lie in the radius-\(R\) ball, so
+\[
+  d(G,Y)
+  =t\,d(G,G_s)
+  \le\frac{2Ra}{a+\sigma}
+  \le\frac{2Ra}{\sigma}.
+\]
+On this ball the function \(f\) is \(R\)-Lipschitz, since
+\[
+  |f(X)-f(Y)|
+  \le
+  \frac{d(G_0,X)+d(G_0,Y)}{2}d(X,Y)
+  \le R d(X,Y).
+\]
+Consequently
+\[
+  \Phi_\Lambda(G)
+  =f(G)+\Lambda a
+  \ge
+  f(Y)+\left(\Lambda-\frac{2R^2}{\sigma}\right)a
+  >f(Y)\ge f(P)=\Phi_\Lambda(P).
+\]
+No infeasible point minimizes \(\Phi_\Lambda\). On the feasible set the
+penalty vanishes and \(P\) uniquely minimizes \(f\), proving exactness.
+
+The function \(f\) is \(1\)-strongly geodesically convex on a Hadamard
+manifold, while \(\pospart{h}=\max\{h,0\}\) is geodesically convex. Thus
+\(\Phi_\Lambda\) is \(1\)-strongly geodesically convex on \(\mathcal D\).
+Each proximal objective is proper, closed, and
+\((1+\eta^{-1})\)-strongly geodesically convex, so it has a unique minimizer
+\(G_{r+1}\in\mathcal D\). Strong convexity at the two minimizers
+\(P=\argminop_{\mathcal D}\Phi_\Lambda\) and \(G_{r+1}\) gives
+\[
+\begin{aligned}
+  &\Phi_\Lambda(P)+\frac{1}{2\eta}d(G_r,P)^2\\
+  &\quad\ge
+  \Phi_\Lambda(G_{r+1})
+  +\frac{1}{2\eta}d(G_r,G_{r+1})^2
+  +\frac{1+\eta^{-1}}{2}d(G_{r+1},P)^2\\
+  &\quad\ge
+  \Phi_\Lambda(P)
+  +\frac12d(G_{r+1},P)^2
+  +\frac{1}{2\eta}d(G_r,G_{r+1})^2
+  +\frac{1+\eta^{-1}}{2}d(G_{r+1},P)^2.
+\end{aligned}
+\]
+After cancellation and multiplication by \(2\eta\),
+\[
+  d(G_r,P)^2
+  \ge
+  (1+2\eta)d(G_{r+1},P)^2+d(G_r,G_{r+1})^2.
+\]
+Dropping the last term and iterating proves the stated global contraction.
+\end{proof}
+
+\begin{proof}[Proof of \cref{lem:log-spectral-pullback}]
+Put \(Y=\log S\) and
+\[
+  S_t=e^{-tX/2}Se^{-tX/2},
+  \qquad
+  \dot S_0=-\frac12(XS+SX).
+\]
+The matrix logarithm is Fr\'echet differentiable on the SPD cone, so
+\[
+  \frac{\dd}{\dd t}\bigg|_{t=0}\log S_t
+  =D\log_S[\dot S_0].
+\]
+For the finite convex spectral function \(F\), convex directional calculus
+gives
+\[
+  F'(Y;D\log_S[\dot S_0])
+  =
+  \max_{Z\in\partial F(Y)}
+  \tr\!\left(ZD\log_S[\dot S_0]\right).
+\]
+The spectral subdifferential theorem \cite{lewis1996convex} implies that every
+\(Z\in\partial F(Y)\) commutes with \(Y\), hence also with \(S=e^Y\).
+The Fr\'echet derivative \(D\log_S\) is self-adjoint in the Frobenius inner
+product, and commutation gives
+\[
+  D\log_S[Z]=S^{-1}Z.
+\]
+Therefore
+\[
+\begin{aligned}
+  \tr\!\left(ZD\log_S[\dot S_0]\right)
+  &=\tr\!\left(S^{-1}Z\dot S_0\right)\\
+  &=-\frac12\tr\!\left(S^{-1}ZXS+S^{-1}ZSX\right)\\
+  &=-\tr(ZX).
+\end{aligned}
+\]
+Substitution into the support-function formula proves the directional identity.
+Since a closed convex subdifferential is determined by its support function,
+the whitened AIRM subdifferential is exactly \(-\partial F(Y)\), with no
+simplicity assumption on the spectrum.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:normal-response-law}]
+Represent a tangent direction at \(G\) in whitened coordinates by
+\(X\in\widehat T_G\F\), so the corresponding geodesic is
+\(G_t=G^{1/2}\exp(tX)G^{1/2}\).  The generalized eigenvalues of
+\((H_a,G_t)\) are the eigenvalues of
+\[
+  \exp(-tX/2)S_a\exp(-tX/2).
+\]
+Applying \cref{lem:log-spectral-pullback} gives, at simple or repeated spectra,
+\[
+  \partial\Omega_a(G)=-\mathfrak Z_a(G)
+\]
+in whitened AIRM coordinates.
+
+The finite convex composition rule for the coordinatewise nondecreasing
+aggregator \(\rho\) now yields
+\[
+  \partial\mathcal J(G)
+  =
+  \left\{-\sum_{a=1}^q\theta_aZ_a:
+  \theta\in\partial\rho(\Omega(G)),\
+  Z_a\in\mathfrak Z_a(G)\right\}
+\]
+in whitened coordinates.  On the assumed closed geodesically convex smooth
+submanifold, the geodesic subgradient inequality shows that an ambient
+subgradient orthogonal to the tangent space is globally sufficient.  The
+constrained Fermat rule gives the converse.  Since a normal space is a linear
+space, the minus sign is immaterial, proving the aggregate normal-response
+criterion.
+
+For \(P=P_\F(H)\), the whitened gradient at \(P\) of the squared-distance
+objective is
+\[
+  -\log(P^{-1/2}HP^{-1/2}).
+\]
+Projection optimality therefore gives
+\(\log S\in\widehat N_P\F\). Applying the first part with \(q=1\) proves the
+nearest-versus-best coincidence criterion.
+\end{proof}
+
+\begin{proof}[Proof of \cref{lem:diag-distance-identity}]
+Congruence by \(H^{-1/2}\) is an isometry for \(d_{\AI}\), so it is enough to
+compute distances between diagonal matrices. For
+\(D(x)=\diag(e^{x_1},\ldots,e^{x_d})\),
+\[
+  d_{\AI}(D(x),D(y))
+  =
+  \fro{\log(D(x)^{-1/2}D(y)D(x)^{-1/2})}
+  =
+  \norm{x-y}_2,
+\]
+because the matrices commute. The same calculation applied to absolutely
+continuous paths gives the Euclidean line element in \(x\)-coordinates. The
+target \(\mathcal X_K(H)\) is the preimage of the closed set
+\(\Ck\subset\SPD^d\) under the continuous map
+\(x\mapsto H^{-1/2}D(x)H^{-1/2}\), hence is closed. Therefore the restricted
+complexity is exactly the Euclidean distance from \(x_0\) to this closed target
+set, with the usual convention that the distance to the empty set is
+\(+\infty\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:diag-lmi}]
+Suppose \(\kappa(D^{-1}H)\le K\). Let
+\[
+  \lambda_{\min}=\min_{v\ne0}\frac{v^\top Hv}{v^\top Dv}.
+\]
+Then all generalized Rayleigh quotients lie in
+\([\lambda_{\min},K\lambda_{\min}]\). With \(E=\lambda_{\min}D\),
+\[
+  E\preceq H\preceq K E.
+\]
+Conversely, if \(E\preceq H\preceq KE\) for a positive diagonal \(E\), then
+every generalized Rayleigh quotient \(v^\top Hv/v^\top Ev\) lies in
+\([1,K]\), so \(\kappa(E^{-1}H)\le K\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:diag-aligned}]
+If \(H\) and \(G_0\) are diagonal, then \(S_0=H^{-1/2}G_0H^{-1/2}\) is diagonal.
+The full SPD projection onto \(\Ck\) keeps the eigenvectors of \(S_0\) and
+clips only its log-spectrum. Therefore the optimal endpoint and the
+affine-invariant geodesic from \(S_0\) to that endpoint remain diagonal. The
+diagonal family contains a full SPD shortest path, and \cref{prop:monotonicity}
+gives equality.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:block-lmi}]
+The proof is identical to \cref{thm:diag-lmi}, replacing the diagonal cone by
+the block-diagonal cone. If \(\kappa(G^{-1}H)\le K\), take
+\(E=\lambda_{\min}G\), which is block diagonal. The converse follows from the
+generalized Rayleigh quotient bound.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:structured-dual-certificate}]
+Assume, for contradiction, that there exists \(E\in\mathcal L\) with
+\[
+  H-E\succeq0,\qquad KE-H\succeq0.
+\]
+For \(P,Q\succeq0\),
+\[
+  0
+  \le
+  \ip{P}{H-E}+\ip{Q}{KE-H}
+  =
+  \ip{P-Q}{H}+\ip{-P+KQ}{E}.
+\]
+Since \(E\in\mathcal L\) and \(\Pi_{\mathcal L}(P-KQ)=0\), the last term is
+zero. Thus any feasible \(E\) would imply \(\ip{P-Q}{H}\ge0\), contradicting
+the strict inequality in the certificate.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:sign-flip-certificate}]
+Let \(q\) be a unit eigenvector with
+\[
+  q^\top(KTHT-H)q<0.
+\]
+Set
+\[
+  Q=qq^\top,\qquad P=K(Tq)(Tq)^\top=KTQT.
+\]
+Then \(P,Q\succeq0\). Because \(T\) is a constant sign on each block,
+\(\Pi_{\mathcal L}(TQT-Q)=0\), and hence
+\[
+  \Pi_{\mathcal L}(P-KQ)=K\Pi_{\mathcal L}(TQT-Q)=0.
+\]
+Moreover,
+\[
+  \ip{P-Q}{H}
+  =
+  q^\top(KTHT-H)q
+  <0.
+\]
+\Cref{prop:structured-dual-certificate} proves infeasibility.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:block-jacobi}]
+The block Jacobi matrix \(G_{\mathrm{BJ}}\) is feasible in the block family, so
+the best block condition number is at most the one it achieves. If
+\(\opnorm{\widetilde H-I}\le\delta<1\), then
+\[
+  (1-\delta)I\preceq \widetilde H\preceq (1+\delta)I,
+\]
+which gives the stated condition-number bound.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:kron-spec-lower}]
+The restricted target
+\[
+  (Y+\mathcal A_{\mathrm{kron}})\cap\Yk
+\]
+is a subset of \(\Yk\). Distance to a subset is at least distance to the full
+set. If the full projection lies in the restricted target, it attains both
+distances.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:kron-line-element}]
+For \(G=B\otimes A\),
+\[
+  G^{-1/2}\dot G\,G^{-1/2}
+  =
+  Y\otimes I_m+I_n\otimes X.
+\]
+Its Frobenius norm squared is
+\[
+  m\fro{Y}^2+n\fro{X}^2+2\tr(X)\tr(Y),
+\]
+which is the displayed formula. For \(X=\alpha I_m\) and \(Y=-\alpha I_n\), the
+three terms sum to zero.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:kron-product-distance}]
+Using Kronecker identities,
+\[
+  G_0^{-1/2}G_1G_0^{-1/2}
+  =
+  (B_0^{-1/2}B_1B_0^{-1/2})
+  \otimes
+  (A_0^{-1/2}A_1A_0^{-1/2}).
+\]
+Taking the logarithm gives
+\[
+  \log(G_0^{-1/2}G_1G_0^{-1/2})
+  =
+  L_B\otimes I_m+I_n\otimes L_A.
+\]
+The squared Frobenius norm of this matrix is
+\[
+  m\fro{L_B}^2+n\fro{L_A}^2+2\tr(L_A)\tr(L_B),
+\]
+which is the claimed formula.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:kron-fixed-basis}]
+In the fixed Kronecker eigenbasis, the eigenvalues of \(X_t\) and \(Y_t\) are
+\(\dot\alpha_i\) and \(\dot\beta_j\). By \cref{prop:kron-line-element},
+\[
+  \norm{\dot G_t}_{G_t,\AI}^2
+  =
+  n\sum_i\dot\alpha_i^2+
+  m\sum_j\dot\beta_j^2+
+  2\left(\sum_i\dot\alpha_i\right)\left(\sum_j\dot\beta_j\right).
+\]
+On the other hand,
+\[
+  \fro{\dot Z_t}^2
+  =
+  \sum_{i,j}(\dot\alpha_i+\dot\beta_j)^2,
+\]
+which expands to the same expression.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:kron-log-projection}]
+If \(M=B\otimes A\), then the spectral calculus for Kronecker products gives
+\[
+  \log M=(\log B)\otimes I_m+I_n\otimes(\log A)\in\mathcal L_{m,n}.
+\]
+Conversely, if
+\[
+  \log M=Y\otimes I_m+I_n\otimes X,
+\]
+then the two summands commute, and therefore
+\[
+  M=\exp(Y\otimes I_m)\exp(I_n\otimes X)=\exp(Y)\otimes\exp(X).
+\]
+This proves the log characterization.
+
+For the projection formula, decompose
+\[
+  \mathcal L_{m,n}
+  =
+  \operatorname{span}\{I_{mn}\}
+  \oplus
+  \{I_n\otimes X:\tr X=0\}
+  \oplus
+  \{Y\otimes I_m:\tr Y=0\},
+\]
+an orthogonal direct sum under the Frobenius inner product. With
+\[
+  P=\tau I_{mn}+I_n\otimes X_0+Y_0\otimes I_m,
+\]
+the definitions of \(\tau,X_0,Y_0\) give
+\[
+  \tr P=\tr L,\qquad
+  \operatorname{Tr}_B(P)=\operatorname{Tr}_B(L),\qquad
+  \operatorname{Tr}_A(P)=\operatorname{Tr}_A(L).
+\]
+Thus \(L-P\) is orthogonal to each component of \(\mathcal L_{m,n}\), so
+\(P=\Pi_{\mathcal L}L\). The residual statement follows by applying the log
+characterization to \(L=\log M\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{lem:hadamard-projection-facts}]
+Closed geodesically convex subsets of a Hadamard manifold are proximinal and
+the projection is unique because squared distance is strictly convex along
+geodesics. The same CAT(0) convexity inequality gives, for any geodesic
+\(\gamma\) in \(C\),
+\[
+  f(\gamma_t)
+  \le
+  (1-t)f(\gamma_0)+tf(\gamma_1)
+  -\frac12t(1-t)d(\gamma_0,\gamma_1)^2,
+\]
+which is \(1\)-strong geodesic convexity of \(f(y)=d(y,x)^2/2\).
+
+For the line-search statement, the descent curve is a geodesic initialized in
+the negative restricted-gradient direction. On a compact geodesic neighborhood
+where the restricted gradient is \(L\)-Lipschitz, the geodesic descent lemma
+gives
+\[
+  f(\gamma_\eta)
+  \le
+  f(\gamma_0)-\eta\norm{\operatorname{grad}_C f(\gamma_0)}^2
+  +\frac{L}{2}\eta^2\norm{\operatorname{grad}_C f(\gamma_0)}^2.
+\]
+Thus all sufficiently small positive \(\eta\) satisfy the Armijo inequality.
+Compactness makes the admissible upper step size uniform over the sublevel set,
+and geometric backtracking then accepts a step bounded below by a positive
+constant depending only on the Lipschitz constant and the backtracking
+parameters.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:kron-ai-projection}]
+By \cref{thm:kron-log-projection},
+\(\Kron_{m,n}=\exp(\mathcal L_{m,n})\). The principal matrix logarithm is a
+global diffeomorphism from \(\SPD^{mn}\) to \(\mathbb S^{mn}\), and
+\(\mathcal L_{m,n}\) is a linear subspace. Hence \(\Kron_{m,n}\) is a smooth
+embedded submanifold. This formulation also removes the factor-scale gauge:
+different pairs \((X,Y)\) that differ by
+\((X+\alpha I_m,Y-\alpha I_n)\) represent the same element of
+\(\mathcal L_{m,n}\).
+
+For \(G_i=B_i\otimes A_i\), the affine-invariant geodesic satisfies
+\[
+  G_0^{-1/2}G_1G_0^{-1/2}
+  =
+  (B_0^{-1/2}B_1B_0^{-1/2})
+  \otimes
+  (A_0^{-1/2}A_1A_0^{-1/2}).
+\]
+Since \(\exp(t\log(P\otimes Q))=P^t\otimes Q^t\) for \(P,Q\succ0\), the
+ambient geodesic between \(G_0\) and \(G_1\) remains in \(\Kron_{m,n}\). Hence
+\(\Kron_{m,n}\) is totally geodesic.
+
+It is also closed. If \(B_k\otimes A_k\to G\succ0\), fix the gauge
+\(\det A_k=1\). Uniform lower and upper eigenvalue bounds on
+\(B_k\otimes A_k\) bound all eigenvalue ratios of \(A_k\); the determinant
+gauge then bounds the eigenvalues of \(A_k\) above and below, and the product
+eigenvalue bounds do the same for \(B_k\). Passing to a subsequence gives
+\(A_k\to A\succ0\) and \(B_k\to B\succ0\), hence \(G=B\otimes A\).
+
+The SPD cone with \(d_{\AI}\) is a Hadamard manifold. By
+\cref{lem:hadamard-projection-facts}, projection onto a closed geodesically
+convex subset is unique, giving \(G_\star\).
+For \(G=B\otimes A\), tangent vectors in whitened coordinates are exactly
+\[
+  Y\otimes I_m+I_n\otimes X\in\mathcal L_{m,n}.
+\]
+Indeed, every such \(Z\in\mathcal L_{m,n}\) generates the curve
+\(G^{1/2}\exp(tZ)G^{1/2}\in\Kron_{m,n}\), while differentiating any smooth
+factor curve \(B_t\otimes A_t\) and whitening by \(G^{-1/2}\) gives an element
+of this same subspace. Thus the normal space is the Frobenius orthogonal
+complement of \(\mathcal L_{m,n}\) in whitened coordinates.
+At the projection point, the logarithmic residual
+\[
+  R_\star=\log(G_\star^{-1/2}MG_\star^{-1/2})
+\]
+is orthogonal to every tangent direction. Orthogonality to
+\(I_n\otimes X\) and \(Y\otimes I_m\) is exactly
+\[
+  \operatorname{Tr}_B(R_\star)=0,\qquad
+  \operatorname{Tr}_A(R_\star)=0.
+\]
+Conversely, these equations give the first-order projection condition on a
+closed geodesically convex set in a Hadamard manifold, hence the unique
+projection. The distance formula is the definition of \(d_{\AI}\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:kron-residual-certificate}]
+The equivalence \(V(G)=0\Longleftrightarrow G=P_{\Kron}(M)\) is the normal
+equation in \cref{thm:kron-ai-projection}. The quantitative bounds use
+\cref{lem:hadamard-projection-facts}: the objective
+\[
+  f(G)=\frac12d_{\AI}(G,M)^2
+\]
+is \(1\)-strongly geodesically convex on the totally geodesic Hadamard
+submanifold \(\Kron_{m,n}\). Let \(G_\star=P_{\Kron}(M)\),
+\(v=\operatorname{Log}_G(G_\star)\), and
+\(d=\norm{v}=d_{\AI}(G,G_\star)\). Strong convexity along the geodesic from
+\(G\) to \(G_\star\) gives
+\[
+  f(G)-f(G_\star)\le \fro{V(G)}d-\frac12d^2.
+\]
+Strong convexity at the minimizer gives
+\[
+  f(G)-f(G_\star)\ge\frac12d^2.
+\]
+Combining the inequalities yields \(d\le\fro{V(G)}\), and maximizing
+\(\fro{V(G)}d-d^2/2\) over \(0\le d\le\fro{V(G)}\) gives the objective-gap
+bound.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:kron-armijo-solver}]
+If \(G_r=B_r\otimes A_r\), then \(V_r\in\mathcal L_{m,n}\) has the form
+\[
+  V_r=Y_r\otimes I_m+I_n\otimes X_r.
+\]
+The two summands commute, so \(\exp(\eta V_r)=\exp(\eta Y_r)\otimes
+\exp(\eta X_r)\), and the trial point remains in \(\Kron_{m,n}\).
+
+Let \(G_\star=P_{\Kron}(M)\). The restricted negative gradient of
+\[
+  f(G)=\frac12d_{\AI}(G,M)^2
+\]
+is represented in whitened coordinates by
+\(V(G)=\Pi_{\mathcal L}R_G(M)\). The initial sublevel set
+\(\mathcal Q_0=\{G\in\Kron_{m,n}:f(G)\le f(G_0)\}\) is closed and bounded in
+the complete finite-dimensional Hadamard submanifold \(\Kron_{m,n}\), hence
+compact by Hopf--Rinow. Since the SPD cone has no cut locus and the
+squared-distance objective is smooth, the restricted gradient is Lipschitz on
+a compact geodesic neighborhood of \(\mathcal Q_0\); let \(L_0\) be such a
+constant. By \cref{lem:hadamard-projection-facts}, Armijo backtracking
+terminates and the accepted step sizes have a positive lower bound
+\(\eta_{\min}>0\) depending only on
+\(\mathcal Q_0,L_0,\bar\eta,\gamma\), and \(c\)
+\cite{absil2008optimization,boumal2023introduction}.
+
+Armijo decrease gives
+\[
+  f(G_{r+1})\le f(G_r)-c\eta_r\fro{V_r}^2.
+\]
+Thus \(f(G_r)\) decreases and \(\sum_r\eta_r\fro{V_r}^2<\infty\). Since
+\(\eta_r\ge\eta_{\min}\), we have \(\fro{V_r}\to0\). Any cluster point
+\(\bar G\) in the compact sublevel set satisfies \(V(\bar G)=0\), hence
+\(\bar G=G_\star\) by \cref{cor:kron-residual-certificate}. The cluster point is
+unique, so the full sequence converges to \(G_\star\).
+
+For the rate, set
+\[
+  \underline\eta=\min\{\eta_{\min},(2c)^{-1}\}.
+\]
+\Cref{cor:kron-residual-certificate} gives
+\[
+  \fro{V_r}^2\ge2\bigl[f(G_r)-f(G_\star)\bigr].
+\]
+Combining this with Armijo decrease and \(\eta_r\ge\underline\eta\) yields
+\[
+  f(G_{r+1})-f(G_\star)
+  \le
+  (1-2c\underline\eta)\bigl[f(G_r)-f(G_\star)\bigr],
+\]
+and iteration proves the displayed bound.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:kron-k-target}]
+For the self-conditioned metric target, the condition-number set \(\Ck\) is
+closed and geodesically convex because
+the weighted matrix geometric mean satisfies
+\[
+  \lambda_{\max}(S_0\#_tS_1)
+  \le
+  \lambda_{\max}(S_0)^{1-t}\lambda_{\max}(S_1)^t
+\]
+and the analogous lower bound for \(\lambda_{\min}\). Together with
+\cref{thm:kron-ai-projection}, this makes
+\(\Kron_{m,n,K}=\Kron_{m,n}\cap\Ck\) closed and geodesically convex.
+
+The two displayed distance bounds are the Hadamard Pythagorean inequality for
+projection onto \(\Kron_{m,n}\), followed by the triangle inequality through
+\(G_\star=P_{\Kron}(M)\).
+
+It remains to prove the QP formula. For \(B\otimes A\),
+\[
+  \kappa(B\otimes A)=\kappa(B)\kappa(A),
+\]
+so the target condition is
+\[
+  (x_m-x_1)+(y_n-y_1)\le\log K
+\]
+for sorted log-eigenvalues \(x_i\) of \(A\) and \(y_j\) of \(B\). By
+\cref{prop:kron-product-distance}, the squared distance between Kronecker products
+is
+\[
+  n\,d_{\AI}(A_0,A)^2+m\,d_{\AI}(B_0,B)^2
+  +2(\log\det A-\log\det A_0)(\log\det B-\log\det B_0).
+\]
+The eigenvalue lower bound for the affine-invariant metric and
+Hoffman--Wielandt give
+\[
+  d_{\AI}(A_0,A)^2\ge\sum_i(x_i-a_i)^2,\qquad
+  d_{\AI}(B_0,B)^2\ge\sum_j(y_j-b_j)^2.
+\]
+The determinant terms are the corresponding sums of log-eigenvalue
+differences. Expanding gives the lower bound
+\[
+  \sum_{i,j}(x_i+y_j-a_i-b_j)^2.
+\]
+Equality is attained by choosing \(A\) and \(B\) with the same eigenvectors as
+\(A_0\) and \(B_0\), proving the convex QP.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:kron-relative-reachability}]
+For any \(G\succ0\),
+\[
+  \kappa(G^{-1}H)
+  =
+  \kappa(H^{-1/2}GH^{-1/2}),
+\]
+because \(G^{-1}H\) is similar to
+\(H^{1/2}G^{-1}H^{1/2}=(H^{-1/2}GH^{-1/2})^{-1}\), and a positive-definite
+matrix and its inverse have the same spectral condition number. Thus
+\(G\in\mathcal R_{K,\Kron}(H)\) if and only if
+\(H^{-1/2}GH^{-1/2}\in\mathcal C_{K,\Kron}(H)\), proving the equivalence of
+the first two items.
+
+For fixed \(G\succ0\), the condition \(\kappa(G^{-1}H)\le K\) is equivalent to
+the existence of \(\lambda>0\) such that
+\[
+  \lambda G\preceq H\preceq K\lambda G.
+\]
+Indeed, take
+\[
+  \lambda=\lambda_{\min}(G^{-1/2}HG^{-1/2})
+\]
+for the forward implication, and use generalized Rayleigh quotients for the
+reverse implication. Setting \(G=B\otimes A\) gives the Kronecker Loewner
+sandwich. The scalar \(\lambda\) can be absorbed into \(A\) or \(B\), giving
+the scale-free form.
+
+It remains to identify the distance. The target can be written as
+\[
+  \mathcal R_{K,\Kron}(H)
+  =
+  \Kron_{m,n}\cap H^{1/2}\Ck H^{1/2}.
+\]
+The set \(\Ck\) is closed and geodesically convex, and congruence by \(H^{1/2}\)
+is an affine-invariant isometry, so \(H^{1/2}\Ck H^{1/2}\) is also closed and
+geodesically convex. Intersecting with the closed totally geodesic submanifold
+\(\Kron_{m,n}\) gives a closed geodesically convex subset of the Kronecker
+manifold. The Kronecker manifold is a complete Hadamard submanifold under the
+induced affine-invariant metric, so projection onto this nonempty closed
+geodesically convex subset exists and is unique.
+
+Finally, congruence by \(H^{-1/2}\) maps paths in
+\(\Kron_{m,n}\) isometrically to paths in \(\mathcal S_{\Kron}(H)\). Therefore
+the intrinsic distance from \(S_0\) to
+\(\mathcal C_{K,\Kron}(H)\) equals the affine-invariant distance from \(G_0\)
+to \(\mathcal R_{K,\Kron}(H)\). By \cref{prop:submanifold-distance}, this is
+exactly \(D_{K,\Kron}(S_0;H)\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:kron-kstar}]
+The objective \(\kappa(G^{-1}H)\) is invariant under positive rescaling of
+\(G\). Hence a minimizing sequence in \(\Kron_{m,n}\) can be rescaled to satisfy
+\(\det G=\det H\). Let
+\[
+  S=H^{-1/2}GH^{-1/2}.
+\]
+On this determinant gauge, \(\det S=1\). Since the sequence has bounded
+condition number, the eigenvalues of \(S\) are uniformly bounded above and
+below. Thus the corresponding sequence of \(S\)'s has a convergent subsequence,
+and so does the sequence \(G=H^{1/2}SH^{1/2}\). The family \(\Kron_{m,n}\) is
+closed by \cref{thm:kron-ai-projection}, so the limit remains Kronecker and
+attains the minimum.
+
+The equivalence
+\[
+  \mathcal R_{K,\Kron}(H)\ne\emptyset
+  \quad\Longleftrightarrow\quad
+  K\ge K_{\Kron}^\star(H)
+\]
+is then immediate from the definition of \(K_{\Kron}^\star(H)\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:kron-nearest-versus-best}]
+For
+\[
+  \phi_{\mathrm{osc}}(x)=\max_i x_i-\min_i x_i,
+\]
+the spectral subdifferential at \(\log S\) is
+\[
+  \left\{Q_+-Q_-:
+  Q_\pm\succeq0,\ \tr Q_\pm=1,\
+  \operatorname{range}(Q_+)\subseteq E_+,\
+  \operatorname{range}(Q_-)\subseteq E_-\right\}.
+\]
+By \cref{thm:normal-response-law}, the whitened subgradient for the metric
+variable has the opposite sign, \(Q_--Q_+\), and global Kronecker optimality
+is equivalent to one such subgradient lying in the normal space of the
+Kronecker manifold. The whitened Kronecker tangent space is
+\[
+  \mathcal L_{m,n}
+  =\{Y\otimes I_m+I_n\otimes X:X\in\mathbb S^m,\ Y\in\mathbb S^n\}.
+\]
+Frobenius orthogonality to \(I_n\otimes X\) for every \(X\) is equivalent to
+\(\operatorname{Tr}_B(Q_--Q_+)=0\), and orthogonality to
+\(Y\otimes I_m\) for every \(Y\) is equivalent to
+\(\operatorname{Tr}_A(Q_--Q_+)=0\). This proves the necessary-and-sufficient
+condition. When the extreme eigenvalues are simple, the only density matrices
+on the two one-dimensional eigenspaces are \(u_+u_+^\top\) and
+\(u_-u_-^\top\), giving the marginal formulation.
+
+Suppose next that \(S\) has exactly two eigenvalues. Write
+\[
+  \log S=a\Pi_++b\Pi_-,
+  \qquad r_\pm=\rank\Pi_\pm.
+\]
+The nearest-point normal equation gives \(\log S\in\widehat N_P\Kron\).
+Because the Kronecker family is scale closed, the whitened scale direction
+\(I\) is tangent, so \(\tr\log S=r_+a+r_-b=0\). Since \(a>b\), there is a
+constant \(c>0\) such that
+\[
+  \log S
+  =c\left(\frac{\Pi_+}{r_+}-\frac{\Pi_-}{r_-}\right).
+\]
+Taking \(Q_+=\Pi_+/r_+\) and \(Q_-=\Pi_-/r_-\) makes
+\(Q_--Q_+=-c^{-1}\log S\) normal. The first part then proves global
+condition optimality.
+
+For the strict counterexample, \(\tr A=\tr B=0\), and hence
+\[
+  \operatorname{Tr}_B(\log H)
+  =\operatorname{Tr}_B(B\otimes A)=0,
+  \qquad
+  \operatorname{Tr}_A(\log H)=0.
+\]
+The normal equations in \cref{thm:kron-ai-projection} therefore show that
+\(I_6\) is the unique nearest Kronecker point. The relative log-eigenvalues at
+the identity are the products of the diagonal entries of \(B\) and \(A\), so
+their maximum and minimum are \(2\) and \(-2\), giving
+\(\log\kappa(H)=4\).
+
+The proposed metric commutes with \(H\), and
+\[
+  \log(G^{-1}H)
+  =(B-\tfrac14I_3)\otimes A.
+\]
+The diagonal entries of \(B-\tfrac14I_3\) are
+\(7/4,-3/4,-7/4\). Multiplication by the two diagonal entries \(\pm1\) of
+\(A\) gives extreme relative log-eigenvalues \(7/4\) and \(-7/4\). Their
+oscillation is \(7/2<4\), proving strict noncoincidence.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:kron-two-by-two-completeness}]
+Let \(P=P_{\Kron}(H)\), set \(S=P^{-1/2}HP^{-1/2}\), and write
+\(L=\log S\).  The projection normal equations give
+\[
+  \operatorname{Tr}_A(L)=\operatorname{Tr}_B(L)=0.
+\]
+Introduce the real matrices
+\[
+  X=\begin{pmatrix}0&1\\1&0\end{pmatrix},
+  \qquad
+  Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix},
+  \qquad
+  J=\begin{pmatrix}0&-1\\1&0\end{pmatrix}.
+\]
+The symmetric matrices \(I,X,Z\) and the skew-symmetric matrix \(J\) give an
+orthogonal tensor basis for real symmetric \(4\times4\) matrices: the symmetric
+tensors are generated by the nine products of \(I,X,Z\), together with
+\(J\otimes J\).  The two zero-partial-trace conditions remove every term
+containing an identity factor.  Hence
+\[
+  L
+  =
+  \sum_{r,s\in\{X,Z\}}C_{rs}\,r\otimes s+cJ\otimes J
+\]
+for a real \(2\times2\) coefficient matrix \(C\) and a scalar \(c\).
+
+Conjugation by \(O\in O(2)\) acts on the span of \(X,Z\) through an
+orthogonal \(2\times2\) transformation, and every such transformation is
+realized by a suitable \(O\): planar rotations act by twice their angle on
+\(\operatorname{span}\{X,Z\}\), and a reflection supplies the other connected
+component of \(O(2)\).  Applying the singular value decomposition of
+\(C\), choose local orthogonal matrices \(O_A,O_B\) so that conjugation by
+\(O_B\otimes O_A\) transforms \(L\) into
+\[
+  L'=aX\otimes X+bZ\otimes Z+c'J\otimes J.
+\]
+The three displayed tensor products commute.  Their common orthonormal
+eigenbasis is the real Bell basis
+\[
+\begin{aligned}
+  \psi_1&=(e_1\otimes e_1+e_2\otimes e_2)/\sqrt2,&
+  \psi_2&=(e_1\otimes e_1-e_2\otimes e_2)/\sqrt2,\\
+  \psi_3&=(e_1\otimes e_2+e_2\otimes e_1)/\sqrt2,&
+  \psi_4&=(e_1\otimes e_2-e_2\otimes e_1)/\sqrt2.
+\end{aligned}
+\]
+Every Bell projector has both marginal density matrices equal to \(I_2/2\).
+If \(\Pi_+\) and \(\Pi_-\) are the extreme spectral projectors of \(L'\),
+then
+\[
+  Q_+=\frac{\Pi_+}{\rank\Pi_+},
+  \qquad
+  Q_-=\frac{\Pi_-}{\rank\Pi_-}
+\]
+therefore have identical marginals on both factors.  Local orthogonal
+conjugation preserves this equality, so the same is true for the extreme
+eigenspaces of \(L\).  \Cref{thm:kron-nearest-versus-best} proves that \(P\)
+is condition-optimal.
+
+If one factor has dimension one, the Kronecker family is the full SPD cone in
+the other factor and separation is impossible.  The only remaining nontrivial
+factor pair below ambient dimension six is \(2\times2\), just handled.  The
+existing \(2\times3\) example attains dimension six, proving minimality.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:kron-marginal-mismatch}]
+The whitened metric-variable subdifferential of
+\(G\mapsto\log\kappa(G^{-1}H)\) at \(P\) is
+\[
+  \mathcal W(P)
+  =
+  \{Q_--Q_+:Q_\pm\in\mathcal D_\pm\}.
+\]
+Restricting the objective to the Kronecker manifold projects this set onto the
+whitened tangent space \(\mathcal L_{m,n}\), giving exactly
+\(\mathcal G(P)=\Pi_{\mathcal L}\mathcal W(P)\).  The sets
+\(\mathcal D_\pm\) are compact and convex, so \(\mathcal G(P)\) is compact
+and convex.  Strict convexity of the squared Frobenius norm gives its unique
+minimum-norm element \(g_\star\).
+
+By the constrained Fermat rule, \(P\) is condition-optimal if and only if
+\(0\in\mathcal G(P)\), equivalently \(\mu_{\mathrm{marg}}(P)=0\).  Suppose
+now that \(g_\star\ne0\).  The variational characterization of the Euclidean
+projection of zero onto \(\mathcal G(P)\) gives
+\[
+  \ip{g-g_\star}{g_\star}\ge0
+  \qquad\text{for every }g\in\mathcal G(P).
+\]
+Hence
+\[
+  \min_{g\in\mathcal G(P)}\ip{g}{g_\star}
+  =\fro{g_\star}^2.
+\]
+The one-sided directional derivative of a convex function is the support
+function of its subdifferential.  Along the whitened tangent direction
+\(-g_\star\), it is therefore
+\[
+  \max_{g\in\mathcal G(P)}\ip{g}{-g_\star}
+  =-\fro{g_\star}^2.
+\]
+Because \(g_\star\in\mathcal L_{m,n}\), the corresponding AIRM geodesic
+remains in the Kronecker manifold, proving the descent identity.
+
+For simple extremes, both \(\mathcal D_\pm\) are singletons, which gives the
+displayed formula.  With multiplicity, minimizing the norm of a linear image
+of \((Q_+,Q_-)\) subject to positive-semidefinite, trace, and support
+constraints is a finite-dimensional convex conic problem.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:kron-residual-threshold}]
+Let
+\[
+  \delta_\star=d_{\AI}(H,\Kron_{m,n})=d_{\AI}(H,P).
+\]
+Since \(G\in\Kron_{m,n}\), \(\delta_\star\le\rho\). By
+\cref{cor:kron-residual-certificate},
+\[
+  0
+  \le
+  \frac12\rho^2-\frac12\delta_\star^2
+  \le
+  \frac12\eta^2,
+\]
+and hence \(\delta_\star\ge\sqrt{\max\{\rho^2-\eta^2,0\}}=\delta_-\). This
+proves the distance bracket.
+
+The family \(\Kron_{m,n}\) is closed under positive rescaling, so
+\cref{thm:scale-closed-threshold} gives
+\[
+  K_{\Kron}^\star(H)
+  \ge
+  \exp(\alpha_{mn}\delta_\star)
+  \ge
+  \exp(\alpha_{mn}\delta_-).
+\]
+The upper bound \(K_{\Kron}^\star(H)\le\kappa_G\) holds because \(G\) is an
+admissible Kronecker metric. If \(\kappa_G\le K\), then
+\cref{prop:kron-relative-candidate} applied with \(G_c=G\) gives the displayed
+finite \(D_{K,\Kron}\) upper bound.
+
+It remains to prove the exact-projection condition bracket. Again by
+\cref{cor:kron-residual-certificate},
+\[
+  d_{\AI}(G,P)\le\eta.
+\]
+Therefore every log-eigenvalue of \(G^{-1/2}PG^{-1/2}\) has absolute value at
+most \(\eta\), and
+\[
+  e^{-\eta}G\preceq P\preceq e^\eta G.
+\]
+For any nonzero \(x\),
+\[
+  e^{-\eta}\frac{x^\top Hx}{x^\top Gx}
+  \le
+  \frac{x^\top Hx}{x^\top Px}
+  \le
+  e^\eta\frac{x^\top Hx}{x^\top Gx}.
+\]
+Taking suprema and infima over generalized Rayleigh quotients gives
+\[
+  \lambda_{\max}(P^{-1}H)\le e^\eta\lambda_{\max}(G^{-1}H),\qquad
+  \lambda_{\min}(P^{-1}H)\ge e^{-\eta}\lambda_{\min}(G^{-1}H),
+\]
+so \(\kappa_P\le e^{2\eta}\kappa_G\). Interchanging \(G\) and \(P\) gives
+\(\kappa_G\le e^{2\eta}\kappa_P\), equivalently
+\(\kappa_P\ge e^{-2\eta}\kappa_G\).
+
+Since \(P\) is an admissible Kronecker metric,
+\(K_{\Kron}^\star(H)\le\kappa_P\).  The scale-closed lower bound and the
+distance bracket give
+\[
+  \log K_{\Kron}^\star(H)
+  \ge\alpha_{mn}\delta_\star
+  \ge\alpha_{mn}\delta_-.
+\]
+Combining this with \(\log\kappa_P\le\log\kappa_G+2\eta\) proves the stated
+projection-suboptimality chain.  The projection feasibility and
+projection-infeasibility statements follow from the two-sided condition
+bracket. The global impossibility certificate is the contrapositive of the
+threshold lower bound.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:kron-fixed-basis-relative}]
+For
+\[
+  G=(V\diag(e^{b_j})V^\top)\otimes(U\diag(e^{a_i})U^\top),
+\]
+the matrices \(H\) and \(G\) commute in the basis \(V\otimes U\), and the
+eigenvalues of \(G^{-1}H\) are
+\[
+  \exp(\ell_{ij}-a_i-b_j).
+\]
+Therefore
+\[
+  \log\kappa(G^{-1}H)
+  =
+  \max_{i,j}(\ell_{ij}-a_i-b_j)
+  -
+  \min_{i,j}(\ell_{ij}-a_i-b_j).
+\]
+The condition \(\kappa(G^{-1}H)\le K\) is thus equivalent to the existence of
+a scalar \(c\) such that all residual log-eigenvalues lie in
+\([c,c+\log K]\), which is exactly the displayed linear feasibility problem.
+Minimizing the residual width over \(a,b\) gives the fixed-basis threshold
+formula. Since \(\Kron_{U,V}\subset\Kron_{m,n}\), feasibility in the subfamily
+is a full-family primal certificate; subfamily infeasibility gives no
+full-family obstruction.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:kron-fixed-basis-dual}]
+For any \(Z\in\R^{m\times n}\),
+\[
+  \max_{ij}Z_{ij}-\min_{ij}Z_{ij}
+  =
+  \max_{p,q\in\Delta_{mn}}\ip{p-q}{Z},
+\]
+where \(\Delta_{mn}\) is the probability simplex over entries. The set
+\(\{p-q:p,q\in\Delta_{mn}\}\) is exactly
+\[
+  \mathcal C=\{W:\sum_{ij}W_{ij}=0,\ \sum_{ij}|W_{ij}|\le2\}.
+\]
+Let
+\[
+  \mathcal A=\{A\in\R^{m\times n}:A_{ij}=a_i+b_j\}.
+\]
+Then
+\[
+  \tau^\star_{U,V}(H)=\min_{A\in\mathcal A}\max_{W\in\mathcal C}
+  \ip{W}{L-A}.
+\]
+This is a finite-dimensional linear program. Its dual is
+\[
+  \max_{W\in\mathcal C\cap\mathcal A^\perp}\ip{W}{L},
+\]
+with no duality gap. The orthogonality condition is computed from
+\[
+  \ip{W}{A}
+  =
+  \sum_i a_i\sum_j W_{ij}
+  +
+  \sum_j b_j\sum_i W_{ij}.
+\]
+Thus \(W\in\mathcal A^\perp\) exactly when every row sum and every column sum
+vanishes. These constraints imply \(\sum_{ij}W_{ij}=0\), so the dual feasible
+set is the one displayed in the theorem.
+
+If a feasible \(W\) has \(\ip{W}{L}>\log K\), then
+\(\tau^\star_{U,V}(H)>\log K\), so the fixed-basis log-width target is
+infeasible by \cref{prop:kron-fixed-basis-relative}. For any nonzero
+zero-total \(W\), the identity
+\(\sum W^+=\sum W^-=\frac12\norm{W}_1\) gives the normalized witness form when
+\(\norm{W}_1=2\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:kron-certify-soundness}]
+\Cref{prop:kron-fixed-basis-relative} proves soundness of the fixed-basis
+feasible status.  \Cref{thm:kron-fixed-basis-dual} proves the obstruction
+status.  The four full noncommuting statuses follow from
+\cref{thm:kron-residual-threshold}. If none of those conditions holds, the
+procedure records only \(\mathrm{INCONCLUSIVE}\), which makes no claim.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:kron-certify-interval}]
+The enclosure assumptions imply
+\[
+  \delta_-
+  =
+  \sqrt{\max\{\rho^2-\eta^2,0\}}
+  \ge
+  \sqrt{\max\{\underline\rho^2-\overline\eta^2,0\}}
+  =\underline\delta.
+\]
+Therefore
+\(K_{\Kron}^\star(H)\ge\exp(\alpha_{mn}\underline\delta)\), proving the
+first implication.  The second follows from
+\(\kappa_G\le\overline\kappa\).  For the exact projection, the bracket in
+\cref{thm:kron-residual-threshold} and the enclosures give
+\[
+  e^{-2\overline\eta}\underline\kappa
+  \le
+  e^{-2\eta}\kappa_G
+  \le
+  \kappa_P
+  \le
+  e^{2\eta}\kappa_G
+  \le
+  e^{2\overline\eta}\overline\kappa.
+\]
+The remaining two implications follow immediately.  Returning
+\(\mathrm{INCONCLUSIVE}\) when no strict certified comparison holds makes no
+claim and is therefore sound.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:kron-relative-candidate}]
+The matrix
+\[
+  S_c^{-1}=H^{1/2}G_c^{-1}H^{1/2}
+\]
+has the same eigenvalues as \(G_c^{-1}H\), so
+\(\kappa(S_c)=\kappa(G_c^{-1}H)\). Hence the displayed condition is exactly
+membership of \(S_c\) in \(\Ck\), and \(S_c\in\mathcal C_{K,\Kron}(H)\).
+
+By \cref{thm:kron-ai-projection}, \(\Kron_{m,n}\) is totally geodesic in the
+ambient affine-invariant SPD cone. Therefore the affine-invariant geodesic
+from \(G_0\) to \(G_c\) remains in \(\Kron_{m,n}\) and has length
+\(d_{\AI}(G_0,G_c)\). Congruence by \(H^{-1/2}\) is an isometry for the
+affine-invariant metric, so the relative path
+\[
+  S_t=H^{-1/2}G_tH^{-1/2}
+\]
+is an admissible path in \(\mathcal S_{\Kron}(H)\) from \(S_0\) to the target
+point \(S_c\) with the same length. Taking the infimum over all admissible
+paths gives
+\[
+  D_{K,\Kron}(S_0;H)\le d_{\AI}(G_0,G_c).
+\]
+The closed-form expression for the right-hand side is
+\cref{prop:kron-product-distance}. The last statement is only the logical
+one-way nature of a sufficient certificate.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:kron-kkt}]
+The objective gradient at \(Q\), in whitened coordinates and restricted to
+\(\mathcal L_{m,n}\), is \(-\Pi_{\mathcal L}R_Q(M)\). For the path
+\[
+  Q(t)=Q^{1/2}\exp(tZ)Q^{1/2},
+\]
+the directional derivative of \(\log\lambda_{\max}\) is
+\[
+  \max_{\substack{u\in E_{\max}\\ \norm{u}=1}}u^\top Zu,
+\]
+and the directional derivative of \(\log\lambda_{\min}\) is
+\[
+  \min_{\substack{v\in E_{\min}\\ \norm{v}=1}}v^\top Zv.
+\]
+Thus the directional derivative of \(\omega=\log\lambda_{\max}-\log\lambda_{\min}\)
+is the support function of the stated subdifferential. Since \(K>1\) has the
+strict feasible point \(I_{mn}\), the convex KKT condition on the tangent
+Hadamard submanifold gives
+\[
+  0\in-\Pi_{\mathcal L}R_\star+\mu\Pi_{\mathcal L}\partial\omega(Q_\star),
+  \qquad \mu\ge0,
+\]
+with complementarity. This is the displayed equation; inactive constraints
+have \(\mu=0\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:kfac-certificates}]
+Projection onto the closed geodesically convex family \(\Kron_{m,n}\) satisfies
+the Hadamard Pythagorean inequality. Applying it to
+\[
+  H_t,\qquad P_t=P_{\Kron}(H_t),\qquad G_t\in\Kron_{m,n}
+\]
+gives \(E_t^2\ge M_t^2+A_t^2\). Applying
+\cref{thm:kron-k-target} with \(M=H_t\) and \(G_\star=P_t\) gives the two-sided
+self-conditioned \(K\)-target bound. The computability statements are exactly
+\cref{thm:kron-ai-projection,thm:kron-k-target,prop:kron-product-distance}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:proxy-inflation}]
+From
+\[
+  (1-\varepsilon)H\preceq \widehat H\preceq (1+\varepsilon)H
+\]
+we obtain
+\[
+  \frac{1}{1+\varepsilon}
+  \frac{v^\top\widehat H v}{v^\top Gv}
+  \le
+  \frac{v^\top H v}{v^\top Gv}
+  \le
+  \frac{1}{1-\varepsilon}
+  \frac{v^\top\widehat H v}{v^\top Gv}.
+\]
+Taking minima and maxima over nonzero \(v\) gives the bound on generalized
+condition numbers.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:stoch-proxy-upper}]
+On the stated Loewner event, \cref{prop:proxy-inflation} gives
+\[
+  \kappa(G^{-1}H)
+  \le
+  \frac{1+\varepsilon}{1-\varepsilon}
+  \kappa(G^{-1}\widehat H)
+  \le
+  \frac{1+\varepsilon}{1-\varepsilon}\widehat K
+  =K.
+\]
+The event has probability at least \(1-\delta\), which proves the claim.
+\end{proof}

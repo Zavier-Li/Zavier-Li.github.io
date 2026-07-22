@@ -1,0 +1,286 @@
+\section{Gauge, Rank Strata, and Moving Information}
+\label{sec:stratified-geometry}
+
+The previous section fixes \(A\).  We now let the information channel move.
+Relative to \(P_0\), the pair \((A,R)\) has a change-of-visible-coordinates
+gauge
+\[
+  (A,R)\cdot B=(AB,B^\top RB),
+  \qquad B\in GL(m).
+\]
+First define the total, generally redundant descriptor space
+\begin{equation}
+  \widetilde{\mathfrak D}_m(P_0)
+  =
+  \left\{(A,R):\rank A=m,\ R\in\SPD^m\right\}/GL(m),
+  \label{eq:total-descriptor-space}
+\end{equation}
+and the everywhere-defined completion parameterization
+\begin{equation}
+  \widetilde\Gamma_{m,P_0}([A,R])=\Psi_{P_0,A}(R).
+  \label{eq:total-completion-map}
+\end{equation}
+When \(m<d\), it is redundant if some visible modes equal their reference
+values, because those modes can rotate without changing the completion.  For
+\(m=d\), the Grassmann factor is a point and this rotational redundancy is
+absent.  The regular subset is
+\begin{equation}
+  \mathfrak D_m^{\mathrm{reg}}(P_0)
+  =
+  \left\{(A,R):\rank A=m,\ R\in\SPD^m,
+  \ \det(R-A^\top P_0A)\ne0\right\}/GL(m),
+  \label{eq:descriptor-space}
+\end{equation}
+and the rank stratum
+\begin{equation}
+  \mathfrak S_m(P_0)
+  =\{P\in\SPD^d:\rank(P-P_0)=m\}.
+  \label{eq:rank-stratum}
+\end{equation}
+
+\begin{theorem}[Completion bundle and complete rank stratification]
+\label{thm:rank-stratification}
+The map
+\begin{equation}
+  \Gamma_{m,P_0}([A,R])=\Psi_{P_0,A}(R)
+  \label{eq:stratum-map}
+\end{equation}
+is a diffeomorphism from
+\(\mathfrak D_m^{\mathrm{reg}}(P_0)\) onto
+\(\mathfrak S_m(P_0)\).  Its inverse descriptor is intrinsic:
+\begin{equation}
+  \range(A)=P_0^{-1}\range(P-P_0),
+  \qquad
+  R=A^\top PA,
+  \label{eq:intrinsic-descriptor}
+\end{equation}
+up to the stated \(GL(m)\) action.  The strata exhaust and close according to
+\begin{equation}
+  \SPD^d=\bigsqcup_{m=0}^d\mathfrak S_m(P_0),
+  \qquad
+  \overline{\mathfrak S_m(P_0)}^{\,\SPD^d}
+  =\bigcup_{r=0}^m\mathfrak S_r(P_0).
+  \label{eq:strata-closure}
+\end{equation}
+\end{theorem}
+
+The pullback AIRM seminorm on the total descriptor space resolves the cost of
+changing the visible target and the visible subspace.  It becomes a genuine
+quotient metric on the regular subset, and on the entire descriptor space when
+\(m=d\).  Normalize a representative by
+\(A^\top P_0A=I_m\), use
+the horizontal gauge \(A^\top P_0\dot A=0\), choose \(N\) so that
+\([P_0^{1/2}A,N]\) is orthogonal, and put
+\(K=N^\top P_0^{1/2}\dot A\).
+
+\begin{theorem}[Closed-form completion-pair metric and regular quotient geometry]
+\label{thm:stratified-line-element}
+At any normalized representative of
+\(\widetilde{\mathfrak D}_m(P_0)\), represent two horizontal quotient
+directions by
+\[
+  \xi_i=(H_i,K_i),
+  \qquad H_i\in\Sym^m,
+  \qquad K_i=N^\top P_0^{1/2}\dot A_i,
+  \qquad i\in\{1,2\}.
+\]
+Then the pullback AIRM pair kernel is
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  \mathfrak G_R^{\mathrm{comp}}(\xi_1,\xi_2)
+  &:={}
+  \left\langle
+  D\widetilde\Gamma_{m,P_0}[\xi_1],
+  D\widetilde\Gamma_{m,P_0}[\xi_2]
+  \right\rangle_{\widetilde\Gamma_{m,P_0},\AI}
+  \\
+  &={}
+  \tr(R^{-1}H_1R^{-1}H_2)
+  +2\tr\!\left(K_1\Xiop(R)K_2^\top\right),
+  \end{aligned}}
+  \label{eq:completion-pair-kernel}
+\end{equation}
+where
+\begin{equation}
+  \Xiop(R)=(R-I)R^{-1}(R-I)=R+R^{-1}-2I\succeq0.
+  \label{eq:mismatch-weight}
+\end{equation}
+In particular, for \(\xi=(\dot R,K)\),
+\begin{equation}
+  \boxed{
+  \norm{D\widetilde\Gamma_{m,P_0}[\dot A,\dot R]}_{\widetilde\Gamma_{m,P_0},\AI}^2
+  =\mathfrak G_R^{\mathrm{comp}}(\xi,\xi)
+  =
+  \fro{R^{-1/2}\dot R R^{-1/2}}^2
+  +2\tr\!\left(K\Xiop(R)K^\top\right),}
+  \label{eq:stratified-line-element}
+\end{equation}
+so visible-target and subspace-motion blocks are orthogonal.
+
+More explicitly, define the completion feature
+\begin{equation}
+  \Phi_R(\xi)
+  =
+  \left(
+  R^{-1/2}HR^{-1/2},
+  \sqrt{2}\,K(R-I)R^{-1/2}
+  \right).
+  \label{eq:completion-feature}
+\end{equation}
+Then
+\(
+\mathfrak G_R^{\mathrm{comp}}(\xi_i,\xi_j)
+=\langle\Phi_R(\xi_i),\Phi_R(\xi_j)\rangle_F
+\)
+in the direct-sum Frobenius space.  Hence for any directions
+\(\xi_1,\ldots,\xi_k\), the pair matrix
+\begin{equation}
+  \mathbf G
+  =\left[\mathfrak G_R^{\mathrm{comp}}(\xi_i,\xi_j)\right]_{i,j=1}^k
+  \succeq0,
+  \qquad
+  \rank\mathbf G
+  =\dim\operatorname{span}\{\Phi_R(\xi_i):1\le i\le k\}.
+  \label{eq:completion-gram-rank}
+\end{equation}
+Moreover,
+\begin{equation}
+  \mathfrak G_R^{\mathrm{comp}}(\xi_i,\xi_j)=0
+  \quad\Longleftrightarrow\quad
+  \Phi_R(\xi_i)\perp\Phi_R(\xi_j).
+  \label{eq:completion-pair-orthogonality}
+\end{equation}
+The exact horizontal differential kernel of the total parameterization is
+\begin{equation}
+  \ker D\widetilde\Gamma_{m,P_0}
+  =\{(\dot A,0):K(R-I)=0\}.
+  \label{eq:stratified-kernel}
+\end{equation}
+If \(m<d\), the pullback is nondegenerate precisely on the regular subset
+\(\det(R-I)\ne0\), where
+\(\widetilde\Gamma_{m,P_0}=\Gamma_{m,P_0}\) is the diffeomorphism of
+\cref{thm:rank-stratification}.  At singular descriptors, rotation of a
+reference-valued visible mode is unidentifiable from the completed matrix.
+If \(m=d\), there is no subspace-rotation block: the visible AIRM term is
+nondegenerate for every \(R\), and the total completion map is a
+diffeomorphism onto \(\SPD^d\).  Thus descriptor singularity occurs only when
+\(m<d\); the ambient SPD manifold and its AIRM remain smooth and
+nondegenerate in every case.
+If
+\(\operatorname{dist}(\operatorname{spec}(R),1)\ge\zeta>0\) and
+\(0<a\le\lambda(R)\le b\), then subspace motion is quantitatively controlled:
+\begin{align}
+  \fro{R^{-1/2}\dot R R^{-1/2}}^2
+  +\frac{2\zeta^2}{b}\fro K^2
+  &\le \norm{\dot P}_{P,\AI}^2
+  \nonumber\\
+  &\le
+  \fro{R^{-1/2}\dot R R^{-1/2}}^2
+  +2\max_{x\in[a,b]}\frac{(x-1)^2}{x}\fro K^2.
+  \label{eq:stratified-conditioning}
+\end{align}
+\end{theorem}
+
+\begin{corollary}[Reduced completion value and completed motion]
+\label{cor:reduced-completion-value}
+At fixed \(P_0\), in the normalized chart \(A^\top P_0A=I\), the reduced
+minimum-distance value is
+\begin{equation}
+  \overline E(A,R)
+  :=\min_{A^\top PA=R}\frac12\dai(P_0,P)^2
+  =\frac12\dai(I,R)^2.
+  \label{eq:reduced-completion-energy}
+\end{equation}
+It contains no independent information-subspace coordinate.  Consequently,
+holding \(R\) fixed, all first and mixed parameter derivatives generated by
+horizontal variations of \(A\) vanish.  Exact completion has already removed
+the need for an implicit vertical stationarity solve: the minimizing ambient
+matrix is the explicit section \(P=\Psi_{P_0,A}(R)\).  The pullback pair
+metric \eqref{eq:completion-pair-kernel} is a different second-order object:
+it measures motion of this minimizing matrix rather than curvature of the
+reduced value.
+\end{corollary}
+
+\begin{remark}[Reduced value versus completion motion]
+\label{rem:value-versus-motion}
+The distinction is already visible for \(d=2\), \(m=1\), \(P_0=I\), and a
+scalar target \(r>0\), \(r\ne1\).  With
+\(u(\theta)=(\cos\theta,\sin\theta)^\top\), the canonical completion is
+\[
+  P_\star(\theta)=I+(r-1)u(\theta)u(\theta)^\top.
+\]
+Its reduced minimum-distance value is the constant
+\(\tfrac12\log^2r\), whereas
+\[
+  \norm{\dot P_\star(0)}_{P_\star(0),\AI}^2
+  =\frac{2(r-1)^2}{r}>0.
+\]
+Thus vanishing subspace derivatives of the optimized value coexist with
+nonzero metric motion of its canonical minimizer.  A frozen--relaxed
+second-variation decomposition may likewise contain nonzero direct and
+Schur terms that cancel; their split depends on the chosen trivialization of
+the moving constraint.  The completion kernel itself is analytic for every
+\(R\in\SPD^m\), including repeated eigenvalues, and its degeneracy is exactly
+the descriptor non-identifiability in \eqref{eq:stratified-kernel}.
+\end{remark}
+
+The same identity has a gauge-covariant moving-reference form.  Let
+\(P_{0,t}=G_tG_t^\top\), define
+\[
+  R_{0,t}=A_t^\top P_{0,t}A_t,
+  \quad
+  U_t=G_t^\top A_tR_{0,t}^{-1/2},
+  \quad
+  \bar R_t=R_{0,t}^{-1/2}R_tR_{0,t}^{-1/2},
+\]
+\[
+  Q_t=I+U_t(\bar R_t-I)U_t^\top,
+  \qquad
+  \Omega_t=G_t^{-1}\dot G_t,
+  \qquad
+  \mathfrak D_tQ_t=\dot Q_t+\Omega_tQ_t+Q_t\Omega_t^\top.
+\]
+
+\begin{proposition}[Covariant moving-reference identity]
+\label{prop:moving-reference}
+\mbox{}\par\noindent
+For \(P_t=\Psi_{P_{0,t},A_t}(R_t)=G_tQ_tG_t^\top\),
+\begin{equation}
+  \boxed{
+  \norm{\dot P_t}_{P_t,\AI}^2
+  =\fro{Q_t^{-1/2}(\mathfrak D_tQ_t)Q_t^{-1/2}}^2.}
+  \label{eq:moving-reference}
+\end{equation}
+Under \(G_t'=G_tO_t\) with \(O_t\) orthogonal,
+\[
+  Q_t'=O_t^\top Q_tO_t,
+  \qquad
+  \mathfrak D_t'Q_t'=O_t^\top(\mathfrak D_tQ_t)O_t.
+\]
+Hence \eqref{eq:moving-reference} is independent of the moving frame.
+\end{proposition}
+
+For a fixed reference and a fixed-rank curve, integrating
+\eqref{eq:stratified-line-element} gives the exact energy decomposition
+\begin{align}
+  \int_0^T\norm{\dot P_t}_{P_t,\AI}^2\,\dd t
+  &=\int_0^T\fro{R_t^{-1/2}\dot R_tR_t^{-1/2}}^2\,\dd t
+  \nonumber\\
+  &\quad+2\int_0^T\tr(K_t\Xiop(R_t)K_t^\top)\,\dd t.
+  \label{eq:integrated-energy}
+\end{align}
+
+\begin{corollary}[Boundary of continuous rank loss]
+\label{cor:rank-loss}
+Suppose
+\(P_t=P_0^{1/2}[I+U_t(R_t-I)U_t^\top]P_0^{1/2}\) has active rank \(m\)
+for \(t<t_0\) and converges to a point of rank at most \(m-r\) relative to
+\(P_0\).  Then at least \(r\) singular values of \(R_t-I\) converge to zero.
+Thus continuous rank loss can occur only through visible modes approaching the
+reference geometry.
+\end{corollary}
+
+The proofs are collected in \cref{app:stratified-proofs}.  The line element is
+a kinematic identity on the completion bundle.  A learning or control law
+would require an additional evolution rule for \((P_0,A,R)\).

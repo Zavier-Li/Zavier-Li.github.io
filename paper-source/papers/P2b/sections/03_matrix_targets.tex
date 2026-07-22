@@ -1,0 +1,333 @@
+\section{Spectral Targets in Affine-Invariant Geometry}
+\label{sec:information-rdgc}
+
+We begin with affine-invariant SPD geometry and isolate the static spectral
+principles used by the structured families.
+
+\subsection{Relative SPD geometry}
+
+Let
+\[
+  f(\theta)=\frac12\theta^\top H\theta,
+  \qquad H\in\SPD^d.
+\]
+For a metric \(G\in\SPD^d\), gradient flow is
+\(\dot\theta=-G^{-1}H\theta\).  Define the relative metric
+\[
+  S=H^{-1/2}GH^{-1/2}.
+\]
+Then \(\kappa(G^{-1}H)=\kappa(S)\), where the left side denotes the ratio of
+generalized eigenvalues in \(Hv=\lambda Gv\).
+
+The affine-invariant metric has line element and distance
+\[
+  \norm{Z}_{S,\AI}
+  =\fro{S^{-1/2}ZS^{-1/2}},
+  \qquad
+  d_{\AI}(S_0,S_1)
+  =\fro{\log(S_0^{-1/2}S_1S_0^{-1/2})}.
+\]
+The SPD cone is a finite-dimensional Hadamard manifold
+\cite{bhatia2007positive,pennec2006riemannian}.
+
+For \(K\ge1\), set
+\[
+  \Ck=\{S\in\SPD^d:\kappa(S)\le K\}.
+\]
+
+\begin{theorem}[Full-SPD spectral benchmark]
+\label{thm:full-spd-benchmark}
+Let \(y_1\le\cdots\le y_d\) be the ordered log-eigenvalues of
+\(S_0\in\SPD^d\).  Then
+\[
+  D_K(S_0)
+  :=d_{\AI}(S_0,\Ck)
+  =
+  \min_{c\in\R}
+  \left(
+  \sum_{i=1}^d\dist(y_i,[c,c+\log K])^2
+  \right)^{1/2}.
+\]
+\end{theorem}
+
+Thus the unconstrained benchmark clips the relative log-spectrum into an
+interval of width \(\log K\).  Restricted families constrain which spectral
+and eigenspace motions are admissible.
+
+\subsection{Structured metric families and target distance}
+
+Let \(\F\subset\SPD^d\) be an admissible metric family and define its
+Hessian-relative realization
+\[
+  \mathcal S_\F(H)
+  =
+  \{H^{-1/2}GH^{-1/2}:G\in\F\}.
+\]
+A realization specifies a path-connected component, treatment of scale
+freedom, an admissible absolutely continuous path class, and the induced or
+quotient affine-invariant length.  Smooth embedded, closed geodesically convex,
+quotient, and stratified families therefore remain distinct cases.
+
+\begin{definition}[Structured affine-invariant target distance]
+\label{def:restricted-complexity}
+For \(G_0\in\F\) and \(S_0=H^{-1/2}G_0H^{-1/2}\), define
+\[
+\begin{aligned}
+  D_{K,\F}(S_0;H)
+  =
+  \inf\{&\Len_{\AI}(S_{[0,T]}):
+  S(0)=S_0,\ S(T)\in\Ck,\\
+  &S_t\in\mathcal S_\F(H),
+  \ S_{[0,T]}\text{ admissible}\}.
+\end{aligned}
+\]
+The value is \(+\infty\) if the relative target is empty or lies in a
+different admissible component.
+\end{definition}
+
+This target distance records the least intrinsic affine-invariant motion from the initial geometry to a structured condition target.  The endpoint records visible
+preconditioning quality, and the admissible curve is eliminated by the
+infimum.  For closed geodesically convex realizations it reduces to a unique
+target projection; nonconvex or stratified families retain the variational
+definition without inheriting that uniqueness.
+
+\subsection{Generating geodesically convex information}
+
+For \(H_a\in\SPD^d\) and a convex permutation-invariant function
+\(\phi_a:\R^d\to\R\), define
+\[
+  \Omega_a(G)
+  =
+  \phi_a\!\left(
+  \log\lambda(G^{-1/2}H_aG^{-1/2})
+  \right).
+\]
+
+\begin{theorem}[Information-spectrum generation law]
+\label{thm:structured-log-spectral-mother}
+Let \(\F\subset\SPD^d\) be nonempty, closed, and geodesically convex.  If
+\(\rho:\R^q\to\R\) is convex and nondecreasing in every coordinate, then
+\[
+  \mathcal J(G)
+  =
+  \rho(\Omega_1(G),\ldots,\Omega_q(G))
+\]
+is closed and geodesically convex on \(\F\).  The conclusion holds pointwise
+for continuously time-varying \(H_{t,a},\phi_{t,a},\rho_t\).
+
+If every \(\phi_a(x+c\mathbf1)=\phi_a(x)\), then \(\mathcal J(cG)=\mathcal
+J(G)\).  If \(\phi_a\) is \(L_a\)-Lipschitz and \(\rho\) is
+\(L_\rho\)-Lipschitz, replacing \(H_a\) by \(\widehat H_a\) changes the
+objective by at most
+\[
+  \sup_{G\in\F}
+  |\widehat{\mathcal J}(G)-\mathcal J(G)|
+  \le
+  L_\rho
+  \left(\sum_{a=1}^qL_a^2
+  d_{\AI}(H_a,\widehat H_a)^2\right)^{1/2}.
+\]
+\end{theorem}
+
+The condition-number objective is obtained from
+\[
+  \phi_{\mathrm{osc}}(x)=\max_i x_i-\min_i x_i,
+  \qquad
+  \mathcal J_H(G)=\log\kappa(G^{-1}H).
+\]
+
+\subsection{Static action value, exact penalty, and contraction}
+
+The static theorem is stated on an abstract finite-dimensional Hadamard
+manifold so that it can be reused by every closed geodesically convex family.
+
+\begin{theorem}[Restricted target projection and exact penalty]
+\label{thm:restricted-geometrodynamic-mother}
+Let \((\mathcal M,d)\) be a finite-dimensional Hadamard manifold,
+\(\F\subset\mathcal M\) a nonempty closed geodesically convex set, and
+\(\mathcal J:\F\to\R\cup\{+\infty\}\) proper, closed, geodesically convex,
+and bounded below.  Suppose
+\[
+  \mathcal C_\tau=\{G\in\F:\mathcal J(G)\le\tau\}
+\]
+is nonempty.  For quadratic kinetic action and terminal indicator
+\(\iota_{\mathcal C_\tau}\), the value is
+\[
+  V(t,G)=\frac{d(G,\mathcal C_\tau)^2}{2(T-t)}.
+\]
+For \(G_0\in\F\), the least admissible length is
+\[
+  \mathfrak D_{\tau,\F}^{\mathcal J}(G_0)
+  =d(G_0,\mathcal C_\tau)
+  =d(G_0,P_\tau),
+  \qquad
+  P_\tau=P_{\mathcal C_\tau}(G_0).
+\]
+The projection and constant-speed minimizing geodesic are unique, and for
+every \(Y\in\mathcal C_\tau\),
+\[
+  d(G_0,Y)^2
+  \ge
+  d(G_0,P_\tau)^2+d(P_\tau,Y)^2.
+\]
+
+If families or thresholds are nested, their distances are monotone.  If the
+objectives satisfy
+\[
+  \sup_{G\in\F}|\widehat{\mathcal J}(G)-\mathcal J(G)|\le\varepsilon,
+\]
+then
+\[
+  \mathfrak D_{\tau+\varepsilon,\F}^{\mathcal J}(G_0)
+  \le
+  \mathfrak D_{\tau,\F}^{\widehat{\mathcal J}}(G_0)
+  \le
+  \mathfrak D_{\tau-\varepsilon,\F}^{\mathcal J}(G_0)
+\]
+whenever the outer values are finite.
+
+Assume a strict feasible geometry \(G_s\) satisfies
+\(\mathcal J(G_s)\le\tau-\sigma\), \(\sigma>0\), and put
+\(R=d(G_0,G_s)>0\).  On
+\(\mathcal D=\F\cap\overline B_R(G_0)\), every
+\[
+  \Lambda>\frac{2R^2}{\sigma}
+\]
+makes
+\[
+  \Phi_\Lambda(G)
+  =
+  \frac12d(G_0,G)^2
+  +\Lambda\pospart{\mathcal J(G)-\tau}
+\]
+an exact penalty with unique minimizer \(P_\tau\).  For every \(\eta>0\),
+the proximal iteration
+\[
+  G_{r+1}
+  =
+  \argminop_{G\in\mathcal D}
+  \left\{\Phi_\Lambda(G)+\frac{d(G,G_r)^2}{2\eta}\right\}
+\]
+satisfies
+\[
+  d(G_r,P_\tau)^2
+  \le
+  (1+2\eta)^{-r}d(G_0,P_\tau)^2.
+\]
+If \(R=0\), then \(G_0=P_\tau\).
+\end{theorem}
+
+The proximal recursion is a variational convergence benchmark: its rate is
+conditional on solving each global proximal subproblem.  No claim is made that
+those subproblems are cheaper than the original target projection for an
+arbitrary family.
+
+For the condition-number target, take \(\mathcal J=\mathcal J_H\) and \(\tau=\log K\).  Then
+\(\mathfrak D_{\tau,\F}^{\mathcal J}=D_{K,\F}\) for every closed
+geodesically convex realization.
+
+\subsection{Normal response and the nearest-versus-best question}
+
+Let \(\F\) now be a nonempty, closed, geodesically convex smooth embedded
+submanifold.  In whitened coordinates define
+\[
+  \widehat T_G\F
+  =\{G^{-1/2}UG^{-1/2}:U\in T_G\F\},
+  \qquad
+  \widehat N_G\F=(\widehat T_G\F)^\perp.
+\]
+For \(S_a=G^{-1/2}H_aG^{-1/2}\), let
+\[
+  \mathfrak Z_a(G)
+  =
+  \partial_X[\phi_a(\lambda(X))]_{X=\log S_a}.
+\]
+Here \(\partial_X\) is the Euclidean convex subdifferential in the whitened
+symmetric-matrix coordinate \(X\); the affine-invariant tangent/cotangent
+identification is applied only after this whitening.
+
+\begin{lemma}[Log-spectral pullback identity]
+\label{lem:log-spectral-pullback}
+Let \(S\in\SPD^d\), let \(\phi:\R^d\to\R\) be convex and
+permutation invariant, and set \(F(Y)=\phi(\lambda(Y))\) on
+\(\mathbb S^d\).  For every \(X\in\mathbb S^d\),
+\[
+  \frac{\dd}{\dd t}\bigg|_{t=0+}
+  F\!\left(\log(e^{-tX/2}Se^{-tX/2})\right)
+  =
+  \max_{Z\in\partial F(\log S)}-\tr(ZX).
+\]
+Consequently, the whitened AIRM subdifferential of the corresponding relative
+log-spectral objective is exactly \(-\partial F(\log S)\), including at
+repeated eigenvalues.
+\end{lemma}
+
+\begin{theorem}[Normal-response law]
+\label{thm:normal-response-law}
+A point \(G\in\F\) globally minimizes the information objective in
+\cref{thm:structured-log-spectral-mother} if and only if there exist
+\[
+  \theta\in\partial\rho(\Omega_1(G),\ldots,\Omega_q(G)),
+  \qquad
+  Z_a\in\mathfrak Z_a(G),
+\]
+such that
+\[
+  \sum_{a=1}^q\theta_aZ_a\in\widehat N_G\F.
+\]
+Thus optimality is exact cancellation of the tangent information force.
+
+For a single \(H\), let \(P=P_\F(H)\) be its unique nearest affine-invariant point
+in \(\F\) and set \(S=P^{-1/2}HP^{-1/2}\).  Then
+\(\log S\in\widehat N_P\F\), and \(P\) also minimizes the log-spectral
+difficulty \(\Omega_{\phi,H}\) if and only if
+\[
+  \mathfrak Z_\phi(P)\cap\widehat N_P\F\ne\emptyset.
+\]
+\end{theorem}
+
+\begin{corollary}[Sharp scale-closed threshold]
+\label{thm:scale-closed-threshold}
+Let \(d\ge2\) and let \(\F\subset\SPD^d\) be nonempty and closed under
+positive rescaling.  Define
+\[
+  K_\F^\star(H)=\inf_{G\in\F}\kappa(G^{-1}H),
+  \qquad
+  \delta_\F(H)=d_{\AI}(H,\F),
+  \qquad
+  \alpha_d=\sqrt{\frac{d}{\lfloor d^2/4\rfloor}}.
+\]
+Then
+\[
+  \log K_\F^\star(H)\ge\alpha_d\delta_\F(H),
+  \qquad
+  K_\F^\star(H)\ge\exp\{\alpha_d d_{\AI}(H,\F)\}.
+\]
+The constant \(\alpha_d\) is sharp over general scale-closed families.
+\end{corollary}
+
+\begin{proposition}[Monotonicity and full-SPD lower bound]
+\label{prop:monotonicity}
+If \(\F_1\subset\F_2\) and every admissible \(\F_1\)-path is an admissible
+\(\F_2\)-path with the same length, then
+\[
+  D_{K,\F_1}(S_0;H)\ge D_{K,\F_2}(S_0;H).
+\]
+In particular, \(D_{K,\F}(S_0;H)\ge D_K(S_0)\) whenever restricted paths are
+ambient SPD paths.  Also
+\(D_{K_1,\F}\ge D_{K_2,\F}\) for \(K_1\le K_2\).
+\end{proposition}
+
+\begin{proposition}[Intrinsic submanifold distance]
+\label{prop:submanifold-distance}
+If \(\mathcal S_\F(H)\) is a smooth embedded submanifold equipped with the
+ambient induced length, then
+\[
+  D_{K,\F}(S_0;H)
+  =
+  d_{\mathcal S_\F(H)}
+  (S_0,\mathcal S_\F(H)\cap\Ck).
+\]
+The distance is \(+\infty\) when the target lies outside the admissible
+path-connected component.
+\end{proposition}

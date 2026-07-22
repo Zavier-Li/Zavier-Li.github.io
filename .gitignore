@@ -1,0 +1,13 @@
+paper-source/**/*.aux
+paper-source/**/*.bbl
+paper-source/**/*.blg
+paper-source/**/*.fdb_latexmk
+paper-source/**/*.fls
+paper-source/**/*.log
+paper-source/**/*.out
+paper-source/**/main.pdf
+paper-source/**/main_arxiv.pdf
+paper-source/**/docsiamart.pdf
+paper-source/**/ex_article.pdf
+paper-source/**/*.synctex.gz
+paper-source/**/*.thm

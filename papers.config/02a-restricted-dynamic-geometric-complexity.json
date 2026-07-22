@@ -1,0 +1,26 @@
+{
+  "slug": "restricted-dynamic-geometric-complexity",
+  "number": "3",
+  "order": 3,
+  "year": "2026",
+  "status": "preprint",
+  "arxiv": "2607.07204",
+  "source": {
+    "directory": "papers/P2a",
+    "tex": "main.tex",
+    "include": [
+      "main.tex", "preamble.tex", "references.bib", "siamart250211.cls",
+      "siamplain.bst", "sections", "appendix"
+    ]
+  },
+  "en": {
+    "title": "Restricted Dynamic Geometric Complexity: Path-Space Reduction and Möbius-Jacobi Response",
+    "short": "A path-space theory for the geometric effort of reaching useful structured metrics.",
+    "abstract": "Structured preconditioners live in a restricted family of positive metrics. This work defines their geometric effort as the least affine-invariant length of a path reaching a condition target. Path elimination yields Bellman composition; a Green inverse yields value curvature, exact Möbius effects, and finite-order response laws on a Hadamard state space."
+  },
+  "zh": {
+    "title": "受限动态几何复杂度：路径空间约化与 Möbius-Jacobi 响应",
+    "short": "以路径空间理论刻画结构化度量达到有效预条件状态所需的几何代价。",
+    "abstract": "结构化预条件器只能在受限的正定度量族内运动。本文将其几何代价定义为达到条件数目标的最短仿射不变路径长度。路径消去给出 Bellman 复合律；Green 逆则在 Hadamard 状态空间上导出价值曲率、精确 Möbius 效应和任意有限阶响应定律。"
+  }
+}

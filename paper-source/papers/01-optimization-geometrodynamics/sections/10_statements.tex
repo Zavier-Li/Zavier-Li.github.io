@@ -1,0 +1,13 @@
+\section*{Data and Code Availability}
+
+The deterministic synthetic generator, full and active reference
+implementations, fixed configuration, raw CSV results, and figure-generation
+script are included in the source archive under \texttt{experiments/}.  They
+use no external datasets.  Seeds, dimensions, tolerances, repetitions, and
+software requirements are recorded in \texttt{experiments/config.json} and
+\texttt{experiments/README.md}.  The code evaluates the exact-arithmetic
+formulas with standard floating-point eigendecompositions; it is numerical
+validation, not a certified matrix-function package.  The residual-oracle
+result still assumes rigorous direction-error and initial-radius majorants
+satisfying \cref{eq:computable-relative-error-test}, and its implementation
+boundary is stated after \cref{cor:inexact-action-solver}.

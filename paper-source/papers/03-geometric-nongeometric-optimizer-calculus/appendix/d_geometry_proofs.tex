@@ -1,0 +1,119 @@
+\section{Proofs}
+\label{app:proofs}
+
+\subsection{Proof of Proposition~\ref{prop:full-spd-geometricization}}
+
+If $u=-Pg$ with $P\succ0$ and $g\neq0$, then
+\[
+g^\top u=-g^\top Pg<0.
+\]
+Conversely, suppose $g^\top u<0$ and define $b=-u$.  Then $g^\top b>0$.
+Choose an orthonormal basis with $e_1=g/\norm{g}$.  In this basis write
+\[
+b=\beta e_1+c,\qquad c\perp e_1,
+\qquad
+\beta=e_1^\top b=\frac{g^\top b}{\norm g}>0.
+\]
+For $d=1$, set $P=[\beta/\norm g]$.  For $d>1$, define
+\[
+\widetilde P
+=
+\begin{pmatrix}
+\beta/\norm g & c^\top/\norm g\\
+c/\norm g & \gamma I
+\end{pmatrix}
+\]
+in the chosen basis.  Then
+\[
+\widetilde P(\norm g e_1)=b.
+\]
+The Schur complement of the upper-left block is
+\[
+\gamma I-\frac{cc^\top}{\norm g\,\beta}.
+\]
+Choosing $\gamma>\norm c^2/(\norm g\,\beta)$ makes this complement positive,
+so $\widetilde P\succ0$.  Transforming back to the original coordinates gives
+an SPD matrix $P$ with $Pg=b=-u$, hence $u=-Pg$.
+
+\subsection{Proof of Corollary~\ref{cor:critical-boundary}}
+
+If $\dd f_\theta=0$, linearity gives $P_\theta\dd f_\theta=0$ for every
+positive cometric $P_\theta$.  Thus a pure positive-geometry update is zero.
+Any nonzero tangent vector at that point must enter through another module or
+through a different modeling convention.
+
+\subsection{Proof of Proposition~\ref{prop:diagonal-expressivity}}
+
+The equation $u=-Pg$ with $P=\diag(p_1,\ldots,p_d)$ and $p_i>0$ is equivalent
+coordinate-wise to
+\[
+u_i=-p_i g_i.
+\]
+If $g_i=0$, exact expression requires $u_i=0$.  If $g_i\neq0$, exact
+expression requires $p_i=-u_i/g_i>0$, equivalently $u_i g_i<0$.
+
+For the residual, the squared Euclidean objective separates:
+\[
+\inf_{p_i>0}\sum_i (u_i+p_i g_i)^2
+=
+\sum_i \inf_{p_i>0}(u_i+p_i g_i)^2 .
+\]
+If $g_i=0$, the term is $u_i^2$.  If $g_i\neq0$ and $u_i g_i<0$, the
+positive choice $p_i=-u_i/g_i$ gives zero.  If $g_i\neq0$ and $u_i g_i>0$,
+the unconstrained minimizer is negative, so the infimum over $p_i>0$ is the
+boundary value $u_i^2$, approached as $p_i\downarrow0$.  If $g_i\neq0$ and
+$u_i=0$, the infimum is zero, again approached as $p_i\downarrow0$, but it is
+not attained by a strictly positive $p_i$.  This proves the formula and the
+attainment statement.
+
+\subsection{Bounded diagonal residual}
+
+\begin{proposition}[Bounded diagonal residual]
+\label{prop:bounded-diagonal-residual}
+Fix $0<\lambda\le L<\infty$ and let
+\[
+\Pcal_{\rm diag}^{[\lambda,L]}
+=
+\{\diag(p_1,\ldots,p_d):\lambda\le p_i\le L\}.
+\]
+For $g,u\in\R^d$ and $h=I$,
+\[
+\rho_{{\rm diag}^{[\lambda,L]},I}(u;g)^2
+=
+\sum_{i=1}^d (u_i+p_i^\star g_i)^2,
+\]
+where, for $g_i\neq0$,
+\[
+p_i^\star
+=
+\min\!\left\{L,\max\!\left\{\lambda,-\frac{u_i}{g_i}\right\}\right\},
+\]
+and for $g_i=0$ any $p_i^\star\in[\lambda,L]$ gives the same term
+$u_i^2$.
+\end{proposition}
+
+\begin{proof}
+The squared residual separates by coordinate:
+\[
+\inf_{\lambda\le p_i\le L}\sum_i (u_i+p_i g_i)^2
+=
+\sum_i \inf_{\lambda\le p_i\le L}(u_i+p_i g_i)^2 .
+\]
+If $g_i=0$, the coordinate objective is constant and equal to $u_i^2$.  If
+$g_i\neq0$, the unconstrained minimizer of the one-dimensional convex
+quadratic is $-u_i/g_i$.  Projecting this minimizer onto the interval
+$[\lambda,L]$ gives $p_i^\star$, and substituting the coordinate minimizers
+gives the stated formula.
+\end{proof}
+
+\subsection{Proof of Proposition~\ref{prop:block-expressivity}}
+
+For a block-diagonal $P$, the equation $u=-Pg$ separates over blocks:
+\[
+u_{B_j}=-P_{B_j}g_{B_j}.
+\]
+If $g_{B_j}=0$, exact expression requires $u_{B_j}=0$.  If $g_{B_j}\neq0$,
+\cref{prop:full-spd-geometricization} applied inside the block gives
+existence of $P_{B_j}\succ0$ exactly when
+$g_{B_j}^\top u_{B_j}<0$.  Combining the block solutions gives the desired
+block-diagonal matrix.

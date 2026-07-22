@@ -1,0 +1,61 @@
+\section{Deterministic Verification}
+\label{sec:verification}
+
+The source tree contains a finite-dimensional verification of identities that
+are algebraically independent of the proofs.  A nodal discretization of a
+strictly convex quartic path action is solved under two affine bulk/terminal
+interventions.  The exact tridiagonal Hessian supplies every Jacobi solve, and
+tensor Gauss--Legendre quadrature integrates the curvature over the
+intervention square.
+
+At \(N=40\) nodes and quadrature order \(q=10\), the four-vertex effect is
+\[
+  \zeta_{\{1,2\}}=-0.15744124517954516,
+  \qquad
+  I_{\rm Jac}=-0.15744124517876962.
+\]
+Their absolute discrepancy is
+\(7.755\times10^{-13}\), and the maximum Green-reciprocity error is
+\(8.327\times10^{-17}\).  The minimum sampled coordinate-Hessian eigenvalue
+is \(0.1041677\), which certifies positive definiteness of this discrete
+problem only; its value is basis- and mesh-scaled.
+
+\begin{table}[t]
+\caption{Deterministic mesh and quadrature sensitivity.  The effect changes
+with the mesh, while the two discrete evaluations agree to approximately
+machine precision.  The coordinate eigenvalue is not a discretization of a
+mesh-independent coercivity constant.}
+\label{tab:verification-sensitivity}
+\centering
+\begin{tabular}{rrrr}
+\toprule
+\(N\) & four-vertex effect & identity error & coordinate \(\lambda_{\min}\)\\
+\midrule
+10 & \(-1.7647773\times10^{-1}\) & \(9.398\times10^{-13}\) & \(3.963001\times10^{-1}\)\\
+20 & \(-1.6369020\times10^{-1}\) & \(1.123\times10^{-12}\) & \(2.049008\times10^{-1}\)\\
+40 & \(-1.5744125\times10^{-1}\) & \(7.755\times10^{-13}\) & \(1.041677\times10^{-1}\)\\
+80 & \(-1.5435403\times10^{-1}\) & \(4.931\times10^{-13}\) & \(5.251650\times10^{-2}\)\\
+\midrule
+\(q\) at \(N=40\) & 4 & 6 & 10 / 16\\
+identity error & \(1.008\times10^{-10}\) & \(1.267\times10^{-12}\) &
+\(7.755/7.507\times10^{-13}\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The same program verifies the diagonal interaction matrix and determinant in
+\textup{(D2)}, both signs of the moving hard-target interaction in
+\textup{(D6)}, and the sequential-to-ambient ratio in \textup{(D8)}.  A
+separate symbolic check verifies the scalar
+implicit-differentiation specialization of the third-order formula; it is not
+a numerical validation of the full path-space recursion in
+\cref{cor:all-order-mobius-jacobi}.
+
+The deterministic entry point is
+\nolinkurl{experiments/toy/verify_mobius_jacobi.py}; passing
+\texttt{--sensitivity} produces \cref{tab:verification-sensitivity}.  No
+random seed is used.  The reported run used Python 3.11.4, NumPy 1.26.4,
+SciPy 1.10.1, and SymPy 1.11.1.  These checks compare two evaluations of the
+same discretized identities.  They establish discrete algebraic consistency,
+with no continuous-discretization error or optimizer-performance claim.
+

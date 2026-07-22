@@ -1,0 +1,48 @@
+\section{Conclusion and Extensions}
+\label{sec:discussion}
+
+We studied affine-invariant least-deformation completion from the exact action
+\(PA=B\).  The global bundle theorem identifies every determinant-one feasible
+fiber and its analytic nearest-controller section.  Total geodesy and the
+explicit logarithmic residual turn this geometric selection into a globally
+linearly convergent reduced solver with posterior certificates.  From the
+identity, or another active-compatible hidden state, the active realization
+confines all dense matrix functions to dimension \(r\le2m\); arbitrary hidden
+starts retain convergence without this operation bound.  Nested action fibers
+further yield exact and residual-controlled approximate Pythagorean decreases
+and the sharp rank threshold for normalized inverse-Hessian recovery.
+
+Variational reduction unifies these conclusions.  Its vertical Hessian governs
+both response and computation: in Corollary~\ref{cor:action-interaction-response},
+\(H_B^{-1}\) maps mechanism
+perturbations to interaction curvature and visible-action perturbations to
+canonical-section susceptibility.  For the unperturbed completion problem,
+the same fiber geometry produces the optimization residual and its
+certificates.  The resulting chain is
+\[
+  \begin{aligned}
+    \text{reduction}
+    &\;\longrightarrow\;\text{vertical response}
+      \;\longrightarrow\;\text{action bundle}\\
+    &\;\longrightarrow\;\text{posterior-certified active solver}.
+  \end{aligned}
+\]
+
+The controlled experiments reproduce the posterior inequalities, exact
+full--active trajectory equivalence to numerical precision, and the fixed-size
+active spectral kernel as \(d\) grows.  They also show increasing initial
+radius, curvature majorant, and iteration count as \(A^\top B\) approaches the
+positive-definite boundary.  This is a conditioning diagnostic, not an
+analytic boundary-rate theorem.
+
+Several extensions arise directly from the formulation.  An end-to-end
+finite-precision implementation must supplement the residual-oracle theorem
+with certified exponential updates, factorizations, active bases, determinant
+maintenance, and stored iterates; combining those enclosures with the present
+spectral-arithmetic count would yield a bit-complexity result.  The recovery
+law can be extended by treating the determinant gauge as an additional unknown
+or observation.  Structured controller families replace the totally geodesic
+full-SPD fiber by a restricted feasible set, while noisy actions replace exact
+completion by statistical or robust projection.  These variants provide the
+route from exact canonical completion to implementable adaptive
+preconditioners.

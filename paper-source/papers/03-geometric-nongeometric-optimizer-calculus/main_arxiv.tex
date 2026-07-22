@@ -1,0 +1,46 @@
+\documentclass[10pt]{article}
+\usepackage[preprint]{tmlr}
+
+\input{preamble}
+
+\title{Causal Optimizer Interaction Calculus:\\
+Hidden Geometric Relaxation and Identifiable Interventions}
+
+\author{\name Zavier Li \email zavierli888@gmail.com\\
+      \addr Xidian University\\
+      \addr Xi'an, China}
+
+\def\month{07}
+\def\year{2026}
+\def\openreview{\url{}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+An optimizer experiment observes responses to algorithmic configurations without uniquely revealing hidden mechanisms.  We develop a causal optimizer interaction calculus that separates pathwise realization, M\"obius decomposition, and experimental identification.  Under a fixed innovation coupling, every finite-horizon innovation-driven optimizer admits a canonical behaviorally minimal pathwise realization.  Over any lower-finite intervention poset, its expected response has unique pure effects; for every finite support and design, an incidence operator gives the complete observational gauge, exact identifiability, sharp quotient stability, held-out predictions, and exact noiseless configuration complexity.  The companion P1 paper proves that smooth hidden relaxation gives reduced-value curvature $-G^*H^{-1}G$ and that Boolean contrasts integrate it.  Taking this as a structural input, we prove an observable-readout transfer theorem: arbitrary smooth update or trace readouts inherit an explicit five-term interaction through first and second hidden responses, with no universal sign beyond the reduced-value case.  A third theorem develops Gaussian quotient minimax risk, exact confidence sets and tests, misspecification decomposition, certified decisions, and optimal replication.  A controlled real-data experiment closes the reduced-value chain on a 65-dimensional strongly convex logistic model.  Boolean effects and independent curvature integrals agree within $4.21\times10^{-11}$; nine unobserved continuous intensities agree within $8.88\times10^{-13}$; 100,000 Gaussian campaigns attain 0.9497 ellipsoid coverage and 0.9626 held-out power; and 4500 real-minibatch observations with 20,000 bootstrap draws reject order-two support with interval $[0.001839,0.004399]$.  Finite-response error decreases from $1.43\times10^{-2}$ to $5.55\times10^{-17}$ within its strong-convity bound.  Neural trace audits provide complementary nonconvex response-class evidence.  The paper contributes the causal, readout, and identifiable experimental layer while assigning the underlying Schur and path-space laws to P1 and P2.
+\end{abstract}
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_causal_language}
+\input{sections/04_universal_representation}
+\input{sections/05_hidden_relaxation}
+\input{sections/06_observation_design}
+\input{sections/07_geometric_response_classes}
+\input{sections/08_experiments}
+\input{sections/09_discussion}
+\input{sections/10_statements}
+
+\bibliographystyle{tmlr}
+\bibliography{../../bibliography/references}
+
+\appendix
+\input{appendix/a_universal_proof}
+\input{appendix/b_interaction_proof}
+\input{appendix/c_observation_proof}
+\input{appendix/d_geometry_proofs}
+\input{appendix/e_experiment_details}
+
+\end{document}
+

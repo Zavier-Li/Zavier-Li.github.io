@@ -1,0 +1,181 @@
+\section{Proofs for Metric and Split-Hadamard Reduction}
+\label{app:metric-proofs}
+
+\begin{proof}[Proof of \cref{thm:metric-characterization}]
+Assume (A).  If \(z\in X\) and \(r=d_X(x,z)\), ball surjectivity implies
+\(d_Y(q(x),q(z))\le d_X(x,z)\); hence \(q\) is \(1\)-Lipschitz.  For fixed
+\(y\), set \(\delta=d_Y(q(x),y)\).  Since
+\(y\in\overline B_Y(q(x),\delta)\), submetry gives
+\(z\in\overline B_X(x,\delta)\) with \(q(z)=y\).  Contraction yields
+\[
+  \delta\le d_X(x,z)\le\delta,
+\]
+proving (B), including attainment.
+
+Assume (B).  Taking \(y=q(z)\) gives
+\[
+  d_Y(q(x),q(z))
+  =\min_{q(w)=q(z)}d_X(x,w)
+  \le d_X(x,z),
+\]
+so \(q\) is \(1\)-Lipschitz and maps the ambient ball into the visible ball.
+If \(y\) lies in the visible ball, an attaining fiber minimizer lies in the
+ambient ball.  Thus (B) implies (A).
+
+Assume (B), fix \(z\), and put \(y=q(z)\).  Then
+\(d_X(x,z)\ge d_Y(q(x),y)\), so monotonicity of \(\rho\) gives the lower
+bound from the left side of \eqref{eq:universal-radial-reduction} to the
+right.  An attaining fiber minimizer realizes equality for every \(y\),
+proving the reverse inequality and hence (C).
+
+Finally assume (C).  For \(r\ge0\) and fixed \(y\), use
+\[
+  \rho_r(t)=\begin{cases}0,&t\le r,\\+\infty,&t>r,\end{cases}
+  \qquad
+  \phi_y(u)=\begin{cases}0,&u=y,\\+\infty,&u\ne y.\end{cases}
+\]
+The reduced infimum is zero exactly when
+\(y\in\overline B_Y(q(x),r)\), whereas the ambient infimum is zero exactly
+when a point of \(q^{-1}(y)\) lies in \(\overline B_X(x,r)\).  Equality for
+all \(y,r\) is precisely the submetry identity.  Thus (C) implies (A).
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:coherent-reduction}]
+Assume (A).  If \(q(z)=y\), contraction gives
+\[
+  d_X(x,z)\ge d_Y(q(x),y).
+\]
+Because \(x=s_x(q(x))\) and \(s_x\) is isometric,
+\[
+  d_X(x,s_x(y))=d_Y(q(x),y),
+\]
+which proves (B).
+
+Assume (B), fix \(y_1,y_2\), and put \(x_1=s_x(y_1)\).  Coherence gives
+\(s_{x_1}=s_x\).  Applying (B) with anchor \(x_1\) and target \(y_2\),
+\[
+  d_X(s_x(y_1),s_x(y_2))
+  =d_Y(q(x_1),y_2)=d_Y(y_1,y_2),
+\]
+so (B) implies (A).
+
+Under (B), every \(z\) with \(q(z)=y\) has
+\[
+  \rho(d_X(x,z))+\phi(y)
+  \ge \rho(d_Y(q(x),y))+\phi(y),
+\]
+and \(z=s_x(y)\) realizes equality.  Taking infima proves universal
+reduction and canonical minimizer lifting, so (B) implies (C).
+
+Assume (C), choose \(\rho(t)=t\), and let \(\phi\) be the indicator of a
+singleton \(\{y\}\).  Universal reduction identifies the fiber infimum with
+\(d_Y(q(x),y)\), while the canonical-minimizer clause says that \(s_x(y)\)
+attains it.  Hence (C) implies (B).
+
+The isometric-section property gives the reverse ball inclusion exactly as in
+the proof of \cref{thm:metric-characterization}; hence \(q\) is a submetry.
+For the proximal identity, apply universal reduction with
+\(\rho(t)=t^2/(2\tau)\).  A proper lower-semicontinuous geodesically convex
+function plus squared distance has a unique minimizer in complete CAT(0)
+space.  The section lifts it with equal value.  Coherence then gives exact
+iteration by induction.
+\end{proof}
+
+\section{Proof of the Split-Hadamard Theorem}
+\label{app:split-proofs}
+
+\begin{lemma}[Complete local isometries over a Hadamard base]
+\label{lem:complete-local-isometry}
+Let \(F:L\to B\) be a local Riemannian isometry from a connected complete
+Riemannian manifold to a Hadamard manifold.  Then \(F\) is a global
+Riemannian isometry.
+\end{lemma}
+
+\begin{proof}
+Fix \(p\in L\).  Any geodesic \(\gamma:[0,1]\to B\) beginning at \(F(p)\)
+has a unique local lift beginning at \(p\), obtained from a local inverse of
+\(F\).  A lifted segment has the same speed as \(\gamma\).  If its maximal
+interval ended at \(T\le1\), then for \(s,t\uparrow T\),
+\[
+  d_L(\widetilde\gamma_s,\widetilde\gamma_t)
+  \le \operatorname{Len}(\widetilde\gamma|_{[s,t]})
+  =\operatorname{Len}(\gamma|_{[s,t]})\longrightarrow0.
+\]
+Completeness gives a limit point in \(L\), and a local inverse at that point
+extends the lift past \(T\).  Thus every such geodesic lifts over its entire
+interval.  Since every point of the connected complete manifold \(B\) is
+joined to \(F(p)\) by a minimizing geodesic, \(F\) is surjective.
+
+The same continuation argument gives unique lifting for every piecewise
+smooth path and for homotopies through such paths; equivalently, a complete
+local isometry is a covering map.  The Hadamard manifold \(B\) is simply
+connected, so its connected covering \(L\) has one sheet.  Hence \(F\) is a
+diffeomorphism.  A bijective local Riemannian isometry preserves lengths in
+both directions and is therefore a global Riemannian isometry.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:split-hadamard}]
+Because \(L_x\) is a horizontal integral leaf,
+\(Dq|_{TL_x}\) is an isometry at every point, so \(q|_{L_x}\) is a local
+Riemannian isometry.  The leaf is connected and complete by definition, and
+the Hadamard base is simply connected.  Applying
+\cref{lem:complete-local-isometry} shows directly that
+\(q|_{L_x}:L_x\to B\) is a global Riemannian isometry.
+
+The complete totally geodesic leaf \(L_x\) is geodesically convex in \(M\).
+Indeed, Hopf--Rinow gives an intrinsic minimizing geodesic between any two
+points of the leaf.  Total geodesy makes it an ambient geodesic, and the
+Hadamard property makes that ambient geodesic the unique globally minimizing
+one.  In particular, intrinsic and ambient distances agree on \(L_x\).
+Any horizontal section through \(x\) lies in the same maximal integral leaf
+and equals the inverse \(s_x\) of this global isometry.
+
+For every piecewise smooth ambient curve \(\eta\), Riemannian-submersion
+contraction gives
+\[
+  \operatorname{Len}(q\circ\eta)\le\operatorname{Len}(\eta),
+\]
+and hence \(d_B(q(y),q(z))\le d_M(y,z)\).  If \(q(z)=b\),
+\[
+  d_M(x,z)\ge d_B(q(x),b),
+\]
+while \(s_x(b)\) attains equality.  Suppose another \(z\) also attains it,
+and let \(\eta\) be the ambient minimizing geodesic from \(x\) to \(z\).
+Every inequality in
+\[
+  d_B(q(x),b)
+  \le\operatorname{Len}(q\circ\eta)
+  \le\operatorname{Len}(\eta)
+  =d_M(x,z)
+\]
+is an equality.  The orthogonal decomposition
+\(\dot\eta=\dot\eta^{\mathcal H}+\dot\eta^{\mathcal V}\) then forces
+\(\dot\eta^{\mathcal V}=0\) everywhere.  The geodesic stays in \(L_x\) and
+ends at \(s_x(b)\), proving uniqueness.  The ball identity and radial
+reduction now follow from \cref{thm:metric-characterization}.
+
+Proximal commutation follows from radial reduction with squared distance.  The
+reduced objective has a unique minimizer on the Hadamard base.  Equality in
+the reduction first forces the compression of any full minimizer to equal that
+visible proximal point and then forces the full point to be its unique shortest
+lift from \(x\).  Thus the full proximal point is unique even though no
+geodesic-convexity assertion for \(\phi\circ q\) on \(M\) is needed.  Finally, for
+\(v\in T_zM\),
+\[
+  \dd(\phi\circ q)_z[v]
+  =h_{q(z)}(\operatorname{grad}_B\phi(q(z)),Dq(z)[v]).
+\]
+This vanishes on \(\mathcal V_z\); on \(\mathcal H_z\), \(Dq\) is an
+isometry.  Riesz representation gives \eqref{eq:split-gradient}.  Since
+\(Ds_x\) is the inverse horizontal isometry, the chain rule shows that
+\(z=s_x\circ y\) solves the lifted equation on every interval on which the
+visible solution \(y\) exists.  Local Lipschitz continuity gives uniqueness
+of maximal solutions by the standard ODE theorem.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:split-coherent}]
+The sections are isometric.  If \(z=s_x(y)\), then \(z\) and \(x\) lie on
+the same maximal horizontal leaf, so both \(s_z\) and \(s_x\) invert the
+restriction of \(q\) to that leaf.  Thus \(s_z=s_x\), proving coherence.
+The unique shortest-lift statement gives rigidity.
+\end{proof}

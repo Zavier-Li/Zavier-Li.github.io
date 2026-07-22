@@ -1,0 +1,63 @@
+\section{Discussion}
+\label{sec:discussion}
+
+The matrix results separate expressivity, approximation, and
+preconditioning quality.  LMI feasibility determines whether a diagonal or
+block family can reach a condition target.  Affine-invariant projection
+determines the nearest structured geometry.  Condition-number minimization
+selects the best preconditioner.  These operations agree in special regimes
+and separate in general.
+
+For Kronecker matrices, the factor scale gauge is part of the geometry rather
+than a numerical nuisance.  Quotienting the gauge gives a complete totally
+geodesic manifold, a closed-form intrinsic line element, and a unique AIRM
+projection.  The partial-trace normal equations expose the projection
+residual, while the extreme-state marginal condition determines whether that
+projection is also condition-optimal.  The marginal-mismatch residual gives a
+computable first-order measure of failure.  Every two-level relative spectrum
+forces projection optimality.  Every \(2\times2\) Kronecker projection is also
+condition-optimal, making the explicit \(2\times3\) separation
+dimension-minimal.  Thus the universal guarantee does not extend to
+unrestricted richer spectra in the next possible factor dimension.
+
+At the tangent-space level, the same orthogonality calculation extends to a
+product of \(k\) SPD factors.  In whitened coordinates its tangent log space
+is the sum of the \(k\)
+single-mode terms
+\[
+  I\otimes\cdots\otimes I\otimes X_j\otimes I\otimes\cdots\otimes I.
+\]
+Repeating the two-factor normal-space proof shows that the projection equations
+require every one-mode partial trace of the log residual to vanish, and that
+projection optimality is equivalent to choosing admissible density matrices
+in the two extreme eigenspaces with matching marginals on every mode.
+Fixed-basis dual formulas
+and dimension-minimal separation for three or more factors require separate
+analysis; the two-factor classification proved here does not presume either.
+
+The exact penalty and proximal contraction provide a global variational
+baseline; their rate is conditional on solving each proximal subproblem.
+Likewise, the Armijo theorem gives a convergent projection solver but does not
+claim that a dense Kronecker projection is inexpensive at neural-network
+scale.  Practical implementations require matrix-free partial traces,
+structured eigensolvers, and estimator-specific concentration bounds.
+
+The strongest statements are deterministic finite-dimensional matrix
+theorems.  Time-dependent curvature, damping, and optimizer states can be
+inserted only after a concrete algorithm-to-geometry realization is specified.
+The Loewner proxy results state precisely what must be supplied by such a
+statistical layer.
+
+The analytic certificates are exact-arithmetic statements.  The interval-safe
+form remains rigorous when distance, residual, and condition number are
+enclosed by validated numerical bounds and the derived comparisons are
+evaluated with outward rounding.  Ordinary floating-point residuals
+without such enclosures remain diagnostics; near multiple extreme eigenvalues,
+the marginal condition should be solved over the full extreme eigenspaces
+rather than from a single numerically selected eigenvector.
+
+In summary, structured preconditioning has three distinct certificates:
+reachability of a target, proximity to a full geometry, and
+condition-optimality inside the family.  Affine-invariant matrix geometry
+places all three in one framework and makes their coincidence and separation
+mathematically explicit.

@@ -1,0 +1,585 @@
+\section{Proofs for Path-Space Reduction}
+\label{app:path-proofs}
+
+\begin{proof}[Proof of \cref{thm:path-dpp}]
+Fix an admissible path \(\gamma\in\Path_{s,t}(x,z)\) and put
+\(y=\gamma(r)\).  Restriction and action additivity give
+\[
+  \mathcal A_{s,t}(\gamma)
+  \ge
+  c_{s,r}(x,y)+c_{r,t}(y,z).
+\]
+Taking the infimum over \(\gamma\) proves that the left side of (P1) is at
+least the right side.
+
+If the right side is \(+\infty\), the preceding inequality already forces the
+left side to be \(+\infty\).  Otherwise, for every \(\varepsilon>0\), choose
+\(y\) whose two finite transition costs have sum within \(\varepsilon\) of
+the right side, and choose segments \(\gamma_1,\gamma_2\) whose actions are
+within \(\varepsilon\) of those costs.  Their concatenation is admissible and
+has action at most
+\[
+  \inf_{w}\{c_{s,r}(x,w)+c_{r,t}(w,z)\}+3\varepsilon.
+\]
+Let \(\varepsilon\downarrow0\).  The interval lower bounds in
+\cref{ass:path-composition} exclude \(-\infty\) transition costs, so every
+sum used above is defined.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:global-mobius-jacobi}]
+We divide the argument into the global variational, differential, and Boolean
+layers.
+
+\paragraph{Path norm and action regularity.}
+For \(\xi\in\mathcal V_u\), parallel transport to one tangent space and the
+fundamental theorem of calculus give
+\begin{equation}
+  \norm{\xi(T)}^2
+  \le T\int_0^T\norm{D_t\xi}^2\dd t,
+  \qquad
+  \int_0^T\norm{\xi(t)}^2\dd t
+  \le\frac{T^2}{2}\int_0^T\norm{D_t\xi}^2\dd t.
+  \tag{A.P1}
+\end{equation}
+Hence the derivative norm is equivalent to the usual \(H^1\) norm on the
+fixed-initial fluctuation space.  The hypotheses of
+\cref{lem:path-action-smoothness} hold with \(k=r+2\); consequently
+\((u,\gamma)\mapsto\mathcal A_u(\gamma)\) is a \(C^{r+1}\) functional in
+every exponential path chart used below.
+
+\paragraph{Coercivity and existence without a potential lower bound.}
+Geodesic convexity gives the global support inequalities
+\[
+  W_u(t,x)
+  \ge W_u(t,x_0)
+  +\ip{\operatorname{grad}W_u(t,x_0)}{\log_{x_0}x},
+\]
+\[
+  \Phi_u(x)
+  \ge \Phi_u(x_0)
+  +\ip{\operatorname{grad}\Phi_u(x_0)}{\log_{x_0}x}.
+\]
+The uniform base-point bounds imply that both right sides are bounded below
+by \(-C(1+d(x_0,x))\), uniformly in \((t,u)\).  Put
+\(E(\gamma)=\int_0^T\norm{\dot\gamma}^2\dd t\).  Since
+\[
+  d(x_0,\gamma(t))\le\sqrt t\,E(\gamma)^{1/2},
+\]
+there are constants \(C_1,C_2\), independent of \(u\in\mathcal U_0\), such
+that
+\begin{equation}
+  \mathcal A_u(\gamma)
+  \ge\frac12E(\gamma)-C_1E(\gamma)^{1/2}-C_2.
+  \tag{A.P2}
+\end{equation}
+Thus minimizing sequences have uniformly bounded \(H^1\) energy even when a
+potential tends linearly to \(-\infty\).
+
+The common initial point and the bound
+\[
+  d(\gamma(s),\gamma(t))
+  \le |t-s|^{1/2}E(\gamma)^{1/2}
+\]
+confine a minimizing sequence to a common bounded ball and make it
+equicontinuous.  Finite-dimensional Hadamard manifolds are proper, so
+Arzela--Ascoli gives a uniformly convergent subsequence.  In a finite family
+of path charts its velocities converge weakly in \(L^2\).  Kinetic energy is
+weakly lower semicontinuous, while uniform path convergence and local uniform
+continuity of the potentials give convergence of the bulk and terminal
+potential terms.  The limit therefore attains the infimum.
+
+\paragraph{Strict path convexity and uniqueness.}
+For two admissible paths \(\gamma^0,\gamma^1\), let
+\(\Gamma(s,t)\) be their pointwise geodesic homotopy and write
+\(H=\partial_s\Gamma\), \(V=\partial_t\Gamma\).  The common initial point
+gives \(H(s,0)=0\).  The second variation along the homotopy is
+\[
+\begin{aligned}
+  \frac{\dd^2}{\dd s^2}\mathcal A_u(\Gamma_s)
+  ={}&\int_0^T
+  \left[\norm{D_tH}^2
+  -\ip{R(H,V)V}{H}
+  +\operatorname{Hess}W_u[H,H]\right]\dd t\\
+  &+\operatorname{Hess}\Phi_u[H(T),H(T)].
+\end{aligned}
+\]
+Every term after \(\norm{D_tH}^2\) is nonnegative by nonpositive curvature
+and (MJ2).  If the lower bound vanishes, then \(D_tH=0\); together with
+\(H(s,0)=0\), this implies \(H\equiv0\).  Hence the action is strictly convex
+along every nontrivial path homotopy.  The minimizer is unique.
+
+\paragraph{Euler--Lagrange equation and index form.}
+For \(\xi(0)=0\), the first variation at the minimizer is
+\[
+\begin{aligned}
+  D\mathcal A_u(\gamma_u)[\xi]
+  ={}&\int_0^T
+  \ip{-D_t\dot\gamma_u+\operatorname{grad}W_u}{\xi}\dd t\\
+  &+\ip{\dot\gamma_u(T)+\operatorname{grad}\Phi_u}{\xi(T)}.
+\end{aligned}
+\]
+Compactly supported tests and then arbitrary terminal values give (MJ3) in
+weak form.  In a coordinate chart the weak equation first gives
+\(\dot\gamma_u\in W^{1,1}\), hence \(\gamma_u\in C^1\); continuity in
+\(t\) of the force and smoothness of the connection then give
+\(\gamma_u\in C^2\) and (MJ3) pointwise.  Differentiating once more gives
+(MJ4).  Nonpositive
+curvature and (MJ2) give (MJ5) term by term.  The inequalities in (A.P1) show
+that \(\mathfrak B_u\) is continuous and coercive on \(\mathcal V_u\).
+Lax--Milgram therefore makes
+\(\mathfrak J_u:\mathcal V_u\to\mathcal V_u^*\) an isomorphism, with inverse
+norm at most one in the derivative norm.
+
+\paragraph{Smooth global branch.}
+In a path chart, write the first-order condition as
+\[
+  \mathscr F(u,\gamma)=D_\gamma\mathcal A_u(\gamma)=0.
+\]
+Its path derivative at \(\gamma_u\) is \(\mathfrak J_u\), hence invertible.
+The Hilbert implicit-function theorem produces a local \(C^r\) critical
+branch around every \(u\in\mathcal U_0\).  Strict convexity makes every
+critical path the unique global minimizer, so local branches agree on overlaps
+and form one \(C^r\) map on the whole cube neighborhood.
+
+\paragraph{Weak and strong Green--Jacobi response.}
+Differentiating \(\mathscr F(u,\gamma_u)=0\) in coordinate \(u_i\) gives
+\[
+  \mathfrak J_u(\partial_{u_i}\gamma_u)+\mathfrak f_i^u=0,
+\]
+which proves (MJ6).  For smooth \(\xi,\eta\), covariant integration by parts
+in (MJ4) gives
+\begin{equation}
+\begin{aligned}
+  \mathfrak B_u(\xi,\eta)
+  ={}&\int_0^T\ip{J_u\xi}{\eta}\dd t\\
+  &+\ip{D_t\xi(T)+\operatorname{Hess}\Phi_u\,\xi(T)}{\eta(T)}.
+\end{aligned}
+\tag{A.P3}
+\end{equation}
+The closed coercive form corresponds to the Friedrichs self-adjoint operator
+with homogeneous conditions
+\(\xi(0)=0\) and
+\(D_t\xi(T)+\operatorname{Hess}\Phi_u\,\xi(T)=0\).  Comparing
+\(\mathfrak B_u(\chi_i^u,\eta)=\mathfrak f_i^u[\eta]\) with (A.P3), first for
+compactly supported tests and then for arbitrary endpoint traces, yields the
+bulk equation and nonhomogeneous Robin condition in (MJ7).  One-dimensional
+elliptic regularity gives the unique classical response.  This also identifies
+the weak inverse, Friedrichs resolvent, and Green response.
+
+\paragraph{Value curvature and reciprocity.}
+The envelope identity gives
+\[
+  \partial_{u_i}\mathcal V=\Delta_i(\gamma_u).
+\]
+Differentiating and using (MJ6) yields
+\[
+  \partial_{u_i u_j}^2\mathcal V
+  =-\mathfrak f_i^u[\chi_j^u]
+  =-\mathfrak B_u(\chi_i^u,\chi_j^u).
+\]
+Symmetry of \(\mathfrak B_u\) proves reciprocity and (MJ8).  Applying the
+identity to a linear combination of interventions gives the negative
+semidefinite Gram representation.  Under the Riesz identification, the
+spectral bounds
+\[
+  \norm{\mathfrak J_u}^{-1}I
+  \preceq\mathfrak J_u^{-1}
+  \preceq\norm{\mathfrak J_u^{-1}}I
+\]
+give (MJ8a).  Since \(\mathfrak J_u^{-1}\) is strictly positive,
+\(\langle f,\mathfrak J_u^{-1}f\rangle=0\) holds exactly when \(f=0\).
+This proves the kernel and rank identities in (MJ8b).
+
+\paragraph{Boolean integration.}
+For a smooth scalar function, the coordinate difference satisfies
+\[
+  f(u+e_i)-f(u)=\int_0^1\partial_{u_i}f(u+se_i)\dd s
+\]
+when \(u_i=0\).  Iterating this identity over \(i\in S\) proves (MJ9).
+Substitution of (MJ8) proves (MJ10).  Starting the same integration from
+\(\mathbf1_C\) proves the conditional-face formula.
+\end{proof}
+
+\begin{lemma}[Smoothness of the mechanical action in a path chart]
+\label{lem:path-action-smoothness}
+Let \(\bar\gamma\in H^1([0,T],\mathcal N)\), and use a smooth exponential
+path chart \(\gamma=\exp_{\bar\gamma}\xi\) on an \(H^1\)-neighborhood of
+\(\bar\gamma\).  Suppose that the metric coefficients are smooth and that a
+bulk potential \(W_u(t,x)\) is continuous in \(t\), \(C^k\) in \((u,x)\),
+and has state and parameter derivatives through order \(k\) locally uniform
+in \(t\).  Then
+\[
+  (u,\xi)\longmapsto
+  \int_0^T\left(\frac12\norm{\dot\gamma}^2
+  +W_u(t,\gamma(t))\right)\dd t
+\]
+is \(C^{k-1}\) on a sufficiently small path-chart neighborhood.  A
+\(C^k\) terminal potential composed with the endpoint trace has the same
+regularity.  Its derivatives are the variational derivatives obtained by
+differentiating under the integral and at the endpoint.
+\end{lemma}
+
+\begin{proof}
+The embedding \(H^1([0,T])\hookrightarrow C^0([0,T])\) is continuous, and
+one-dimensional \(H^1\) is a Banach algebra.  A small chart ball therefore
+maps into one compact tube around \(\bar\gamma([0,T])\).  On that tube, all
+coefficient derivatives used below are uniformly bounded.  In local
+coordinates the kinetic integrand is
+\(g_{ab}(\gamma)\dot\gamma^a\dot\gamma^b/2\).  Repeated differentiation
+produces finite sums of bounded Nemytskii coefficients multiplied by at most
+two \(L^2\) velocity factors and by \(H^1\) variations.  H\"older's inequality
+and the algebra estimate make every derivative through order \(k-1\)
+continuous in the \(H^1\) norm.  The potential terms follow from the same
+Nemytskii estimate with no velocity factors.  Finally, endpoint evaluation is
+a continuous linear map from \(H^1\) to a finite-dimensional tangent space,
+so ordinary finite-dimensional composition treats the terminal term.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:hard-target-jacobi}]
+Work in a smooth path chart around \(\gamma_0\) and identify nearby
+fixed-initial fluctuation spaces with one Hilbert space \(\mathcal V\).  The
+KKT map is
+\[
+  \mathscr F(u,\gamma,\lambda)
+  =\bigl(D_\gamma\mathscr L(u,\gamma,\lambda),
+  c_u(\gamma(T))\bigr).
+\]
+Its derivative in \((\gamma,\lambda)\) at the reference point is precisely
+\(\mathfrak K_0\) in \textup{(HT3)}.
+
+We first prove that this derivative is invertible.  Coercivity makes
+\(\mathfrak J_0:\mathcal V\to\mathcal V^*\) a positive self-adjoint
+isomorphism.  Since \(\mathfrak B_0\ne0\),
+\[
+  \sigma_0
+  =\mathfrak B_0\mathfrak J_0^{-1}\mathfrak B_0^*>0.
+\]
+For prescribed \((f,a)\in\mathcal V^*\times\R\), the system
+\[
+  \mathfrak J_0\xi+\mathfrak B_0^*\beta=f,
+  \qquad \mathfrak B_0\xi=a
+\]
+has the unique solution
+\[
+  \beta=\sigma_0^{-1}
+  \bigl(\mathfrak B_0\mathfrak J_0^{-1}f-a\bigr),
+  \qquad
+  \xi=\mathfrak J_0^{-1}(f-\mathfrak B_0^*\beta).
+\]
+Hence \(\mathfrak K_0\) is an isomorphism.  The Hilbert implicit-function
+theorem gives the unique \(C^r\) KKT branch.  Strict positivity of the
+multiplier and coercivity persist after shrinking the parameter
+neighborhood.
+
+For a feasible path \(\gamma\) near \(\gamma_u\), Taylor expansion of the
+Lagrangian and stationarity give
+\[
+  \mathcal A_u(\gamma)-\mathcal A_u(\gamma_u)
+  =\mathscr L(u,\gamma,\lambda_u)
+   -\mathscr L(u,\gamma_u,\lambda_u)
+   -\lambda_u c_u(\gamma(T)).
+\]
+The first difference is positive quadratic to leading order by coercivity,
+and the last term is nonnegative because \(\lambda_u>0\) and
+\(c_u(\gamma(T))\le0\).  After one uniform neighborhood reduction,
+\(\gamma_u\) is therefore the unique constrained local minimizer there.
+
+Differentiating \(\mathscr F(u,\gamma_u,\lambda_u)=0\) gives
+\[
+  \mathfrak K_u\partial_{u_i}(\gamma_u,\lambda_u)
+  +\mathfrak b_i^u=0,
+\]
+which proves \textup{(HT4)}.  Because the active constraint vanishes,
+\[
+  \mathcal V_{\rm hard}(u)
+  =\mathscr L(u,\gamma_u,\lambda_u).
+\]
+The envelope identity and a second differentiation yield
+\[
+  \partial_{u_i u_j}^2\mathcal V_{\rm hard}
+  =\partial_{u_i u_j}^2\mathscr L
+  +\left\langle
+  \mathfrak b_i^u,\partial_{u_j}(\gamma_u,\lambda_u)
+  \right\rangle.
+\]
+Substitution of \textup{(HT4)} proves \textup{(HT5)}.  Self-adjointness of
+the bordered map gives reciprocity.  If both data are affine in \(u\), the
+direct second derivative is zero; applying the coordinate fundamental theorem
+of calculus twice on the indicated face proves \textup{(HT6)}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:all-order-mobius-jacobi}]
+Apply the set-indexed multivariate Faa di Bruno formula to
+\(\mathscr F(u,\gamma_u)=0\).  Since \(\mathcal A_u\), and hence
+\(\mathscr F\), is affine in \(u\), at most one index can act on the explicit
+\(u\)-argument.  The resulting expansion is
+\[
+  0=\sum_{\substack{S\subseteq I,\ |S|\le1\\
+  \pi\in\Pi(I\setminus S)}}
+  D_u^S D_\gamma^{|\pi|}\mathscr F
+  \bigl[\eta_B^u\bigr]_{B\in\pi}.
+\]
+The unique term containing the highest derivative \(\eta_I^u\) corresponds to
+\(S=\varnothing\), \(\pi=\{I\}\), and equals
+\(\mathfrak J_u\eta_I^u\).  Moving all other terms to the right and applying
+\(\mathfrak J_u^{-1}\) proves (MJ11)--(MJ12).  Thus every derivative is
+generated recursively from lower-order derivatives by the same Green inverse.
+
+For completeness, applying the same partition formula to the scalar composite
+\(\mathcal A_u(\gamma_u)\) gives
+\begin{equation}
+  \partial_I^{|I|}\mathcal V
+  =\sum_{\substack{S\subseteq I,\ |S|\le1\\
+  \pi\in\Pi(I\setminus S)}}
+  D_u^S D_\gamma^{|\pi|}\mathcal A_u
+  \bigl[\eta_B^u\bigr]_{B\in\pi},
+  \tag{A.P4}
+\end{equation}
+where the term \(D_\gamma\mathcal A_u[\eta_I^u]\) vanishes by stationarity.
+Equations (A.P4) and (MJ9) give every higher-order Boolean effect.
+
+For three distinct indices, differentiate
+\(\mathfrak J_u\partial_{u_j}\gamma_u+D\Delta_j=0\) in \(u_k\), use the
+result to eliminate \(\partial_{u_j u_k}^2\gamma_u\) from the second derivative
+of \(\partial_{u_i}\mathcal V=\Delta_i(\gamma_u)\), and substitute
+\(\partial_{u_l}\gamma_u=-\chi_l\).  Symmetry of \(\mathfrak J_u\) cancels
+the second path-response terms and leaves exactly (MJ13).
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:spd-mobius-jacobi}]
+The AIRM cone is Hadamard, and a structured realization satisfying the stated
+hypotheses has the same intrinsic nonpositive-curvature property.  The
+information potentials supply (MJ2), so
+\cref{thm:global-mobius-jacobi,cor:all-order-mobius-jacobi} apply directly.
+The displayed operator is (MJ7) with the AIRM connection and curvature.  Its
+curvature term is nonnegative in the index form, and (MJ10) gives the pair
+formula.  The final scope statement records exactly where the classical
+Hessian used by the theorem ceases to exist.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:length-energy-gauge}]
+For every finite-energy path, Cauchy--Schwarz gives
+\[
+  \frac12\int_0^T\norm{\dot\gamma_t}^2\dd t
+  \ge
+  \frac1{2T}\left(\int_0^T\norm{\dot\gamma_t}\dd t\right)^2
+  =\frac{\Len(\gamma)^2}{2T}
+  \ge\frac{D(x,\mathcal C)^2}{2T}.
+\]
+Thus \(\mathcal E_T\ge D^2/(2T)\).  If \(D<+\infty\), choose paths with
+length converging to \(D\) and reparameterize each at constant speed.  The
+reparameterized paths remain admissible and have energy
+\(\Len(\gamma)^2/(2T)\), proving the reverse inequality after taking the
+limit.  If \(D=+\infty\), a finite-energy path would have finite length by
+Cauchy--Schwarz, a contradiction, so both sides are \(+\infty\).
+
+Equality in Cauchy--Schwarz holds exactly when the metric speed is constant
+almost everywhere.  Equality in the second inequality holds exactly for a
+length minimizer.  These two equality conditions characterize the energy
+minimizers and prove the RDGC specialization.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:path-bellman}]
+Apply \cref{thm:path-dpp} to \(c_{s,T}(x,z)\), add \(\Gamma(z)\), and regroup
+the two successive infima:
+\[
+\begin{aligned}
+V(s,x)
+&=\inf_z\inf_y
+\{c_{s,r}(x,y)+c_{r,T}(y,z)+\Gamma(z)\}\\
+&=\inf_y\{c_{s,r}(x,y)+V(r,y)\}.
+\end{aligned}
+\]
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:path-tonelli}]
+Take a minimizing sequence with uniformly bounded objective.  The lower bound
+on \(\overline L\) and the lower bound on \(\Gamma\) give a
+uniform \(L^p\) bound on path speeds.  Since \(p>1\), H\"older's inequality
+gives uniform equicontinuity.  The common initial point and the speed bound
+confine every path to a common closed bounded ball.  Finite-dimensional
+Hadamard manifolds are proper, so Arzel\`a--Ascoli gives a uniformly convergent
+subsequence.  The corresponding velocities converge weakly after passage to
+  local charts and a further subsequence.  Sequential viability keeps the limit
+  admissible.  More explicitly, subdivide the compact limiting path into
+  finitely many intervals whose images lie in normal coordinate charts.  For
+  all sufficiently large indices the approximating segments lie in the same
+  charts; their coordinate paths converge strongly and uniformly, while their
+  coordinate velocities converge weakly in \(L^p\).  On each subinterval the
+  normal-integrand hypothesis and convexity in velocity give weak lower
+  semicontinuity of the integral functional
+  \cite[Chapter~3]{dacorogna2008direct}.  Chart-boundary times form a finite
+  measure-zero set, so summing the chartwise inequalities gives the global
+  lower bound.  Therefore
+\[
+  \mathcal A(\gamma)
+  \le
+  \liminf_n\mathcal A(\gamma_n),
+\]
+and lower semicontinuity of \(\Gamma\) treats the endpoint.  Hence the limit
+attains the value.
+
+If two different minimizing paths existed, their pointwise geodesic
+interpolation would be admissible and strict geodesic convexity would give a
+strictly smaller objective, a contradiction.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:path-hjb}]
+The Bellman identity on \([t,t+h]\) gives
+\[
+  V(t,G)=
+  \inf_{a_{[t,t+h]}}
+  \left\{
+  \int_t^{t+h}\ell(s,\gamma_s,a_s)\,\dd s
+  +V(t+h,\gamma(t+h))
+  \right\}.
+\]
+  Put
+  \[
+    q_\varphi(s,X,a)
+    =\ell(s,X,a)+\dd_X\varphi(s,X)[b(s,X,a)].
+  \]
+  Let a smooth test function \(\varphi\) touch \(V\) from above at \((t,G)\).
+  For every constant control \(a\in\mathcal U\), the Bellman inequality and the
+  local maximum of \(V-\varphi\) give
+  \[
+    0\le
+    \int_t^{t+h}\ell(s,\gamma_s,a)\,\dd s
+    +\varphi(t+h,\gamma(t+h))-\varphi(t,G).
+  \]
+  Uniform local Lipschitz continuity of \(b\) gives
+  \(\gamma(t+h)=\exp_G(hb(t,G,a)+o(h))\), uniformly in \(a\).  Divide by
+  \(h\), let \(h\downarrow0\), and use compactness of \(\mathcal U\).  The
+  inequality holds for every \(a\), hence
+  \[
+    -\partial_t\varphi(t,G)
+    +\mathcal H(t,G,-\dd_G\varphi(t,G))\le0,
+  \]
+  which is the viscosity subsolution inequality for the sign convention in
+  (P4).
+
+  If \(\varphi\) touches \(V\) from below, choose a measurable control whose
+  short-horizon cost is within \(o(h)\) of the Bellman infimum.  The local
+  minimum of \(V-\varphi\) then yields
+  \[
+    o(h)\ge
+    \int_t^{t+h}\ell(s,\gamma_s,a_s)\,\dd s
+    +\varphi(t+h,\gamma(t+h))-\varphi(t,G).
+  \]
+  Along this trajectory, the chain rule rewrites the right side as
+  \[
+    \int_t^{t+h}
+    \bigl[\partial_s\varphi(s,\gamma_s)
+    +q_\varphi(s,\gamma_s,a_s)\bigr]\,\dd s.
+  \]
+  The trajectory remains uniformly close to \(G\) on the shrinking interval.
+  Uniform continuity on the resulting compact neighborhood gives, pointwise in
+  the measurable control,
+  \[
+    q_\varphi(s,\gamma_s,a_s)
+    \ge \inf_{a\in\mathcal U}q_\varphi(t,G,a)-o(1).
+  \]
+  After division by \(h\), this proves
+  \[
+    -\partial_t\varphi(t,G)
+    +\mathcal H(t,G,-\dd_G\varphi(t,G))\ge0.
+  \]
+  No closure or convexification of averaged velocity--cost pairs is used.
+  Continuity of \(V\) and \(\Gamma\) supplies the terminal condition.  At a
+  differentiability point, the two inequalities coincide.  The feedback
+  formula uses an attaining maximizer, which exists by compactness.  If
+  comparison holds in the declared class, standard comparison gives
+  uniqueness.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:path-schur}]
+The first-order condition is
+\[
+  D_\eta\mathfrak A(z,\eta_\star(z))=0.
+\]
+Coercivity and self-adjointness imply that \(\Jac:\Hilb_0\to\Hilb_0\) is
+invertible; equivalently one may apply Lax--Milgram to the second-variation
+form.  The Hilbert-space implicit-function theorem therefore produces a unique
+\(C^2\) critical section near \((z_0,\eta_0)\).  Coercivity persists after
+shrinking the neighborhood, so this section remains the unique local
+minimizer.  Differentiating the first-order condition gives
+\[
+  \mathfrak A_{\eta z}+\Jac D\eta_\star=0,
+\]
+which proves (P5).
+
+The envelope identity is
+\[
+  D\Val
+  =
+  \mathfrak A_z+\mathfrak A_\eta D\eta_\star
+  =
+  \mathfrak A_z.
+\]
+Differentiating again and substituting (P5) gives
+\[
+  D^2\Val
+  =
+  \mathfrak A_{zz}
+  -\mathfrak A_{z\eta}\Jac^{-1}\mathfrak A_{\eta z},
+\]
+which is (P6).
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:rdgc-jacobi-bridge}]
+The classical second-variation formula for kinetic energy along a geodesic
+with fixed endpoints is the displayed index form.  Since \(\F\) is totally
+geodesic, its intrinsic connection and curvature are the restrictions used by
+that formula.  Nonpositive sectional curvature gives
+\[
+  \ip{R(\dot\gamma_0,h)h}{\dot\gamma_0}\le0,
+\]
+and hence
+\(I(h,h)\ge\int_0^T\norm{D_th}^2\dd t\).  The derivative seminorm is a norm
+on \(H_0^1\), equivalent to its standard Sobolev norm by Poincare's inequality.
+Thus the Riesz representative of \(I\) is bounded, self-adjoint, and coercive.
+The length--energy identification and the final sensitivity claim now follow
+from \cref{thm:length-energy-gauge,thm:path-schur}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:path-schur-associativity}]
+Let \(q(\delta z,\delta\eta_1,\delta\eta_2)\) be the quadratic form defined by
+the complete Hessian.  Coercivity gives unique quadratic minimizers.  Hence
+\[
+  \inf_{\delta\eta_1,\delta\eta_2}q
+  =
+  \inf_{\delta\eta_1}
+  \left(\inf_{\delta\eta_2}q\right).
+\]
+Each quadratic elimination is represented by the corresponding Schur
+complement.  Equality for every \(\delta z\) proves (P7).
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:path-interaction}]
+Affineness in \(u\) gives
+\[
+  \mathfrak A_{uu}=0,
+  \qquad
+  \mathfrak A_{\eta u}=\mathcal G.
+\]
+The \(u\)-block of (P6) is therefore
+\[
+  D^2_{uu}\Val=-\mathcal G^*\Jac^{-1}\mathcal G.
+\]
+For any \(a\in\R^m\),
+\[
+  \ip{a}{D^2_{uu}\Val\,a}
+  =
+  -\ip{\mathcal Ga}{\Jac^{-1}\mathcal Ga}\le0,
+\]
+which proves (P8) and (P9).  Applying the one-dimensional fundamental theorem
+of calculus successively in coordinates \(u_i\) and \(u_j\) gives
+\[
+  \Val(e_i+e_j)-\Val(e_i)-\Val(e_j)+\Val(0)
+  =
+  \int_0^1\!\int_0^1
+  \partial^2_{u_i u_j}\Val(se_i+te_j)\,\dd s\,\dd t.
+\]
+Substitution of (P9) proves (P10).
+\end{proof}
+

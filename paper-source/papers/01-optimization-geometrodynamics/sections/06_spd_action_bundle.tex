@@ -1,0 +1,190 @@
+\section{Global SPD Action Geometry}
+\label{sec:action-bundle}
+
+We now realize the abstract reduction globally.  Let
+\[
+  \Pdet=\{P\in\SPD^d:\det P=1\},
+  \qquad
+  r(P)=\dai(I,P)=\fro{\log P}.
+\]
+Fix a full-column-rank \(A\in\mathbb R^{d\times m}\), with \(1\le m<d\)
+and \(n=d-m\).  The visible action map and its admissible base are
+\begin{equation}
+  \pi_A:\Pdet\to\mathbb R^{d\times m},
+  \qquad
+  \pi_A(P)=PA,
+  \qquad
+  \Bact=\{B:A^\top B\in\SPD^m\}.
+  \label{eq:action-map-base}
+\end{equation}
+The condition \(A^\top B\in\SPD^m\) includes symmetry and is necessary and
+sufficient for an SPD solution of \(PA=B\).
+
+Choose a thin QR factorization and orthogonal completion
+\[
+  A=UC,
+  \qquad U^\top U=I_m,
+  \qquad Q=[U,V]\in O(d).
+\]
+For \(B\in\Bact\), define
+\begin{align}
+  M(B)&=C^{-\top}A^\top BC^{-1},
+  &N(B)&=V^\top BC^{-1},
+  \label{eq:action-coordinates}\\
+  T(B)&=N(B)M(B)^{-1},
+  &L(B)&=\begin{pmatrix}I_m&0\\T(B)&I_n\end{pmatrix},
+  \label{eq:action-triangular}\\
+  \rho(B)&=(\det M(B))^{-1/n},
+  &\mathscr P_n&=\{\Sigma\in\SPD^n:\det\Sigma=1\}.
+  \label{eq:action-fiber-coordinates}
+\end{align}
+
+\begin{theorem}[Global action bundle and canonical controller]
+\label{thm:action-bundle}
+The map
+\begin{equation}
+  \Phi_A:\Bact\times\mathscr P_n\to\Pdet,
+  \qquad
+  \Phi_A(B,\Sigma)
+  =QL(B)
+  \begin{pmatrix}M(B)&0\\0&\rho(B)\Sigma\end{pmatrix}
+  L(B)^\top Q^\top
+  \label{eq:action-bundle-map}
+\end{equation}
+is a global real-analytic diffeomorphism satisfying
+\(\pi_A(\Phi_A(B,\Sigma))=B\).  Consequently,
+\begin{equation}
+  \Pdet\cong\Bact\times\mathscr P_{d-m},
+  \qquad
+  \Bact\cong\SPD^m\times\mathbb R^{n\times m}.
+  \label{eq:global-action-product}
+\end{equation}
+For every \(B\), the fiber
+\[
+  \Pfiber(B)=\{P\in\Pdet:PA=B\}
+\]
+is nonempty, closed, totally geodesic, and AIRM-isometric to
+\(\mathscr P_n\).
+
+Every fiber has a unique nearest controller
+\begin{equation}
+  s_A(B)=\argminop_{P\in\Pfiber(B)}r(P),
+  \qquad
+  \mathfrak C_A(B)=r(s_A(B)).
+  \label{eq:canonical-controller}
+\end{equation}
+The section \(s_A\) and squared cost \(\mathfrak C_A^2\) are real analytic.
+They are intrinsic under action-basis changes and orthogonal ambient changes:
+\begin{equation}
+  s_{AD}(BD)=s_A(B),
+  \qquad
+  s_{RA}(RB)=R s_A(B)R^\top
+  \label{eq:controller-equivariance}
+\end{equation}
+for \(D\in\operatorname{GL}_m\) and \(R\in O(d)\).
+\end{theorem}
+
+The identity is a reference controller, not an essential restriction.  For
+any \(P_{\rm ref}\in\Pdet\), congruence by \(P_{\rm ref}^{-1/2}\) sends the
+nearest-completion problem from \(P_{\rm ref}\) to the identity-reference
+problem with transformed action
+\(\widetilde A=P_{\rm ref}^{1/2}A\) and
+\(\widetilde B=P_{\rm ref}^{-1/2}B\).  Thus the bundle and solver apply to an
+arbitrary determinant-one baseline without changing their geometry.
+
+The proof responsibility in this theorem is worth separating.  General
+Hadamard and SPD-submanifold theory supplies the unique nearest point after a
+fiber has been shown closed and totally geodesic
+\cite{lim2004best,tumpach2024totally}.  The action-specific results are the
+explicit global trivialization \(\Phi_A\), the identification and total
+geodesy of every \(PA=B\) fiber, analytic dependence on \(B\), the residual
+equation below, and the solver and active reduction in
+\cref{sec:certified-solver}.  Projection uniqueness by itself is not claimed
+as new.
+
+The action constraint gives a complete inverse-Hessian multi-secant instance
+of the abstract theory.  For \(Y,S\in\mathbb R^{d\times m}\), take
+\[
+  \Xspace=\Pdet,\qquad
+  \pi_Y(P)=PY,\qquad
+  E(P)=\tfrac12\dai(I,P)^2,\qquad
+  y=S.
+\]
+Then \(Y^\top S\in\SPD^m\) is exactly the admissibility condition and the
+canonical lift \(s_E(S)\) is \(s_Y(S)\) from
+\cref{eq:canonical-controller}.  Thus the theorem identifies every hidden SPD
+completion and selects the AIRM least-deformation controller for an admissible
+multi-secant system.  Classical quasi-Newton updates select by other norms or
+divergences
+\cite{dennis1979leastchange,fletcher1991variational,kanamori2013bregman}; the
+global bundle, total-geodesy, AIRM certificate, and active reduction are the
+additional objects established here.
+
+The theorem gives a global hidden coordinate \(\Sigma\).  It also supplies a
+residual characterization and an a posteriori certificate.  For fixed \(B\),
+abbreviate \(M=M(B)\), \(L=L(B)\), and \(\rho=\rho(B)\), and set
+\[
+  R_0=L^{-1}L^{-\top},
+  \qquad
+  \mathcal Q_\Sigma=\operatorname{diag}(M,\rho\Sigma),
+\]
+\begin{equation}
+  \mathcal R(\Sigma)
+  =\log(\mathcal Q_\Sigma^{-1/2}R_0\mathcal Q_\Sigma^{-1/2}).
+  \label{eq:action-residual}
+\end{equation}
+If \(X^\circ=X-\tr(X)I_n/n\), the canonical hidden coordinate is the unique
+solution of
+\begin{equation}
+  \mathcal R_{22}(\Sigma_\star)^\circ=0.
+  \label{eq:action-normal-equation}
+\end{equation}
+For every trial \(\Sigma\in\mathscr P_n\),
+\begin{align}
+  \dai(\Sigma,\Sigma_\star)
+  &\le\fro{\mathcal R_{22}(\Sigma)^\circ},
+  \label{eq:action-distance-certificate}\\
+  0\le f_B(\Sigma)-f_B(\Sigma_\star)
+  &\le\frac12\fro{\mathcal R_{22}(\Sigma)^\circ}^2,
+  \label{eq:action-value-certificate}
+\end{align}
+where \(f_B(\Sigma)=\tfrac12\dai(R_0,\mathcal Q_\Sigma)^2\).
+
+\subsection{Active reduction}
+
+Let
+\[
+  W=\operatorname{span}(\operatorname{col}A,\operatorname{col}B),
+  \qquad r=\dim W\le2m,
+  \qquad q=d-r.
+\]
+If \(q>0\), the canonical controller has the form
+\begin{equation}
+  s_A(B)=H_\star\oplus(\det H_\star)^{-1/q}I_q,
+  \label{eq:active-controller}
+\end{equation}
+where \(H_\star\in\operatorname{SPD}(W)\) uniquely minimizes
+\begin{equation}
+  \min_{\substack{H\in\operatorname{SPD}(W)\\HA=B}}
+  \left\{\fro{\log H}^2+\frac{(\log\det H)^2}{q}\right\}.
+  \label{eq:active-controller-problem}
+\end{equation}
+Thus the matrix variable is supported on an ambient subspace of dimension
+\(r\le2m\), rather than \(d\).  It still has \(O(r^2)\) scalar degrees of
+freedom; the claim is an active-subspace reduction, not a \(2m\)-variable
+parameterization.
+The next section turns the normal equation into a globally convergent
+residual-gradient iteration and proves that this active symmetry is preserved
+at every step when it is present in the initializer; the identity initializer
+has the required symmetry.
+
+\subsection{Scale and reference}
+
+The determinant constraint fixes unit-volume shape; it does not create a
+dynamical gauge, because rescaling changes \(PA\) and the update time scale.
+Dropping the constraint replaces \(\mathscr P_n\) by \(\SPD^n\).  The
+complement volume keeps the admissible base \(\Bact\) unchanged, while the
+feasible fiber and canonical section change.  The compression
+\(P\mapsto A^\top PA\) has a different fiber
+\informationgeometrycite; here the complete action \(PA\) is
+fixed.

@@ -1,0 +1,70 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{What the theory establishes.}
+Exact information reduction has a precise hierarchy.  At the metric level,
+submetry is necessary and sufficient for universal radial-visible reduction.
+Coherent sections select reusable information sheets.  Split-Hadamard
+geometry turns those sheets into global horizontal submanifolds.  SPD
+compression realizes the entire hierarchy in closed form and adds a rank
+quotient, a closed-form completion-pair metric, and computable structured
+certificates in finite-dimensional LP/SDP feasibility form.
+
+\paragraph{Visibility and reference.}
+A visible target does not determine an ambient geometry.  The invisible fiber
+has infinite diameter, and even its radius-bounded minimax problem has risk
+equal to the radius.  The canonical completion is therefore meaningful only
+relative to a declared \(P_0\).  Its role is precise: preserve the reference
+on directions not forced to change by the visible target while realizing the
+visible target with minimum AIRM deformation.
+
+\paragraph{Moving information.}
+The mismatch weight \(\Xiop(R)=R+R^{-1}-2I\) explains when subspace motion is
+observable in completed geometry.  Rotating a mode whose visible geometry
+equals the reference changes no completed matrix.  As a mode separates from
+the reference, the same rotation acquires positive cost.  Continuous rank
+changes can therefore occur only through reference-valued modes.  These are
+kinematic statements; choosing a trajectory requires an additional modeling,
+optimization, or control principle.  The bilinear kernel also separates two
+second-order objects.  The reduced minimum-distance value is independent of
+the normalized subspace coordinate at fixed \(R\), while the minimizing
+completed matrix generally moves with that coordinate.  Its motion is
+measured by the positive-semidefinite Gram form
+\eqref{eq:completion-pair-kernel}.  Reduced-value curvature and pullback
+metric geometry therefore answer different questions.
+
+\paragraph{Structured optimizers.}
+Diagonal and block geometry are restrictions of the same visible map
+\(P\mapsto A^\top PA\).  Their relative-interior tests distinguish three
+scientifically different outcomes: strict representability, boundary
+representability requiring degeneracy, and infeasibility even after closure.
+A single residual value cannot make these distinctions; the conic certificates
+can.
+
+\paragraph{Statistical interpretation.}
+Known-subspace recovery is intrinsically \(m\)-dimensional.  Estimating the
+subspace introduces an ambient second-moment problem and an eigengap.  The exact
+line element then converts principal-angle error into completed AIRM error
+with a geometry-dependent weight.  The resulting bound separates statistical
+uncertainty in \(R\) from uncertainty in the information channel itself.  The
+self-contained rates use bounded i.i.d. observations and net--Hoeffding
+arguments; they establish consistency in the stated regime and are not
+rate-optimal claims.
+
+\paragraph{Boundaries.}
+The abstract theorem characterizes exactness but does not make an arbitrary
+observation map a submetry.  Nonlinear, infinite-dimensional, multi-view, or
+non-AIRM models require separate verification.  The SPD pair metric is
+specific to full-column-rank linear compression and is analytic across
+repeated eigenvalues.  The structured certificate
+theorems cover diagonal and block families; Kronecker, low-rank, and tensor
+families have different image geometry.  Finally, the paper assumes a
+positive visible target.  Indefinite curvature must be damped, projected, or
+otherwise converted before this theory applies.
+
+\paragraph{Downstream use.}
+The paper supplies a geometric foundation for later questions about metric
+evolution, constrained metric paths, and intervention-based optimizer audits.
+Those questions may use the visible state \((A,R)\), the canonical completion
+\(\Psi_{P_0,A}(R)\), and the completion-pair metric derived here.  Their
+dynamical or causal assumptions are intentionally outside the present paper.

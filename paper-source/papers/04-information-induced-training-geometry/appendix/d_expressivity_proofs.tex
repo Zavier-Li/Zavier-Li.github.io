@@ -1,0 +1,98 @@
+\section{Proofs for Structured Expressivity}
+\label{app:expressivity-proofs}
+
+\begin{lemma}[Linear images of relative interiors]
+\label{lem:linear-ri}
+Let \(C\) be a nonempty convex set in a finite-dimensional vector space and
+let \(L\) be linear.  Then
+\begin{equation}
+  L(\ri C)=\ri L(C).
+  \label{eq:linear-ri}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let \(x\in\ri C\), set \(y=Lx\), and choose any \(z=Lx_z\in L(C)\).
+The relative-interior extension property gives \(\eta>0\) with
+\(x+\eta(x-x_z)\in C\).  Applying \(L\) gives
+\(y+\eta(y-z)\in L(C)\), proving \(y\in\ri L(C)\).
+
+Conversely, let \(y\in\ri L(C)\), choose \(x_0\in\ri C\), and set
+\(z=Lx_0\).  The extension property in \(L(C)\) gives \(\eta>0\) and
+\(x_1\in C\) satisfying \(Lx_1=y+\eta(y-z)\).  Then
+\[
+  x=\frac{x_1+\eta x_0}{1+\eta}
+\]
+belongs to \(\ri C\) and satisfies \(Lx=y\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:diagonal-expressivity}]
+Let \(L:\R^d\to\Sym^m\) be \(L(p)=\sum_jp_jG_j\).  Since
+\(\ri\R_+^d=\R_{++}^d\), \cref{lem:linear-ri} gives
+\[
+  L(\R_{++}^d)=\ri L(\R_+^d)=\ri\Kcal_{\mathrm{diag}}.
+\]
+This proves the feasibility criterion.  With \(y_j=\log p_j\), the objective
+is \(\norm{y-y^0}_2\) and the constraint is
+\(\sum_je^{y_j}G_j=R\).  A minimizing sequence is bounded in \(y\), hence
+has a convergent subsequence whose limit remains feasible.  Thus the infimum
+is attained.  Linear independence of the \(G_j\) gives uniqueness of the
+coefficients.
+
+The cone \(\Kcal_{\mathrm{diag}}\) is finitely generated and closed.  If
+\(R\) lies outside it, closed-cone separation gives symmetric \(Y\) with
+\(\tr(YR)<0\) and \(\tr(YG_j)\ge0\) for all \(j\).  If \(R\) lies on its
+relative boundary, apply the supporting-hyperplane theorem in
+\(S=\operatorname{span}\Kcal_{\mathrm{diag}}\).  It gives a linear
+functional on \(S\), nonzero on \(S\), that vanishes at \(R\) and is
+nonnegative on the cone.  Represent it by a symmetric \(Y\).  Then
+\(\tr(YR)=0\) and \(\tr(YG_j)\ge0\) for every \(j\).  At least one of these
+generator pairings is strictly positive: otherwise the functional would
+vanish on the span of all generators, namely on \(S\).  This proves the
+stated facial certificate and excludes ambient annihilators of the cone.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:block-expressivity}]
+Let \(C=\prod_b\PSD^{(b)}\) and
+\[
+  L((P_b)_b)=\sum_bA_b^\top P_bA_b.
+\]
+The relative interior of \(C\) is \(\prod_b\SPD^{(b)}\).  Therefore
+\cref{lem:linear-ri} gives
+\[
+  L\!\left(\prod_b\SPD^{(b)}\right)
+  =\ri L(C)=\ri\Kcal_{\mathrm{block}}.
+\]
+This proves strict block feasibility.  If a feasible sequence has bounded
+objective, the generalized eigenvalues of each
+\((P_b^{(n)},P_b^0)\) stay in a common compact interval
+\([e^{-C_0},e^{C_0}]\).  A subsequence converges to positive definite blocks,
+and the linear equality is closed, proving attainment.
+
+For each block, the image cone
+\[
+  C_b=\{A_b^\top P_bA_b:P_b\succeq0\}
+\]
+is exactly the cone of PSD matrices whose range is contained in
+\(\range(A_b^\top)\), and is therefore closed.  To see that their finite sum
+is closed, let \(X_n=\sum_bX_{b,n}\) converge with \(X_{b,n}\in C_b\).
+Every summand is PSD, so
+\(0\le\tr(X_{b,n})\le\tr(X_n)\).  The summands are consequently bounded;
+passing to common subsequences gives \(X_{b,n}\to X_b\in C_b\) and
+\(X=\sum_bX_b\).  Hence
+\(\Kcal_{\mathrm{block}}=\sum_bC_b\) is closed.
+
+If \(R\notin\Kcal_{\mathrm{block}}\), separation from the closed
+cone gives symmetric \(Y\) with \(\tr(YR)<0\) and
+\[
+  \tr\!\left(Y\sum_bA_b^\top P_bA_b\right)\ge0
+  \quad\text{for all }P_b\succeq0.
+\]
+Blockwise duality of the PSD cone makes this equivalent to
+\(A_bYA_b^\top\succeq0\) for every \(b\).  If \(R\) lies on the relative
+boundary, take a supporting functional that is nonzero on
+\(S=\operatorname{span}\Kcal_{\mathrm{block}}\).  It gives the same
+blockwise condition with \(\tr(YR)=0\).  Some
+\(A_bYA_b^\top\) must be nonzero: if every one vanished, the functional
+would vanish on every image \(A_b^\top P_bA_b\), hence on \(S\).
+\end{proof}

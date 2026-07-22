@@ -1,0 +1,38 @@
+.paper-reader {
+  padding: 90px 0 120px;
+}
+
+.reader-heading {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.reader-heading h2 {
+  font-size: clamp(31px, 4vw, 54px);
+}
+
+.pdf-frame {
+  display: block;
+  width: 100%;
+  height: min(82dvh, 1060px);
+  min-height: 660px;
+  border: 1px solid var(--line);
+  background: #e6eaf2;
+}
+
+@media (max-width: 760px) {
+  .paper-reader {
+    padding: 68px 0 90px;
+  }
+
+  .reader-heading {
+    display: block;
+  }
+
+  .pdf-frame {
+    height: 72dvh;
+    min-height: 520px;
+  }
+}

@@ -1,0 +1,70 @@
+\section{Three Equations for Causal Optimizer Interaction}
+\label{sec:language}
+
+\subsection{Causal response}
+
+Let $(\Pcal,\preceq)$ be lower-finite: every principal ideal is finite.  For each configuration $a\in\Pcal$, a finite-step causal optimizer experiment admits a history-state realization
+\begin{equation}
+x_{k+1}^{a}=\Phi_k^a\!\left(x_k^a,\Ocal_f(x_k^a),\xi_k\right),
+\qquad
+F(a)=\EE\,\Rcal(x_{0:N}^a)\in\Hspace.
+\label{eq:causal-response}
+\end{equation}
+The protocol fixes initialization, data law, horizon, response map, upstream state, and coupling of exogenous randomness.  The configuration changes only declared mechanisms.  The response may contain update traces, logged states, terminal parameters, and task observables.  Histories, inputs, exposed innovations, and responses are assumed standard Borel.  The fixed innovation coupling is part of the protocol.
+
+An \emph{admissible pathwise realization} has a reachable state that is a deterministic function of the extended history, a response map depending only on that state, the declared input, and the current innovation, and a unifilar update from the same variables.  Two reachable extended histories at the same time are \emph{pathwise predictively equivalent} when every common future sequence of declared inputs and innovation values produces the same future response sequence.  A realization is \emph{behaviorally minimal} when it has no distinct reachable states with this equivalence.  The quotient below is taken in this reachable pathwise/unifilar category.  It is relative to the declared innovation representation and coupling.  A distribution-only minimal state modulo null sets is a different measurable-kernel problem and is not claimed here.
+
+The Hilbert-valued response in \cref{eq:causal-response} and the scalar response used later have a precise interface.  For every continuous linear functional $\varphi\in\Hspace^*$ define $F_\varphi(a)=\varphi(F(a))$.  The smooth reduction theorem applies to $F_\varphi$ when this scalar observable has a regular reduced-value representation.  A vector response can be treated componentwise only when each selected component has such a representation.
+
+\subsection{Pure interventional effects}
+
+Let $\mu_{\Pcal}$ be the M\"obius function.  Define
+\begin{equation}
+\zeta_t=\sum_{s\preceq t}\mu_{\Pcal}(s,t)F(s),
+\qquad
+F(a)=\sum_{t\preceq a}\zeta_t.
+\label{eq:mobius-response}
+\end{equation}
+For $\Pcal=2^{[m]}$,
+\[
+\zeta_T=\sum_{B\subseteq T}(-1)^{|T|-|B|}F(B),
+\qquad
+F(A)=\sum_{T\subseteq A}\zeta_T.
+\]
+The baseline is $\zeta_\varnothing$, singleton effects are main effects, and larger sets are irreducible factorial interactions under the fixed protocol.  This is a decomposition of counterfactual responses; it does not assert that the implementation internally adds vectors named $\zeta_T$.
+
+A finite model declares an effect support $\Kcal\subseteq\Pcal$ and sets $\zeta_t=0$ outside $\Kcal$.  Main-effect, order-$q$, sparse hierarchical, and graded models are choices of $\Kcal$.  They are falsifiable because fitted effects predict held-out configurations.
+
+\subsection{Observation and information}
+
+For queried configurations $\Dcal=(a_1,\ldots,a_n)$, define
+\[
+X_{\Dcal,\Kcal}(i,t)=\mathbf 1\{t\preceq a_i\}.
+\]
+When $\Hspace\cong\R^d$, the observation equation is
+\begin{equation}
+Y=\Acal_{\Dcal}\zeta+\varepsilon,
+\qquad
+\Acal_{\Dcal}=X_{\Dcal,\Kcal}\otimes I_d,
+\qquad
+\mathcal I=\Acal_{\Dcal}^*\Sigma^{-1}\Acal_{\Dcal}.
+\label{eq:observation-information}
+\end{equation}
+The kernel of $\Acal_{\Dcal}$ is the observational gauge.  Its positive singular spectrum controls stable recovery; the information operator controls finite-sample inference and design.
+
+\subsection{Geometric response classes}
+
+For a visible covector $\alpha_k$, let $Q_k=\eta_kP_k$ be the effective positive map and $u_k=-Q_k\alpha_k$.  Absorbing the step scale into $Q_k$ prevents temporal audits from hiding arbitrary variation in $\eta_k$.  Fix a finite-dimensional normed parameterization $\mathbb Q$ of the effective maps along the audited trace, using a declared trivialization when tangent spaces vary, and define
+\[
+\VarOp(Q_{0:N-1})
+=\sum_{k=0}^{N-2}\norm{Q_{k+1}-Q_k}_{\mathbb Q}.
+\]
+For a family $\Fcal$ and path budget $B$, define
+\begin{equation}
+\Mcal_{\Fcal,B}
+=\left\{(-Q_k\alpha_k)_{k=0}^{N-1}:
+Q_k\in\Pcal_{\Fcal}(\theta_k),\
+\VarOp(Q_{0:N-1})\le B\right\}\subseteq\Hspace.
+\label{eq:restricted-response-class}
+\end{equation}
+Distance to this set tests membership in a declared response class.  Interventions identify counterfactual coordinates.  These operations share a response space and answer different questions.

@@ -1,0 +1,35 @@
+{
+  "slug": "causal-optimizer-interaction-calculus",
+  "number": "5",
+  "order": 5,
+  "year": "2026",
+  "status": "preprint",
+  "arxiv": "2607.07206",
+  "source": {
+    "directory": "papers/03-geometric-nongeometric-optimizer-calculus",
+    "tex": "main_arxiv.tex",
+    "include": [
+      "main_arxiv.tex", "preamble.tex", "fancyhdr.sty", "tmlr.sty", "tmlr.bst",
+      "sections", "appendix",
+      "figures/interaction_curvature_table.tex",
+      "figures/interaction_curvature_validation.pdf",
+      "figures/interaction_finite_response.pdf",
+      "figures/family_sensitivity_family_comparison.pdf",
+      "figures/paper03_followup_synthetic_sanity_table.tex",
+      "figures/paper03_rich_convention_table.tex",
+      "figures/paper03_followup_intervention_table.tex",
+      "figures/paper03_followup_sector_geometry_table.tex",
+      "figures/paper03_followup_tinyresnet_geometry_table.tex"
+    ]
+  },
+  "en": {
+    "title": "Causal Optimizer Interaction Calculus: Hidden Geometric Relaxation and Identifiable Interventions",
+    "short": "A causal and statistical calculus for optimizer interactions, from hidden relaxation to identifiable experiments.",
+    "abstract": "Optimizer experiments reveal responses to configurations without uniquely revealing their mechanisms. This paper separates pathwise realization, Möbius decomposition, and experimental identification. It gives exact identifiability and quotient stability, transfers hidden-relaxation interactions to observable readouts, and validates the theory with controlled logistic-model and neural-trace experiments."
+  },
+  "zh": {
+    "title": "因果优化器交互微积分：隐几何松弛与可识别干预",
+    "short": "从隐状态松弛到可识别实验的一套优化器交互因果与统计微积分。",
+    "abstract": "优化器实验可以观测配置响应，却未必唯一揭示其内部机制。本文区分路径实现、Möbius 分解和实验识别，给出精确可识别性与商空间稳定性，将隐松弛的交互传递到可观测读出，并以逻辑回归和神经轨迹实验验证理论。"
+  }
+}

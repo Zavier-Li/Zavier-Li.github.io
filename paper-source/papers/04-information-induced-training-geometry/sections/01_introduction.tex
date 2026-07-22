@@ -1,0 +1,153 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Let \(\SPD^n\) denote the cone of real symmetric positive definite matrices.
+A full-column-rank matrix \(A\in\R^{n\times m}\) defines the positive
+compression
+\[
+  \pi_A:\SPD^n\longrightarrow\SPD^m,
+  \qquad
+  \pi_A(P)=A^\top P A.
+\]
+Given a reference \(P_0\in\SPD^n\) and a target \(R\in\SPD^m\), the basic
+matrix problem studied here is
+\begin{equation}
+  \min_{P\in\SPD^n}
+  \bigl\{\dai(P_0,P):A^\top P A=R\bigr\}.
+  \label{eq:intro-nearest-completion}
+\end{equation}
+The constraint specifies only the compression of \(P\), so its feasible set
+is a noncompact positive-definite fiber.  We ask when this fiber has a unique
+affine-invariant nearest point, whether the constrained value reduces exactly
+to an \(m\)-dimensional problem, and how the selected completion changes when
+the matrix channel itself moves.
+
+This compression problem is also the matrix core of partial-information
+training geometry.  Adaptive optimization is often described as a choice of
+positive geometry: natural gradient uses the Fisher metric
+\citep{amari1998natural}; K-FAC and related methods use structured Fisher or
+Gauss--Newton approximations \citep{martens2015kfac,george2018ekfac}; AdaGrad
+and Adam accumulate diagonal statistics
+\citep{duchi2011adagrad,kingma2014adam}; and Shampoo-type methods use matrix or
+tensor preconditioners \citep{gupta2018shampoo,morwani2024shampoo}.  These
+methods differ in how they construct and restrict a positive map from
+covectors to parameter directions.
+
+To make the information channel explicit, fix a parameter point \(\theta\),
+let \(V=T_\theta\mathcal M\) and \(E=V^*\), and write the per-example loss
+differentials as \(a_i=\dd_\theta\ell_i\in E\).  Their span
+\[
+  W=\operatorname{span}\{a_1,\ldots,a_n\}\subset E
+\]
+is the first-order visible cotangent space.  Its annihilator
+\(\Ann(W)\subset V\) is invisible to every example loss at that point.  A
+declared positive visible target \(R\in\SPD(W)\) constrains the restriction of
+a full cometric \(P\in\SPD(E)\), but it leaves an entire fiber
+\[
+  \{P\in\SPD(E):P|_{W\times W}=R\}
+\]
+undetermined.  The central questions are geometric and matrix-variational:
+
+\begin{quote}
+Which positive compressions admit lossless reduction and a canonical shortest
+completion, and how do channel motion and structural restrictions change the
+completed matrix geometry?
+\end{quote}
+
+This question has three levels.  At the first, no linearity or smoothness is
+available.  We show that exact reduction of every reference-radial visible
+decision problem characterizes metric submetries.  This maximal statement
+isolates the precise property required for lossless completion.
+
+At the second level, the spaces are Hadamard manifolds and the information map
+is a Riemannian submersion.  If its horizontal distribution integrates to
+complete totally geodesic leaves, each leaf is a global isometric information
+sheet.  The resulting section is coherent across updates, is the unique
+shortest lift, and commutes exactly with proximal maps and gradient flows.
+
+At the third level, the ambient geometry is the SPD cone with the
+affine-invariant Riemannian metric (AIRM), and visible information is a
+full-column-rank linear channel
+\[
+  \pi_A(P)=A^\top P A.
+\]
+This realization is fully explicit.  For reference \(P_0\), set
+\(R_0=A^\top P_0A\) and
+\(U_0=P_0^{1/2}AR_0^{-1/2}\).  The canonical completion of
+\(R\in\SPD^m\) is
+\begin{equation}
+  \Psi_{P_0,A}(R)
+  =P_0^{1/2}
+  \left[I+U_0(R_0^{-1/2}RR_0^{-1/2}-I)U_0^\top\right]
+  P_0^{1/2}.
+  \label{eq:intro-completion}
+\end{equation}
+It is the unique AIRM-nearest point in the visible fiber, and the full
+deformation cost equals the visible cost exactly.
+
+The explicit realization reveals additional structure.  Modulo visible
+coordinate changes, active information descriptors \((A,R)\) stratify the
+entire SPD cone by \(\rank(P-P_0)\).  In normalized horizontal coordinates,
+the exact infinitesimal metric is
+\begin{equation}
+  \norm{\dot P}_{P,\AI}^2
+  =
+  \fro{R^{-1/2}\dot R R^{-1/2}}^2
+  +2\tr\!\left(K[R+R^{-1}-2I]K^\top\right).
+  \label{eq:intro-line-element}
+\end{equation}
+The first term measures visible geometry change.  The second measures rotation
+of the visible subspace.  Reference-valued modes have zero rotation cost and
+their admissible rotations form precisely the singular directions of the
+descriptor.  Polarizing
+\eqref{eq:intro-line-element} gives a closed-form pair metric for arbitrary
+coupled perturbation directions.  Its multi-direction matrix is a positive
+semidefinite Gram matrix.  This metric cross-term measures the AIRM geometry
+of completed motion; it is distinct from the Hessian of the reduced
+minimum-distance value.
+
+\paragraph{Contributions.}
+The fixed-channel SPD theorem and the moving-channel pair metric are the two
+central results.  The abstract, structured, and statistical theorems identify
+their mechanism and consequences.
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+  \item \emph{Exact SPD reduction and completion.}  We prove that every
+  full-column-rank SPD compression is a
+  split-Hadamard submetry and derive the closed-form completion
+  \eqref{eq:intro-completion}, its horizontal geometry, exact full-to-visible
+  decision reduction, and closed-form prior--data shrinkage.  A
+  radius-conditioned minimax identity quantifies the remaining invisible
+  ambiguity.
+  \item \emph{Moving-channel geometry.}  We identify the gauge quotient and
+  all rank strata of completed SPD geometry, and derive the closed-form
+  mismatch-weighted pair metric whose diagonal is
+  \eqref{eq:intro-line-element}.  Its Gram factorization gives exact rank,
+  metric-orthogonality and differential-kernel criteria, together with
+  moving-reference covariance and the rank-loss boundary.
+  \item \emph{General mechanism.}  We characterize metric submetries by
+  attained fiber distance and universal radial-visible reduction.  Complete
+  horizontal leaves on Hadamard manifolds yield coherent isometric sections,
+  exact proximal commutation, and solution-wise gradient-flow lifting.
+  \item \emph{Implementability and recovery.}  We characterize diagonal and
+  block structured expressivity by
+  relative interiors of conic images, with strict separation and facial
+  certificates for distinct failure modes.  Deterministic and finite-sample
+  bounds then separate visible AIRM error from Grassmann subspace error.
+\end{enumerate}
+
+\paragraph{Scope.}
+The theory starts after a positive visible target has been declared.  Fisher,
+Gauss--Newton, gradient covariance, damping, and user-specified audit targets
+provide different constructions of such a target; the paper does not identify
+them with one another.  The moving-reference formula is a kinematic identity,
+not an optimizer evolution law.  Likewise, exact reduction determines a
+canonical full representative of a visible decision but does not prescribe
+which visible decision an optimizer should make.
+
+\paragraph{Organization.}
+\Cref{sec:related} positions the work.  \Cref{sec:metric-foundations}
+establishes the maximal metric theorem, and \cref{sec:split-hadamard} gives its
+smooth global form.  \Cref{sec:spd-realization,sec:stratified-geometry}
+develop the explicit SPD realization and its rank-stratified pair metric.
+\Cref{sec:structured-expressivity} treats structured families, and
+\cref{sec:statistical-recovery} develops perturbation and sampling results.

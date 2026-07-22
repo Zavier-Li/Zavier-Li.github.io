@@ -1,0 +1,235 @@
+\section{Diagnostic Prototype Details}
+\label{app:diagnostic-details}
+
+\subsection{Controlled factorial closure}
+
+The controlled experiment is generated from existing scikit-learn digits data
+by
+\begin{verbatim}
+python -u experiments/optimizer_calculus/interaction_curvature_experiment.py `
+  --output-dir experiments/optimizer_calculus/interaction-curvature-results
+\end{verbatim}
+The complete configuration is
+\path{experiments/optimizer_calculus/interaction_curvature_config.json}.
+The paper-supplied mirror under \path{artifacts/interaction_curvature} contains
+the final configuration snapshot, Boolean responses, pair-curvature checks,
+continuous held-out checks, split robustness, allocations, Gaussian campaign
+summaries, all 4500 confirmatory empirical observations, bootstrap intervals,
+finite-response traces, and the consolidated summary.
+
+The dataset is restricted to digits 3 and 8 and stratified into 249 training
+and 108 test examples.  Standardization is fit on the training data only.  An
+intercept gives 65 hidden coordinates, all ridge-regularized with
+$\lambda=0.15$.  The three additive losses emphasize positive-class samples,
+negative-class samples, and central-occlusion robustness with scale $0.75$.
+Newton solves use analytic gradients and Hessians, Armijo damping, tolerance
+$10^{-11}$, and at most 80 iterations.  Pair curvature uses order-24
+Gauss--Legendre quadrature; eight additional splits use order 16.
+
+The Gaussian pilot allocates 420 main and 80 held-out replications.  Exact
+noncentral-$\chi^2$ power calibration multiplies both by the first integer
+reaching 0.95 power, which is nine.  Confirmatory simulation uses 100,000
+campaigns.  The empirical channel uses minibatches of size 1024, 200 pilot
+observations per mask, a disjoint confirmatory sample of 3780 main and 720
+held-out observations, and 20,000 stratified bootstrap draws.  The pilot is
+used only for variance estimation and allocation.
+
+Finite-response tracking runs fixed-step gradient descent for horizons
+$0,1,2,4,8,16,32,64,128,256,512,1024$.  At every horizon the script verifies
+that the actual pair-effect error is below the sum of the four optimized-value
+gaps, and that this exact gap bound is below the analytic strong-convexity
+bound.
+
+The verification commands are
+\begin{verbatim}
+python -m pytest `
+  experiments/optimizer_calculus/test_interaction_curvature_experiment.py -q
+
+python experiments/optimizer_calculus/verify_interaction_curvature_results.py `
+  newpapers/03-geometric-nongeometric-optimizer-calculus/artifacts/interaction_curvature
+\end{verbatim}
+They return \texttt{6 passed} and
+\texttt{interaction-curvature result audit passed}, respectively.
+
+\subsection{Quadratic benchmark}
+
+The deterministic quadratic benchmark uses three problem families:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item rotated strongly convex quadratics;
+\item diagonal-plus-low-rank quadratics;
+\item block-coupled quadratics.
+\end{enumerate}
+The script records final objective gap, gradient-call count, and convergence
+under a gradient-norm tolerance.  The default repository command is
+\begin{verbatim}
+python experiments/toy/gng_optimizer_benchmark.py --output experiments/toy/gng-results
+\end{verbatim}
+and the larger diagnostic run used during development was
+\begin{verbatim}
+python experiments/toy/gng_optimizer_benchmark.py --output experiments/toy/gng-results `
+  --dim 64 --instances 4 --memory 8 --max-iter 220 --grad-tol 1e-8
+\end{verbatim}
+The paper reports the later optimized diagnostic checks because they use
+\textsc{GNG-FullMetricProbe} v2, which removes an unnecessary final gradient
+validation call and therefore uses $d+1$ gradient calls (65 when $d=64$), as
+recorded in \path{experiments/toy/gng-results-optimized-64x1/gng_optimizer_summary.json}.
+The saved diagnostic summary also contains \textsc{HeavyBall-oracle}; its poor
+performance on these high-condition-number instances should not be read as a
+general statement about heavy-ball methods.  The \textsc{Adam-tuned} entry in
+that summary is selected from a six-point learning-rate sweep, whose tuning
+cost is separate from the recorded optimizer-call count.
+
+\subsection{Prototype descriptions}
+
+\paragraph{GNG-FullMetricProbe.}
+The method evaluates $g_0=\nabla f(x_0)$ and then evaluates gradients at
+$x_0+e_i$ for $i=1,\ldots,d$.  For a deterministic quadratic, these probes
+recover the columns of $H$.  The update $x_+=x_0-H^{-1}g_0$ is the exact
+Newton step.  The final gradient can be computed internally as
+$g_0+H(x_+-x_0)$, so no final oracle call is needed.
+
+\paragraph{GNG-KrylovMetric.}
+The method performs sequential directional probes to obtain $Hp$ along
+search directions.  It uses exact quadratic line search and conjugacy-style
+updates.  Its interpretation in this paper is a growing Krylov subspace
+metric, not a new claim about conjugate-gradient theory.
+The reported implementation is not presented as a standard CG baseline.
+
+\paragraph{RSDLR-BFGS-Hybrid.}
+The method combines a bounded diagonal inverse metric with a limited secant
+memory.  It keeps a mixture of recent secant pairs and pairs with high
+residual under the current diagonal model.  In the present benchmark it did
+not outperform FIFO-LBFGS.
+
+\subsection{Formal trace audit}
+
+The trace-level residual audit in \cref{sec:experiments} is produced
+by the scripts under \texttt{experiments/lane\_audit}.  Each worker runs
+\texttt{optimizer\_trace.py}, records the raw gradient before the optimizer
+step, applies the optimizer, records the parameter update, and writes
+\texttt{trace\_residual\_summary.json}, \texttt{trace\_residuals.csv}, and a
+GER plot.  In the rich runs, each worker also writes bounded-diagonal
+sensitivity metrics, alternative visible-covector metrics, layer-scalar
+metrics, penalized layer-scalar path-fit curves, partial CSV files,
+progress JSON, and explicit checkpoints.  The queued batch is launched by
+\texttt{lane\_orchestrator.py}.  The paper tables and figures are generated
+by:
+\begin{verbatim}
+python experiments/lane_audit/analyze_formal_run.py `
+  --run-dir tmp/remote_runs/paper03_rich_family_b1024_l28_20260710_2223 `
+  --output-dir newpapers/03-geometric-nongeometric-optimizer-calculus/figures `
+  --prefix family_sensitivity
+
+python experiments/lane_audit/analyze_formal_run.py `
+  --run-dir tmp/remote_runs/paper03_rich_cifar10_b1024_l28_20260710_2223 `
+  --output-dir newpapers/03-geometric-nongeometric-optimizer-calculus/figures `
+  --prefix cifar10_audit
+
+python experiments/lane_audit/analyze_paper03_rich_runs.py `
+  --run-dir tmp/remote_runs/paper03_rich_family_b1024_l28_20260710_2223 `
+            tmp/remote_runs/paper03_rich_cifar10_b1024_l28_20260710_2223 `
+  --output-dir newpapers/03-geometric-nongeometric-optimizer-calculus/figures `
+  --prefix paper03_rich
+\end{verbatim}
+
+Both formal batches use lane count $28$, batch size $1024$, checkpoint and
+partial-write interval $256$, and $4096$ recorded optimizer steps per job.
+The formal jobs did not download datasets on the remote hosts.  The bounded
+diagonal family is $A_{ii}\in[10^{-6},1]$ unless the sensitivity grid names a
+different lower or upper bound.  Raw TGER is the $\ell_2$ trace explanation
+rate when each step chooses its own map.  Coherent TGER is the no-variation
+$B_{\rm geo}=0$ specialization: one shared map is fit to the whole trace.  The
+coherent residual is computed by the closed-form streaming accumulator in
+\texttt{optimizer\_trace.py}; it solves the same least-squares problem as
+stacking all updates and gradients while avoiding full trace-vector storage
+in host memory.  In the audit script, the names \texttt{muon} and
+\texttt{gng\_muon} both call the local \textsc{GNGMuon} implementation with
+different hyperparameter settings.  They are retained as implementation
+labels for the saved summaries, but they should not be interpreted as
+official reference implementations of external Muon optimizers.
+
+The family-sensitivity rich run is
+\texttt{paper03\_rich\_family\_b1024\_l28\_20260710\_2223}.  It uses datasets
+\texttt{mnist,fashion\_mnist}, optimizers
+\texttt{adamw,sophia,muon,gng\_muon}, seeds \texttt{7,8,9}, width $32$,
+train subset $8192$, and test subset $2048$.  It contains $24$ jobs,
+$98304$ optimizer steps, and approximately $1.01\times10^8$ sample views.  It
+ran on one NVIDIA RTX PRO 6000 Blackwell Server Edition GPU; the batch
+monitor recorded $2990$ seconds of wall time, mean GPU utilization $99.5\%$,
+peak GPU utilization $100\%$, and peak VRAM $33015$ MiB.
+
+The CIFAR-10 rich run is
+\texttt{paper03\_rich\_cifar10\_b1024\_l28\_20260710\_2223}.  It uses dataset
+\texttt{cifar10}, the full $50000/10000$ train/test split, width $48$,
+optimizers \texttt{adamw,sgd,lion,sophia,muon,gng\_muon}, and seeds
+\texttt{7,8,9,11}.  It contains $24$ jobs, $98304$ optimizer steps, and
+approximately $1.01\times10^8$ sample views.  It ran on one NVIDIA RTX PRO
+6000 Blackwell Server Edition GPU; the batch monitor recorded $3554$ seconds
+of wall time, mean GPU utilization $95.7\%$, peak GPU utilization $100\%$,
+and peak VRAM $53373$ MiB.
+
+\subsection{Follow-up trace audits}
+
+The runtime-constrained follow-up tables in
+\cref{tab:followup-sector-geometry,tab:followup-interventions,tab:followup-tinyresnet-geometry}
+are generated by:
+\begin{verbatim}
+$SECTOR="tmp/remote_runs/<sector-followup-run>"
+$TINY="tmp/remote_runs/<tinyresnet-followup-run>"
+$OUT="newpapers/03-geometric-nongeometric-optimizer-calculus/figures"
+
+python experiments/lane_audit/analyze_paper03_followup_runs.py `
+  --sector-run-dir $SECTOR `
+  --tiny-run-dir $TINY `
+  --output-dir $OUT `
+  --prefix paper03_followup
+\end{verbatim}
+The analyzer checks that the sector run has $30$ optimizer/seed rows, the
+tiny-ResNet run has $18$ rows, the final short-horizon step counts are
+$128$ and $96$, and all reported accuracy, bounded-diagonal, channel-scalar,
+layer-scalar, coherent, and alternative-covector metrics are present.
+
+\begin{table}[t]
+\centering
+\caption{Synthetic residual sanity check used before the neural-network
+follow-up audits.  Raw TGER allows the explaining geometry to vary by step;
+coherent TGER uses one shared explaining map across the trace.}
+\label{tab:appendix-followup-synthetic-sanity}
+\small
+\input{figures/paper03_followup_synthetic_sanity_table.tex}
+\end{table}
+
+The sector/intervention run is:
+\begin{center}
+\small\path{paper03_followup_sector_cifar_b1024_l28_20260711_0242}
+\end{center}
+It uses CIFAR-10 with the full $50000/10000$ split, width $48$, the
+\texttt{small\_conv} model, batch size $1024$, lane count $28$, seeds
+$7,8,9$, and ten optimizer settings: AdamW, AdamW/no weight decay,
+SGD/Nesterov, SGD/no momentum, Lion, Lion/no sign, Sophia,
+Adafactor-style, Muon-style, and GNG-Muon.
+Each job records $128$ optimizer steps with partial trace writes and
+checkpoints every $32$ steps.  The batch contains $30$ jobs and $3840$
+recorded optimizer steps.  Its monitor recorded $2569$ seconds of batch wall
+time, mean GPU utilization $91.4\%$, peak GPU utilization $100\%$, and peak
+VRAM $58757$ MiB.
+
+The tiny-ResNet follow-up run is:
+\begin{center}
+\small\path{paper03_followup_tinyresnet_cifar_b1024_l28_20260711_0242}
+\end{center}
+It uses CIFAR-10 with the full $50000/10000$ split, width $24$, the
+\texttt{tiny\_resnet} model, batch size $1024$, lane count $28$, seeds
+$7,8,9$, and six optimizer settings: AdamW, SGD/Nesterov, Lion, Sophia,
+Adafactor-style, and Muon-style.  Each job records $96$ optimizer steps with
+partial trace writes and checkpoints every $32$ steps.  The batch contains
+$18$ jobs and $1728$ recorded optimizer steps.  Its monitor recorded $2482$
+seconds of batch wall time, mean GPU utilization $99.7\%$, peak GPU
+utilization $100\%$, and peak VRAM $49499$ MiB.
+
+The follow-up campaign initially tested longer horizons, but calibration with
+the channel-scalar and coherent covector diagnostics projected runtimes beyond
+the intended two-hour-per-task budget.  The final reported follow-up runs
+therefore keep the full optimizer/seed/geometry/covector matrix and shorten
+the trace horizon.  They are used as mechanism and model-extension audits,
+not as replacement performance benchmarks for the longer rich trace runs.

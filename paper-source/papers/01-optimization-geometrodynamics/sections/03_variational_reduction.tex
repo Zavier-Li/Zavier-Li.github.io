@@ -1,0 +1,95 @@
+\section{Variational Reduction of Hidden Geometry}
+\label{sec:reduction}
+
+This section isolates the operation that turns hidden optimizer geometry into
+a visible action theory.  No smoothness is needed for the algebraic layer;
+geometry enters when one asks for a canonical representative of each fiber.
+
+\subsection{Infimal pushforward}
+
+Let \(\pi:\Xspace\to\Yspace\) be an arbitrary observation map and let
+\(E:\Xspace\to(-\infty,+\infty]\) be an extended energy that never takes
+\(-\infty\).  We use \(\inf\varnothing=+\infty\).
+
+\begin{definition}[Infimal pushforward]
+\label{def:infimal-pushforward}
+The infimal pushforward of \(E\) along \(\pi\) is
+\begin{equation}
+  (\pi_!E)(y)
+  :=\inf_{\pi(x)=y}E(x).
+  \label{eq:infimal-pushforward}
+\end{equation}
+Its effective domain is the set of visible actions that admit a finite-energy
+hidden realization.
+\end{definition}
+
+\begin{theorem}[Exact reduction and composition]
+\label{thm:algebraic-reduction}
+Let \(\rho:\Yspace\to\Zspace\) be another map.  Then
+\begin{equation}
+  (\rho\circ\pi)_!E=\rho_!(\pi_!E).
+  \label{eq:pushforward-composition}
+\end{equation}
+For every \(\ell:\Yspace\to(-\infty,+\infty]\), using the extended-value
+convention \(+\infty+a=+\infty\) (neither summand takes \(-\infty\)),
+\begin{equation}
+  \inf_{x\in\Xspace}\{E(x)+\ell(\pi(x))\}
+  =
+  \inf_{y\in\Yspace}\{(\pi_!E)(y)+\ell(y)\}.
+  \label{eq:task-reduction}
+\end{equation}
+Moreover, for a visible potential
+\(\varphi:\Yspace\to(-\infty,+\infty]\) under the same convention and a
+constraint \(\mathcal C\subseteq\Xspace\),
+\begin{align}
+  \pi_!(E+\varphi\circ\pi)&=\pi_!E+\varphi,
+  \label{eq:base-potential-law}\\
+  \pi_!(E+\ind_{\mathcal C})(y)
+  &=\inf_{\substack{\pi(x)=y\\x\in\mathcal C}}E(x).
+  \label{eq:constraint-law}
+\end{align}
+\end{theorem}
+
+The theorem is a typed regrouping law.  Its value is compositional: a
+hierarchical optimizer may eliminate full geometry, structured factors,
+visible action scale, and normalized direction in stages without changing the
+final reduced energy.  It does not by itself guarantee a minimizer, regularity,
+or a useful geometry on the visible space.
+
+\subsection{Canonical minimizer sections}
+
+We next give sufficient conditions for the reduced value to select one hidden
+state.  Let \((\Xspace,d)\) be a proper Hadamard space and write
+\(\mathcal F_y=\pi^{-1}(y)\).
+
+\begin{assumption}[Convex-fiber regularity]
+\label{ass:convex-fiber}
+Every nonempty fiber \(\mathcal F_y\) is closed and geodesically convex.
+The energy \(E\) is lower semicontinuous, and its restriction to each fiber is
+coercive---its fiber sublevel sets are bounded in the induced metric---and
+\(\mu\)-strongly geodesically convex for a common \(\mu>0\).
+\end{assumption}
+
+\begin{theorem}[Canonical hidden geometry]
+\label{thm:canonical-lift}
+Under Assumption~\ref{ass:convex-fiber}, every \(y\) with finite
+\((\pi_!E)(y)\) has a
+unique minimizer
+\begin{equation}
+  s_E(y)=\argminop_{\pi(x)=y}E(x),
+  \qquad
+  E(s_E(y))=(\pi_!E)(y).
+  \label{eq:canonical-lift}
+\end{equation}
+If a group \(G\) acts isometrically on \(\Xspace\) and acts on \(\Yspace\),
+if \(E(gx)=E(x)\), and if \(\pi(gx)=g\pi(x)\) for every \(g\in G\), then
+\begin{equation}
+  s_E(gy)=g s_E(y).
+  \label{eq:canonical-equivariance}
+\end{equation}
+\end{theorem}
+
+The minimizer section is energy-dependent.  It should be distinguished from
+the shortest section of a metric submetry, which is selected by distance alone.
+The two coincide when \(E(x)=\tfrac12d(x_0,x)^2\) and the relevant shortest
+completion is unique.

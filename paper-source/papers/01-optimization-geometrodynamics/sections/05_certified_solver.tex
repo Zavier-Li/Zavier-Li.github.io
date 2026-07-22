@@ -1,0 +1,302 @@
+\section{A Global Reduced Solver with Posterior Certificates}
+\label{sec:certified-solver}
+
+We first isolate the computation principle behind canonical reduction.  This
+also clarifies which part is general Hadamard optimization and which part is
+specific to the SPD action bundle.
+
+\begin{theorem}[Canonical strongly-convex fiber engine]
+\label{thm:canonical-fiber-engine}
+Let \(\mathcal C\) be a closed geodesically convex totally geodesic
+submanifold of a finite-dimensional Hadamard manifold.  Suppose
+\(F:\mathcal C\to\mathbb R\) is \(C^2\), coercive, and
+\(\mu\)-strongly geodesically convex.  If
+\[
+  \operatorname{Hess}F\preceq L_0g
+  \quad\text{on}\quad
+  \{x:F(x)\le F(x_0)\},
+\]
+then \(F\) has a unique minimizer \(x_\star\), every complete update segment
+of
+\begin{equation}
+  x_{k+1}
+  =\operatorname{Exp}_{x_k}
+   \left(-L_0^{-1}\operatorname{grad}F(x_k)\right)
+  \label{eq:abstract-fiber-update}
+\end{equation}
+stays in the current sublevel set, and, with
+\(q_{\mu,L}=1-\mu/L_0\),
+\begin{align}
+  \Delta_k&\le q_{\mu,L}^k\Delta_0,
+  &
+  d(x_k,x_\star)
+  &\le\sqrt{\frac{2\Delta_0}{\mu}}\,q_{\mu,L}^{k/2},
+  \label{eq:abstract-fiber-rates}\\
+  \norm{\operatorname{grad}F(x_k)}
+  &\le\sqrt{2L_0\Delta_0}\,q_{\mu,L}^{k/2}.
+  \label{eq:abstract-fiber-gradient-rate}
+\end{align}
+At every \(x\in\mathcal C\),
+\begin{equation}
+  d(x,x_\star)\le\frac{\norm{\operatorname{grad}F(x)}}{\mu},
+  \qquad
+  0\le F(x)-F(x_\star)
+  \le\frac{\norm{\operatorname{grad}F(x)}^2}{2\mu}.
+  \label{eq:abstract-fiber-certificates}
+\end{equation}
+The constants in \eqref{eq:abstract-fiber-certificates} are sharp.
+\end{theorem}
+
+The first-return sublevel statement is important: it uses a Hessian bound on
+the current sublevel itself, rather than first enlarging its radius to cover a
+putative update.  For squared distance on a Hadamard manifold with
+\(-\kappa\le\operatorname{sec}\le0\), Hessian comparison supplies the sharp
+radius-only majorant
+\begin{equation}
+  L(D)=\psi(\sqrt\kappa D),
+  \qquad
+  \psi(s)=
+  \begin{cases}
+    s\coth s,&s>0,\\
+    1,&s=0.
+  \end{cases}
+  \label{eq:hessian-comparison-factor}
+\end{equation}
+The general descent ingredients are classical; the theorem records the exact
+form needed to connect the canonical section to the action-specific result.
+
+\subsection{Explicit SPD residual and nonasymptotic complexity}
+
+For fixed \(B\in\Bact\), retain \(R_0,\mathcal Q_\Sigma,f_B\), and
+\(\mathcal R(\Sigma)\) from \cref{sec:action-bundle}, and define
+\begin{equation}
+  W_B(\Sigma)=\mathcal R_{22}(\Sigma)^\circ.
+  \label{eq:solver-residual}
+\end{equation}
+This is the exact whitened negative gradient:
+\begin{equation}
+  -\operatorname{grad}f_B(\Sigma)
+  =\Sigma^{1/2}W_B(\Sigma)\Sigma^{1/2},
+  \qquad
+  \norm{\operatorname{grad}f_B(\Sigma)}_\Sigma
+  =\fro{W_B(\Sigma)}.
+  \label{eq:residual-gradient-identity}
+\end{equation}
+
+Given any \(\Sigma_0\in\mathscr P_n\), put
+\begin{equation}
+  D_0=\dai(R_0,\mathcal Q_{\Sigma_0}),
+  \qquad
+  L_0=\psi(D_0/\sqrt2),
+  \qquad
+  q_0=1-L_0^{-1}.
+  \label{eq:solver-constants}
+\end{equation}
+If \(D_0=0\), the initial controller is canonical.  Otherwise define
+\begin{equation}
+  \chi_0=-\log q_0
+  =-\log(1-L_0^{-1})
+  \label{eq:solver-discrete-exponent}
+\end{equation}
+and run
+\begin{equation}
+  \boxed{
+  \Sigma_{k+1}
+  =\Sigma_k^{1/2}
+   \exp\!\left(L_0^{-1}W_B(\Sigma_k)\right)
+   \Sigma_k^{1/2}.}
+  \label{eq:certified-solver-update}
+\end{equation}
+
+\begin{theorem}[Global action solver and posterior certificates]
+\label{thm:certified-action-solver}
+Let \(A\) have full column rank, let \(B\in\Bact\), and let
+\(\Sigma_\star\) be the hidden coordinate of \(s_A(B)\).  From every
+\(\Sigma_0\in\mathscr P_n\), \eqref{eq:certified-solver-update} preserves
+determinant one and satisfies
+\begin{align}
+  f_B(\Sigma_{k+1})
+  &\le f_B(\Sigma_k)
+  -\frac{1}{2L_0}\fro{W_B(\Sigma_k)}^2,
+  \label{eq:solver-descent}\\
+  f_B(\Sigma_k)-f_B(\Sigma_\star)
+  &\le \frac{D_0^2}{2}q_0^k,
+  \label{eq:solver-value-rate}\\
+  \dai(\Sigma_k,\Sigma_\star)
+  &=\dai(\Phi_A(B,\Sigma_k),s_A(B))
+  \le D_0q_0^{k/2},
+  \label{eq:solver-distance-rate}\\
+  \fro{W_B(\Sigma_k)}
+  &\le \sqrt{L_0}\,D_0q_0^{k/2}.
+  \label{eq:solver-residual-rate}
+\end{align}
+The observable residual gives the sharp posterior certificates
+\begin{align}
+  \dai(\Phi_A(B,\Sigma_k),s_A(B))
+  &\le\fro{W_B(\Sigma_k)},
+  \label{eq:solver-distance-certificate}\\
+  0\le f_B(\Sigma_k)-f_B(\Sigma_\star)
+  &\le\frac12\fro{W_B(\Sigma_k)}^2.
+  \label{eq:solver-gap-certificate}
+\end{align}
+For \(D_0>0\), value, controller, and residual tolerances are guaranteed,
+respectively, after
+\begin{align}
+  k&\ge\frac1{\chi_0}
+       \pospart{\log\frac{D_0^2}{2\varepsilon_f}},
+  \label{eq:solver-value-complexity}\\
+  k&\ge\frac2{\chi_0}
+       \pospart{\log\frac{D_0}{\varepsilon_x}},
+  \label{eq:solver-distance-complexity}\\
+  k&\ge\frac2{\chi_0}
+       \pospart{\log\frac{\sqrt{L_0}D_0}{\varepsilon_r}}
+  \label{eq:solver-residual-complexity}
+\end{align}
+iterations, with ceilings understood.
+\end{theorem}
+
+The current-sublevel curvature comparison uses
+\(L_0=\psi(D_0/\sqrt2)\), the sharp dimension-uniform majorant.  No
+radius-doubling argument is needed.  The denominators above invert the
+discrete factor \(q_0\) exactly; \(1/\chi_0\le L_0\) recovers the simpler
+exponential estimates.
+
+\subsection{Active realization and spectral-arithmetic cost}
+
+The operation counts below use a spectral-arithmetic model: dense
+factorizations and matrix functions on an \(r\times r\) symmetric matrix cost
+\(O(r^3)\), with scalar elementary functions counted at unit cost.  These are
+algebraic operation counts, not bit-complexity or floating-point error bounds.
+
+Let
+\[
+  \mathcal W_A
+  =\operatorname{span}(\operatorname{col}A,\operatorname{col}B),
+  \quad
+  r=\dim\mathcal W_A\le2m,
+  \quad
+  s=r-m,
+  \quad
+  q=d-r.
+\]
+The active-adapted construction in
+\cref{eq:active-residual-splitting} represents the hidden state by
+\(\Sigma_a\oplus\beta I_q\), with
+\(\det\Sigma_a\,\beta^q=1\), and the full residual norm by
+\(\fro{W_a}^2+qw_c^2\).  All complement terms are omitted when \(q=0\).
+This family is invariant under the exact update.  A general
+\(\Sigma_0\in\mathscr P_{d-m}\) need not lie in it, so
+\cref{thm:certified-action-solver} gives arbitrary-start convergence while the
+operation count below applies to active-compatible starts.  The identity is
+the default such start.
+
+\begin{corollary}[Active canonical solver]
+\label{cor:active-core-solver}
+Let \(\Sigma_{a,0}\in\SPD^s\) and, when present, \(\beta_0>0\) satisfy
+\(\det\Sigma_{a,0}\,\beta_0^q=1\); the identity choice
+\(\Sigma_{a,0}=I_s\), \(\beta_0=1\) is admissible.  The updates
+\begin{equation}
+  \Sigma_{a,k+1}
+  =\Sigma_{a,k}^{1/2}e^{W_{a,k}/L_0}\Sigma_{a,k}^{1/2},
+  \qquad
+  \beta_{k+1}=\beta_ke^{w_{c,k}/L_0}
+  \label{eq:active-solver-update}
+\end{equation}
+are exactly the full iteration \eqref{eq:certified-solver-update}.  They
+preserve \(P_kA=B\), \(P_k\succ0\), and \(\det P_k=1\), while the stopping
+test \(\fro{W_{a,k}}^2+qw_{c,k}^2\le\varepsilon^2\) implies controller
+error at most \(\varepsilon\).
+
+Preprocessing costs \(O(dm^2+r^3)\) spectral-arithmetic operations and
+\(O(dm+r^2)\) storage.  Each iteration costs \(O(r^3)\).  For \(D_0>0\), the total
+spectral-arithmetic
+cost is
+\begin{equation}
+  O\!\left(
+  dm^2+
+  r^3\left\{
+  1+\frac1{\chi_0}
+  \pospart{\log\frac{\sqrt{L_0}D_0}{\varepsilon}}
+  \right\}\right),
+  \qquad r\le2m.
+  \label{eq:active-total-complexity}
+\end{equation}
+The implicit controller application costs \(O(dr+r^2)\).  The same formulas
+cover \(q=0\); if \(s=0\), the solver has no variable and the canonical
+controller is
+\[
+  s_A(B)=EME^\top+\rho(I-EE^\top).
+\]
+\end{corollary}
+
+\subsection{Conditional inexact residuals}
+
+Finite-precision propagation requires certified numerical information that is
+separate from the geometric solver theorem.  Assume a matrix-function routine
+supplies a rigorous initial radius majorant \(\widehat D_0\ge D_0\), a
+symmetric trace-free direction
+\(\widetilde W_k=W_B(\Sigma_k)+E_k\), and an error majorant
+\(b_k\ge\fro{E_k}\).  Such bounds require a certified matrix-function
+implementation; they are not produced by the analysis below
+\cite{higham2008functions}.
+
+Fix \(0\le\delta<1\) and require at every accepted step
+\begin{equation}
+  b_k\le\frac{\delta}{1+\delta}\fro{\widetilde W_k}.
+  \label{eq:computable-relative-error-test}
+\end{equation}
+This observable test implies
+\begin{equation}
+  \fro{E_k}\le\delta\fro{W_B(\Sigma_k)}.
+  \label{eq:relative-residual-error}
+\end{equation}
+Define
+\begin{equation}
+  \widehat L_0=\psi(\widehat D_0/\sqrt2),
+  \quad
+  c_\delta=\left(\frac{1-\delta}{1+\delta}\right)^2,
+  \quad
+  \widehat q_\delta=1-\frac{c_\delta}{\widehat L_0},
+  \quad
+  \eta=\frac{1-\delta}{\widehat L_0(1+\delta)^2}.
+  \label{eq:inexact-step}
+\end{equation}
+
+\begin{corollary}[Certified inexact residual-oracle propagation]
+\label{cor:inexact-action-solver}
+If the supplied majorants satisfy the preceding conditions, the update
+\[
+  \Sigma_{k+1}
+  =\Sigma_k^{1/2}\exp(\eta\widetilde W_k)\Sigma_k^{1/2}
+\]
+has nonincreasing objective radius and
+\begin{align}
+  f_B(\Sigma_k)-f_B(\Sigma_\star)
+  &\le\frac{\widehat D_0^2}{2}\widehat q_\delta^k,
+  \label{eq:inexact-value-rate}\\
+  \dai(\Phi_A(B,\Sigma_k),s_A(B))
+  &\le\widehat D_0\widehat q_\delta^{k/2},
+  \label{eq:inexact-distance-rate}\\
+  \fro{\widetilde W_k}
+  &\le\frac{(1+\delta)^2}{1-\delta}
+  \sqrt{\widehat L_0}\widehat D_0\widehat q_\delta^{k/2}.
+  \label{eq:inexact-residual-rate}
+\end{align}
+The observed residual also certifies
+\begin{equation}
+  \dai(\Phi_A(B,\Sigma_k),s_A(B))
+  \le\frac{\fro{\widetilde W_k}}{1-\delta},
+  \qquad
+  f_B(\Sigma_k)-f_B(\Sigma_\star)
+  \le\frac{\fro{\widetilde W_k}^2}{2(1-\delta)^2}.
+  \label{eq:inexact-certificates}
+\end{equation}
+\end{corollary}
+
+This corollary certifies propagation of error in the residual direction
+\(\widetilde W_k\) when the accepted update is the exact Riemannian exponential
+of that direction.  It does not cover roundoff in the exponential update,
+factorizations, active-basis construction, determinant maintenance, or stored
+iterates, and it is not a bit-complexity theorem for matrix logarithms, roots,
+or exponentials.  End-to-end finite-precision certification requires those
+additional errors to be enclosed by the implementation.

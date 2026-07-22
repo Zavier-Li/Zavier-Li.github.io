@@ -1,0 +1,72 @@
+\documentclass[review,onefignum,onetabnum]{siamart250211}
+
+\input{preamble}
+
+\headers{Restricted Dynamic Geometric Complexity}{Z. Li}
+
+\title{Restricted Dynamic Geometric Complexity:
+Path-Space Reduction and M\"obius--Jacobi Response}
+
+\author{Zavier Li\thanks{Xidian University, Xi'an, China
+  (\email{zavierli888@gmail.com}).}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Structured preconditioners restrict optimization to a small family of
+positive metrics, but endpoint condition-number reachability does not measure
+the geometric effort required to reach a useful metric.  We formulate this
+effort as a path-space value problem.  Restricted dynamic geometric complexity
+is the least affine-invariant length of an admissible metric path whose
+endpoint reaches a Hessian-relative generalized-eigenvalue condition target.
+Path elimination gives an exact min-plus semigroup and Bellman principle,
+while fixed-horizon kinetic energy is exactly squared complexity divided by
+twice the horizon.  Explicit Tonelli and compact-control realizations supply
+existence and a conditional Hamilton--Jacobi layer.  The main response result
+is global on a Hadamard state space: geodesic convexity produces a smooth
+intervention-cube path branch and a uniformly coercive Jacobi form, while one
+Green inverse generates the value Hessian, two-sided force-to-curvature
+bounds, exact M\"obius effects, and arbitrary prescribed finite-order
+responses.  For the hard condition
+target, a bordered Jacobi--KKT theorem differentiates the moving projection
+endpoint and multiplier on every regular active spectral stratum; its
+indefinite inverse also explains why hard-target interactions need not share
+the unconstrained sign.  The theory specializes to affine-invariant
+positive-definite geometry.
+A determinant-one two-dimensional diagonal model has an exact target
+interval, a closed-form forced path, and a strictly negative-definite
+interaction matrix.  A moving diagonal Hessian gives a closed-form hard-target
+projection, multiplier, and pair effects of either sign, while a
+coordinate-sequential three-dimensional protocol yields an exact path metric
+strictly larger than the ambient projection distance.  Thus the global Green
+and bordered hard-target responses are explicit laws of restricted metric-path
+elimination built on Bellman composition.
+\end{abstract}
+
+\begin{keywords}
+structured preconditioning, affine-invariant geometry, dynamic programming,
+Jacobi operator, parametric optimization, M\"obius interaction
+\end{keywords}
+
+\begin{MSCcodes}
+49L20, 49K40, 53C23, 65K10, 90C25
+\end{MSCcodes}
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_spd_rdgc}
+\input{sections/04_path_reduction}
+\input{sections/05_diagonal_model}
+\input{sections/06_verification}
+\input{sections/07_discussion}
+
+\bibliographystyle{siamplain}
+\bibliography{references}
+
+\appendix
+\input{appendix/a_path_proofs}
+\input{appendix/b_spd_diagonal_proofs}
+
+\end{document}
+

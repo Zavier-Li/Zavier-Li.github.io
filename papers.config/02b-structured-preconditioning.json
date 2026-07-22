@@ -1,0 +1,26 @@
+{
+  "slug": "structured-preconditioning",
+  "number": "4",
+  "order": 4,
+  "year": "2026",
+  "status": "preprint",
+  "arxiv": "2607.12286",
+  "source": {
+    "directory": "papers/P2b",
+    "tex": "main.tex",
+    "include": [
+      "main.tex", "preamble.tex", "references.bib", "siamart250211.cls",
+      "siamplain.bst", "sections", "appendix", "figures"
+    ]
+  },
+  "en": {
+    "title": "Structured Preconditioning in Affine-Invariant Geometry: Projection, Certificates, and Kronecker Separation",
+    "short": "When does nearest structured geometry also give the best structured preconditioner?",
+    "abstract": "Nearest structured approximation and best structured preconditioning are distinct matrix problems. For Kronecker positive-definite matrices under the affine-invariant metric, this paper gives their exact relation: a unique projection, certified errors, a marginal-mismatch test, and a dimension-minimal separation showing when projection fails to optimize relative conditioning."
+  },
+  "zh": {
+    "title": "仿射不变几何中的结构化预条件：投影、认证与 Kronecker 分离",
+    "short": "最近的结构化几何何时也是最优的结构化预条件器？",
+    "abstract": "最近结构化逼近与最优结构化预条件是两个不同的矩阵优化问题。针对仿射不变度量下的 Kronecker 正定矩阵，本文给出二者的精确关系：唯一投影、可认证误差、边缘失配检验，以及一个维数最小的分离构造，说明投影何时不能优化相对条件数。"
+  }
+}

@@ -1,0 +1,196 @@
+\section{Diagonal and Block Matrix Families}
+\label{sec:diag-block}
+
+Diagonal and block families are the closest finite-dimensional models of
+coordinatewise and grouped adaptive preconditioning. Their reachability admits a
+clean semidefinite characterization. This connects restricted geometric
+complexity to the classical literature on scaling and equilibration
+\cite{bauer1963optimally,vandersluis1969equilibration,
+shapiro1982optimally,shapiro1985block,sinkhorn1967doubly,
+knight2013balancing,qu2024optimal}, to condition-number optimization through
+convex programming \cite{marechal2009optimizing,lu2011minimizing}, and to
+semidefinite feasibility \cite{vandenberghe1996semidefinite,boyd2004convex}.
+The role of this section is to place those reachability questions inside the
+structured affine-invariant target-distance benchmark and to record primal and
+dual certificates in the notation used by \(D_{K,\F}\).
+
+\begin{center}
+\begin{tabular}{p{0.28\linewidth}p{0.30\linewidth}p{0.32\linewidth}}
+\toprule
+Topic & Closest classical object & Role here \\
+\midrule
+Diagonal/block scaling &
+Optimal scaling and equilibration criteria &
+Endpoint reachability for a restricted metric family \\
+Condition-number minimization &
+Variational and convex-programming formulations &
+The same target embedded in an affine-invariant path-distance benchmark \\
+Semidefinite feasibility &
+Primal feasibility and dual separation &
+Certificate language for finite \(D_{K,\F}\) or unreachable targets \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Diagonal reachability}
+
+Let
+\[
+  \F_{\diag}=\{D=\diag(e^{x_1},\ldots,e^{x_d}):x\in\R^d\}.
+\]
+Inside this family the affine-invariant line element is Euclidean in log
+coordinates:
+\[
+  \Len_{\diag}(x_{[0,T]})=\int_0^T\norm{\dot x_t}_2\,\dd t.
+\]
+The diagonal target set is
+\[
+  \mathcal X_K(H)=
+  \{x\in\R^d:\kappa(\diag(e^{-x})H)\le K\}.
+\]
+
+\begin{lemma}[Diagonal distance identity]
+\label{lem:diag-distance-identity}
+The map
+\[
+  x\mapsto H^{-1/2}\diag(e^x)H^{-1/2}
+\]
+is an isometric realization of the diagonal metric family with its
+affine-invariant induced length.  With
+\(S_0=H^{-1/2}\diag(e^{x_0})H^{-1/2}\), write
+\(D_{K,\diag}(x_0;H):=D_{K,\diag}(S_0;H)\).  The set
+\(\mathcal X_K(H)\) is closed, and
+\[
+  D_{K,\diag}(x_0;H)=\dist_{\ell^2}(x_0,\mathcal X_K(H)).
+\]
+\end{lemma}
+
+\begin{theorem}[Diagonal LMI reachability]
+\label{thm:diag-lmi}
+For \(K\ge1\), the following are equivalent:
+\begin{enumerate}[leftmargin=*,itemsep=0.1em]
+  \item there exists a positive diagonal \(D\) with
+  \(\kappa(D^{-1}H)\le K\);
+  \item there exists a positive diagonal \(E\) with
+  \[
+    E\preceq H\preceq K E.
+  \]
+\end{enumerate}
+Consequently,
+\[
+  K_{\diag}^\ast(H)
+  =
+  \inf\{K\ge1:\exists E\succ0\ \mathrm{diagonal},\ E\preceq H\preceq KE\}.
+\]
+For fixed \(K\), diagonal reachability is an LMI feasibility problem.
+\end{theorem}
+
+\begin{remark}[Certificate interpretation]
+\Cref{thm:diag-lmi} separates reachability from path length. If the LMI is
+infeasible, then \(D_{K,\diag}(x_0;H)=+\infty\) for every initial diagonal
+metric. If it is feasible, the remaining problem is the intrinsic distance from
+the initial log-scale \(x_0\) to the feasible set \(\mathcal X_K(H)\).
+Semidefinite duality can therefore provide certificates that no diagonal
+preconditioner can reach a desired condition-number threshold.
+\end{remark}
+
+\begin{corollary}[Aligned diagonal optimum]
+\label{cor:diag-aligned}
+If \(H=\diag(h_1,\ldots,h_d)\) and \(G_0\) is diagonal, then
+\[
+  D_{K,\diag}(S_0;H)=D_K(S_0).
+\]
+\end{corollary}
+
+Thus diagonal geometry can be optimal when the target curvature is already
+aligned with the coordinate axes. Its loss comes from directional mismatch.
+
+\subsection{Block reachability}
+
+Let the coordinates be split as
+\[
+  \R^d=V_1\oplus\cdots\oplus V_m,
+\qquad \dim V_j=d_j,
+\]
+and let \(\F_{\mathrm{block}}\) be the corresponding block-diagonal positive
+definite family.
+
+\begin{theorem}[Block LMI reachability]
+\label{thm:block-lmi}
+For \(K\ge1\), the following are equivalent:
+\begin{enumerate}[leftmargin=*,itemsep=0.1em]
+  \item there exists \(G\in\F_{\mathrm{block}}\) with
+  \(\kappa(G^{-1}H)\le K\);
+  \item there exists \(E\in\F_{\mathrm{block}}\) with
+  \[
+    E\preceq H\preceq K E.
+  \]
+\end{enumerate}
+Therefore block reachability is also an LMI feasibility problem.
+\end{theorem}
+
+\subsection{Dual infeasibility certificates}
+
+The LMI formulation also gives a checkable certificate when a target condition
+number is impossible. Let \(\mathcal L\) be either the diagonal symmetric
+subspace or a fixed block-diagonal symmetric subspace, and let
+\(\Pi_{\mathcal L}\) be the Frobenius-orthogonal projection onto
+\(\mathcal L\). For fixed \(K\), the primal reachability problem asks for
+\(E\in\mathcal L\) such that
+\[
+  H-E\succeq0,\qquad KE-H\succeq0.
+\]
+
+\begin{proposition}[Structured SDP dual certificate]
+\label{prop:structured-dual-certificate}
+If there exist \(P,Q\in\PSD^d\) such that
+\[
+  \Pi_{\mathcal L}(P-KQ)=0,
+  \qquad
+  \ip{P-Q}{H}<0,
+\]
+then no \(E\in\mathcal L\) satisfies \(E\preceq H\preceq KE\). Hence the
+diagonal or block restricted target is empty at threshold \(K\).
+\end{proposition}
+
+\begin{corollary}[Sign-flip rank-one certificate]
+\label{cor:sign-flip-certificate}
+Let
+\[
+  T=\blockdiag(s_1 I_{d_1},\ldots,s_m I_{d_m}),
+  \qquad s_j\in\{-1,1\},
+\]
+and let \(\mathcal L\) be the corresponding block-diagonal subspace. If
+\[
+  \lambda_{\min}(K THT-H)<0,
+\]
+then the block family cannot reach condition number \(K\). The diagonal case is
+the special case \(d_j=1\).
+\end{corollary}
+
+The sign-flip certificate is not meant to solve every infeasible SDP. It gives
+a cheap, inspectable dual witness for synthetic examples where the obstruction
+is cross-block or cross-coordinate coupling.
+
+\begin{proposition}[Block Jacobi upper bound]
+\label{prop:block-jacobi}
+Let
+\[
+  G_{\mathrm{BJ}}=\blockdiag(H_{11},\ldots,H_{mm})
+\]
+with every \(H_{jj}\succ0\), and set
+\[
+  \widetilde H=G_{\mathrm{BJ}}^{-1/2}HG_{\mathrm{BJ}}^{-1/2}.
+\]
+Then
+\[
+  K_{\mathrm{block}}^\ast(H)\le \kappa(\widetilde H).
+\]
+If \(\opnorm{\widetilde H-I}\le\delta<1\), then
+\[
+  K_{\mathrm{block}}^\ast(H)\le\frac{1+\delta}{1-\delta}.
+\]
+\end{proposition}
+
+The block family can absorb all within-block curvature. The residual
+difficulty is the normalized off-block interaction.

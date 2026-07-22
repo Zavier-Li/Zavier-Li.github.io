@@ -1,0 +1,98 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Positive-definite matrix geometry.}
+The affine-invariant geometry of positive-definite matrices provides the
+distance, exponential map, congruence invariance, and nonpositive curvature
+used throughout
+\cite{bhatia2007positive,pennec2006riemannian,higham2008functions}.
+Geodesically convex optimization and best approximation on SPD manifolds are
+developed in
+\cite{sra2015conic,lim2004best,bacak2014convex,tumpach2024totally}.
+Spectral subdifferential calculus follows the Hermitian convex-analysis
+framework of \cite{lewis1996convex}.  Our contribution is the joint
+specialization to structured condition targets, explicit penalty and
+certificate interfaces, and the exact comparison between metric projection
+and condition-number optimization.
+
+\paragraph{Scaling and structured preconditioning.}
+Diagonal and block condition-number optimization is connected to optimal
+scaling, equilibration, and semidefinite formulations
+\cite{bauer1963optimally,vandersluis1969equilibration,
+shapiro1982optimally,shapiro1985block,marechal2009optimizing,
+lu2011minimizing,jambulapati2020fast,qu2024optimal,gao2023scalable,
+ghadimi2025omega}.
+In particular, mixed packing--covering SDP solvers and customized large-scale
+methods address the computational diagonal problem.  Geodesically convex
+preconditioning over symmetric Lie-group quotients provides general
+condition-number convexity, projected gradients, and first-order complexity
+bounds \cite{dogan2025geodesicpreconditioning}.  We use that established
+convexity viewpoint as background.  Applied to a Kronecker transformation
+group, that framework supplies condition-objective convexity and first-order
+optimization, but does not compare the optimizer with the AIRM projection or
+derive the extreme-state marginal criterion.  Our diagonal and block results retain the
+exact Loewner reachability question in the notation used later for Kronecker
+target distance; the new comparison is between AIRM projection and spectral
+condition optimality on the Kronecker SPD submanifold.
+
+Diagonal adaptive methods include AdaGrad and Adam
+\cite{duchi2011adagrad,kingma2014adam}; Adafactor and SM3 use factored or
+shared statistics \cite{shazeer2018adafactor,anil2019sm3}; K-FAC and KFC use
+Kronecker curvature approximations \cite{martens2015kfac,grosse2016kfc};
+and Shampoo uses tensor-factor preconditioners
+\cite{gupta2018shampoo,anil2020scalable}.  These algorithms motivate the
+matrix families.  Identifying a concrete optimizer state with a point in the
+family additionally requires a realization theorem specifying damping, bias
+correction, update scale, and interpolation.
+
+\paragraph{Kronecker approximation and covariance geometry.}
+Kronecker approximation is classical under Frobenius loss
+\cite{vanloan1993kronecker}.  Application-driven nearest-Kronecker
+preconditioners use Frobenius or operator-specific product approximations for
+Toeplitz, imaging, Markov/SAN, and stochastic Galerkin systems
+\cite{kamm2000optimal,nagy2006imaging,langville2004san,
+langville2004testing,ullmann2010stochastic}.  Those works ask whether a
+computationally convenient product approximates a structured operator well or
+accelerates a particular solver.  Our comparison instead fixes one Kronecker
+family and separates its intrinsic AIRM projection from its exact
+Hessian-relative condition-number minimizer.
+
+Separable covariance and matrix-normal models
+lead to likelihood and flip-flop procedures
+\cite{dutilleul1999mle,werner2008kronecker}.  Geodesic convexity for
+covariance estimation and Kronecker structure is established in
+\cite{wiesel2012geodesic,wiesel2012kroneckerconvexity}; a broader survey is
+\cite{wang2022kroneckersurvey}.  The Fisher/AIRM
+quotient geometry, determinant-one factorization, scale gauge, and
+dimension-weighted product metric are developed in
+\cite{mccormack2025kroneckergeometry}, with related Riemannian algorithms in
+\cite{bouchard2021onlinekronecker,simonis2025geodesicvb}.  Work connecting
+Shampoo factors to Kronecker approximation studies a complementary algorithmic
+question \cite{morwani2024shampoo}.
+
+\begin{center}
+\small
+\begin{tabular}{p{0.24\linewidth}p{0.31\linewidth}p{0.35\linewidth}}
+\toprule
+Problem & Established object & Role in this paper \\
+\midrule
+Kronecker approximation & Frobenius nearest product
+\cite{vanloan1993kronecker} & Contrast with intrinsic AIRM projection \\
+Separable covariance & Likelihood equations and geodesic convexity
+\cite{dutilleul1999mle,wiesel2012kroneckerconvexity} & Distinguish statistical
+likelihood from metric projection \\
+Kronecker information geometry & Scale quotient and product Fisher/AIRM
+metric \cite{mccormack2025kroneckergeometry} & Infrastructure for logarithmic
+partial-trace projection residuals \\
+Optimal preconditioning & Geodesically convex condition optimization and
+first-order methods \cite{dogan2025geodesicpreconditioning} & Exact criterion
+for when the AIRM projection belongs to the condition-number argmin \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Thus the quotient metric itself is supporting infrastructure.  The main
+increment here is the global AIRM projection characterization, its residual
+error and reachability brackets, the extreme-state marginal criterion for
+projection optimality, and strict separation from best Hessian-relative
+preconditioning.

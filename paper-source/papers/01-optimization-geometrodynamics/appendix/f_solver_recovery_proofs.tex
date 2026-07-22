@@ -1,0 +1,531 @@
+\section{Proofs for the Solver, Certificates, and Recovery Laws}
+\label{app:solver-recovery-proofs}
+
+This appendix proves the algorithmic and recovery results in
+\cref{sec:certified-solver,sec:multisecant-recovery}.
+All gradients, exponential maps, and norms below
+use the affine-invariant metric.
+
+\subsection{Curvature and squared-distance comparison}
+
+\begin{lemma}[AIRM curvature bound]
+\label{lem:airm-curvature-bound}
+Every sectional curvature of \(\SPD^d\), its determinant-one slice
+\(\Pdet\), and every action fiber \(\Pfiber(B)\) lies in
+\begin{equation}
+  -\frac12\le \operatorname{sec}\le0.
+  \label{eq:airm-curvature-bound}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Congruence invariance reduces the calculation to the identity, where tangent
+vectors are symmetric matrices and the metric is Frobenius.  The AIRM
+curvature tensor is
+\[
+  R(X,Y)Z=-\frac14[[X,Y],Z],
+\]
+and hence
+\[
+  \operatorname{sec}(X,Y)
+  =-\frac14\frac{\fro{[X,Y]}^2}
+  {\fro X^2\fro Y^2-\ip X Y_F^2}\le0.
+\]
+To obtain the lower bound, replace \(Y\) by its component
+\(\widetilde Y\) Frobenius-orthogonal to \(X\); this leaves the commutator
+unchanged and turns the denominator into
+\(\fro X^2\fro{\widetilde Y}^2\).  Orthogonally diagonalize
+\(X=\operatorname{diag}(\lambda_i)\).  For symmetric
+\(\widetilde Y=(y_{ij})\),
+\[
+\begin{aligned}
+  \fro{[X,\widetilde Y]}^2
+  &=2\sum_{i<j}(\lambda_i-\lambda_j)^2y_{ij}^2\\
+  &\le4\fro X^2\sum_{i<j}y_{ij}^2
+  \le2\fro X^2\fro{\widetilde Y}^2.
+\end{aligned}
+\]
+Substitution gives \(\operatorname{sec}\ge-1/2\).  The determinant-one
+slice and the action fibers are totally geodesic, so their intrinsic
+curvatures are restrictions of the ambient curvature tensor.
+\end{proof}
+
+\begin{lemma}[Squared-distance Hessian comparison]
+\label{lem:squared-distance-comparison}
+Let \((\mathcal M,g)\) be a finite-dimensional Hadamard manifold with
+\(-\kappa\le\operatorname{sec}\le0\).  For fixed \(z\), let
+\(h(x)=\tfrac12d(z,x)^2\).  Then
+\begin{equation}
+  g_x\preceq\operatorname{Hess}h(x)
+  \preceq\psi(\sqrt\kappa R)g_x
+  \quad\text{whenever }d(z,x)\le R,
+  \label{eq:squared-distance-comparison}
+\end{equation}
+where \(\psi(s)=s\coth s\) and \(\psi(0)=1\).  In particular, \(h\) is
+globally \(1\)-strongly geodesically convex.
+\end{lemma}
+
+\begin{proof}
+For \(x\ne z\), put \(r=d(z,x)\), let \(T\) be the terminal unit tangent
+of the geodesic from \(z\) to \(x\), and decompose
+\(v=aT+v_\perp\).  The radial Hessian formula gives
+\[
+  \operatorname{Hess}h(v,v)
+  =a^2+r\operatorname{Hess}r(v_\perp,v_\perp).
+\]
+Let \(J\) be the Jacobi field with \(J(0)=0\) and
+\(J(r)=v_\perp\).  Nonpositive curvature and Cauchy--Schwarz applied after
+parallel transport yield
+\[
+  \operatorname{Hess}r(v_\perp,v_\perp)=I(J,J)
+  \ge\int_0^r\norm{D_tJ}^2\,\dd t
+  \ge r^{-1}\norm{v_\perp}^2.
+\]
+For the reverse bound, compare \(J\) with
+\[
+  V(t)=\frac{\sinh(\sqrt\kappa t)}
+  {\sinh(\sqrt\kappa r)}P_tv_\perp,
+\]
+using \(V(t)=(t/r)P_tv_\perp\) when \(\kappa=0\).  The index lemma and the
+curvature lower bound give
+\[
+  I(J,J)\le I(V,V)
+  \le\sqrt\kappa\coth(\sqrt\kappa r)\norm{v_\perp}^2.
+\]
+Therefore
+\[
+  \norm v^2\le\operatorname{Hess}h(v,v)
+  \le\psi(\sqrt\kappa r)\norm v^2.
+\]
+The formula extends continuously to \(x=z\), where
+\(\operatorname{Hess}h=g_z\).  Monotonicity of \(\psi\) proves the stated
+radius bound, and integration of the lower Hessian bound along geodesics
+proves strong convexity.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:canonical-fiber-engine}]
+Coercivity and closedness give a minimizer, and strong convexity makes it
+unique.  Write \(G_k=\operatorname{grad}F(x_k)\),
+\(g_k=\norm{G_k}\), and
+\[
+  \gamma_k(t)=\operatorname{Exp}_{x_k}(-tG_k),
+  \qquad 0\le t\le L_0^{-1}.
+\]
+If \(g_k=0\), strong convexity gives \(x_k=x_\star\).  Otherwise
+\((F\circ\gamma_k)'(0)=-g_k^2<0\).  If this update segment left the current
+sublevel, continuity would give a first return
+\(t_\star\in(0,L_0^{-1}]\).  Before that return the Hessian is bounded by
+\(L_0g\), so the integral Taylor formula would give
+\[
+\begin{aligned}
+  F(\gamma_k(t_\star))
+  &\le F(x_k)-t_\star g_k^2
+       +\frac{L_0t_\star^2}{2}g_k^2\\
+  &\le F(x_k)-\frac{t_\star}{2}g_k^2<F(x_k),
+\end{aligned}
+\]
+contradicting the return.  Hence the complete update stays in the current
+sublevel, and the same inequality at \(t=L_0^{-1}\) gives
+\[
+  F(x_{k+1})\le F(x_k)-\frac{g_k^2}{2L_0}.
+\]
+
+Let \(\Delta(x)=F(x)-F(x_\star)\),
+\(d=d(x,x_\star)\), and
+\(g=\norm{\operatorname{grad}F(x)}\).  Strong convexity at \(x\) and at
+\(x_\star\) gives
+\[
+  \frac{\mu}{2}d^2
+  \le\Delta(x)
+  \le gd-\frac{\mu}{2}d^2
+  \le\frac{g^2}{2\mu}.
+\]
+The first two expressions also imply \(d\le g/\mu\).  Thus
+\(g^2\ge2\mu\Delta\), and the descent inequality yields
+\[
+  \Delta_{k+1}
+  \le\left(1-\frac{\mu}{L_0}\right)\Delta_k.
+\]
+Iteration proves the value rate; the two preceding inequalities prove the
+distance and posterior bounds.  Since
+\(g_k^2/(2L_0)\le\Delta_k\), they also give the gradient rate.  Exact
+inversion of \(q_{\mu,L}^k\) gives the stated complexity.  If
+\(L_0=\mu\), the recurrence gives \(\Delta_1=0\).
+
+For \(F(x)=\mu\|x\|^2/2\) on a Euclidean line, both posterior inequalities
+and the \(L_0=\mu\) one-step statement hold with equality.
+\end{proof}
+
+For the fiber objective \(F_B(P)=\tfrac12\dai(I,P)^2\),
+\cref{lem:airm-curvature-bound,lem:squared-distance-comparison} imply
+\begin{equation}
+  \operatorname{Hess}F_B\succeq g,
+  \qquad
+  \operatorname{Hess}F_B(P)\preceq
+  \psi(D/\sqrt2)g_P
+  \quad\text{if }\dai(I,P)\le D.
+  \label{eq:fiber-hessian-bounds}
+\end{equation}
+The following action instance proves that the constant cannot be decreased
+uniformly over dimensions and admissible actions.
+
+\begin{proposition}[Action-family attainment of the radius majorant]
+\label{prop:sharp-action-majorant}
+Let \(d=3\), \(m=1\), and \(A=B=e_1\).  The action fiber is
+\[
+  \{\operatorname{diag}(1,\Sigma):\Sigma\in\mathscr P_2\},
+\]
+its canonical controller is \(I_3\), and for every \(D>0\) there are a point
+at AIRM radius \(D\) and a unit fiber tangent \(v\) such that
+\begin{equation}
+  \operatorname{Hess}F_B(v,v)=\psi(D/\sqrt2).
+  \label{eq:sharp-action-majorant-attainment}
+\end{equation}
+Hence \(\psi(D/\sqrt2)\) is the sharp dimension-uniform radius-only Hessian
+majorant within the action family.  Along a radial geodesic in the same fiber,
+both posterior inequalities in
+\cref{eq:solver-distance-certificate,eq:solver-gap-certificate} hold with
+equality.
+\end{proposition}
+
+\begin{proof}
+Here \(M=1\), \(N=0\), and \(\rho=1\), so the displayed fiber and canonical
+controller follow directly from \cref{eq:action-bundle-map}.  The
+determinant-one surface \(\mathscr P_2\) is a two-dimensional space of
+constant sectional curvature \(-1/2\), as equality holds in the commutator
+bound of \cref{lem:airm-curvature-bound}.  On a constant-curvature
+\(-\kappa\) plane, the transverse eigenvalue of the Hessian of
+\(\tfrac12d(I,\cdot)^2\) at radius \(D\) is
+\(D\sqrt\kappa\coth(D\sqrt\kappa)\).  Taking \(\kappa=1/2\) gives
+\eqref{eq:sharp-action-majorant-attainment}.
+\end{proof}
+
+\subsection{Residual gradient and exact global convergence}
+
+\begin{proof}[Proof of \cref{eq:residual-gradient-identity}]
+On the ambient SPD manifold, for
+\(\widetilde f(Q)=\tfrac12\dai(R_0,Q)^2\),
+\[
+  -\operatorname{grad}\widetilde f(Q)=\operatorname{Log}_Q(R_0).
+\]
+Whitening at \(Q\) turns this tangent into
+\(\log(Q^{-1/2}R_0Q^{-1/2})\).  At
+\(Q=\mathcal Q_\Sigma\) it is precisely \(\mathcal R(\Sigma)\).
+The whitened tangent space of the hidden determinant-one block consists of
+\[
+  \begin{pmatrix}0&0\\0&Z\end{pmatrix},
+  \qquad Z=Z^\top,\quad\tr Z=0.
+\]
+Since whitening converts the AIRM inner product to the Frobenius inner
+product, orthogonal projection retains the \(22\) block and removes its
+trace.  Thus the whitened reduced negative gradient is
+\(W_B(\Sigma)=\mathcal R_{22}(\Sigma)^\circ\), which proves both identities
+in \cref{eq:residual-gradient-identity}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:certified-action-solver}]
+Set
+\[
+  f_k=f_B(\Sigma_k),\qquad
+  g_k=\fro{W_B(\Sigma_k)},\qquad
+  D_k=\dai(R_0,\mathcal Q_{\Sigma_k})=\sqrt{2f_k}.
+\]
+Trace freeness of
+\(W_B(\Sigma_k)\) preserves determinant one, while the exponential preserves
+positive definiteness.  The action chart consequently keeps every controller
+on \(\Pfiber(B)\).
+
+Let \(\gamma_k(t)\) be the negative-gradient geodesic, parameterized for
+\(0\le t\le L_0^{-1}\), and put
+\(\varphi_k=f_B\circ\gamma_k\).  If \(g_k=0\), the iterate is optimal.
+Otherwise \(\varphi_k'(0)=-g_k^2<0\).  If the update segment left the
+current objective sublevel, there would be a first return
+\(t_\star\in(0,L_0^{-1}]\).  Before that return,
+\(D(\gamma_k(t))\le D_k\le D_0\), so
+\eqref{eq:fiber-hessian-bounds} bounds the Hessian by \(L_0g\).  The
+integral Taylor formula would then imply
+\[
+  \varphi_k(t_\star)
+  \le\varphi_k(0)-t_\star g_k^2
+      +\frac{L_0t_\star^2}{2}g_k^2
+  <\varphi_k(0),
+\]
+a contradiction.  Thus the complete update segment stays in the current
+sublevel.  Applying the same Taylor bound at \(L_0^{-1}\) gives
+\[
+  f_{k+1}\le f_k-\frac1{L_0}g_k^2
+  +\frac1{2L_0}g_k^2
+  =f_k-\frac1{2L_0}g_k^2.
+\]
+Thus \(D_{k+1}\le D_k\), closing the induction and proving
+\cref{eq:solver-descent} globally.
+
+Let \(\Delta(\Sigma)=f_B(\Sigma)-f_B(\Sigma_\star)\).  Strong convexity
+and Cauchy--Schwarz give, with
+\(d=\dai(\Sigma,\Sigma_\star)\) and
+\(g=\norm{\operatorname{grad}f_B(\Sigma)}\),
+\begin{equation}
+  \Delta(\Sigma)\le gd-\frac12d^2\le\frac12g^2.
+  \label{eq:proof-pl}
+\end{equation}
+Hence \(g^2\ge2\Delta\), and the descent inequality yields
+\[
+  \Delta_{k+1}\le(1-L_0^{-1})\Delta_k=q_0\Delta_k.
+\]
+Since \(\Delta_0\le f_0=D_0^2/2\), this proves
+\cref{eq:solver-value-rate}.  Strong convexity based at the minimizer gives
+\(d^2\le2\Delta\), proving \cref{eq:solver-distance-rate}.  Combining
+\(f_{k+1}\ge f_B(\Sigma_\star)\) with the descent inequality gives
+\(g_k^2\le2L_0\Delta_k\), proving
+\cref{eq:solver-residual-rate}.
+
+The two strong-convexity inequalities also give
+\(\Delta\ge d^2/2\).  Together with the first bound in
+\eqref{eq:proof-pl}, this implies \(d\le g\), including the case \(d=0\),
+while the second bound in \eqref{eq:proof-pl} gives
+\(\Delta\le g^2/2\).  These are
+\cref{eq:solver-distance-certificate,eq:solver-gap-certificate}.
+Finally, for \(D_0>0\),
+\(q_0^k=e^{-k\chi_0}\).  Solving the three rate bounds exactly for \(k\)
+gives
+\cref{eq:solver-value-complexity,eq:solver-distance-complexity,eq:solver-residual-complexity}.
+The case \(D_0=0\) is immediate.
+\end{proof}
+
+\subsection{Active and inexact implementations}
+
+\begin{proof}[Proof of \cref{cor:active-core-solver}]
+Retain \(A=UC\) from \cref{sec:action-bundle}.  Choose \(V_a\) so that
+\(E=[U,V_a]\) is an orthonormal basis of \(\mathcal W_A\).  Then
+\[
+  BC^{-1}=UM+V_aN_a,\qquad
+  T_a=N_aM^{-1},\qquad
+  L_a=\begin{pmatrix}I&0\\T_a&I\end{pmatrix},
+  \qquad
+  R_{0,a}=L_a^{-1}L_a^{-\top}.
+\]
+Complete \(E\) by \(Z\) when \(q>0\).  In the basis \([U,V_a,Z]\), the
+full action coordinate satisfies
+\[
+  N=\begin{pmatrix}N_a\\0\end{pmatrix},
+  \qquad
+  L=L_a\oplus I_q,
+  \qquad
+  R_0=R_{0,a}\oplus I_q.
+\]
+An active-compatible initializer has the form
+\[
+  \Sigma=\Sigma_a\oplus\beta I_q,
+  \qquad
+  \det\Sigma_a\,\beta^q=1.
+\]
+The identity default corresponds to \(\Sigma_a=I_s\) and \(\beta=1\).
+Then
+\[
+  \mathcal Q_a=\operatorname{diag}(M,\rho\Sigma_a),
+  \qquad
+  \mathcal Q_\Sigma
+  =\mathcal Q_a\oplus(\rho\beta)I_q,
+\]
+and block functional calculus gives
+\[
+  \mathcal R_a
+  =\log(\mathcal Q_a^{-1/2}R_{0,a}\mathcal Q_a^{-1/2}),
+  \qquad
+  \mathcal R(\Sigma)
+  =\mathcal R_a\oplus r_cI_q,
+  \qquad
+  r_c=-\log(\rho\beta).
+\]
+The hidden trace-free projection subtracts the common mean
+\[
+  \tau=\frac{\tr\mathcal R_{22}^a+qr_c}{s+q}.
+\]
+Consequently,
+\begin{equation}
+  \begin{aligned}
+    W_B(\Sigma)&=W_a\oplus w_cI_q,
+    &W_a&=\mathcal R_{22}^a-\tau I_s,
+    &w_c&=r_c-\tau,\\
+    \fro{W_B(\Sigma)}^2&=\fro{W_a}^2+qw_c^2.
+  \end{aligned}
+\label{eq:active-residual-splitting}
+\end{equation}
+The full exponential update now splits exactly into
+\begin{equation}
+  \Sigma_a^+
+  =\Sigma_a^{1/2}e^{W_a/L_0}\Sigma_a^{1/2},
+  \qquad
+  \beta^+=\beta e^{w_c/L_0}.
+\label{eq:active-solver-update-proof}
+\end{equation}
+Since \(\tr W_a+qw_c=0\), this update preserves
+\(\det\Sigma_a\,\beta^q=1\).  The action-bundle map then preserves
+positive definiteness, determinant one, and \(PA=B\).  This proves
+\eqref{eq:active-residual-splitting} and
+\eqref{eq:active-solver-update-proof}; the
+stopping certificate follows from
+\cref{eq:solver-distance-certificate}.
+
+A rank-revealing thin QR of the \(d\times2m\) input costs \(O(dm^2)\).
+All remaining preprocessing acts on matrices of order at most \(r\), costing
+\(O(r^3)\).  Each iteration uses one \(r\times r\) logarithm and inverse
+square root and one \(s\times s\) exponential, hence \(O(r^3)\) arithmetic
+and \(O(r^2)\) working memory.  Combining this cost with
+\cref{eq:solver-residual-complexity} gives
+\cref{eq:active-total-complexity}.  The representation
+\[
+  Px=cx+E(H-cI_r)E^\top x
+\]
+costs \(O(dr+r^2)\) per application.  If \(q=0\), every complement term is
+absent and the same construction is the full solver.  If \(s=0\), the
+determinant condition forces \(\beta=1\), leaving no variable.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:inexact-action-solver}]
+Put \(W_k=W_B(\Sigma_k)\), \(g_k=\fro{W_k}\), and
+\(\widetilde W_k=W_k+E_k\).  First,
+\cref{eq:computable-relative-error-test} and \(b_k\ge\fro{E_k}\) give
+\[
+  \fro{E_k}
+  \le\frac{\delta}{1+\delta}
+      \left(\fro{W_k}+\fro{E_k}\right),
+\]
+so rearrangement proves \cref{eq:relative-residual-error}.  Consequently,
+\[
+  (1-\delta)g_k\le\fro{\widetilde W_k}
+  \le(1+\delta)g_k,
+\qquad
+  \ip{-W_k}{\widetilde W_k}_F
+  \le-(1-\delta)g_k^2.
+\]
+If \(g_k=0\), the relative error forces a zero update.  Otherwise consider
+the inexact update geodesic.  If it left the current objective sublevel,
+there would be a first return \(t_\star\in(0,\eta]\).  Before that return,
+the identity radius is at most \(D_k\le D_0\le\widehat D_0\), so the Hessian
+is bounded by \(\widehat L_0g\).  The integral Taylor bound would give
+\[
+  f_B(\gamma_k(t_\star))
+  \le f_k-t_\star(1-\delta)g_k^2
+      +\frac{\widehat L_0t_\star^2}{2}(1+\delta)^2g_k^2
+  <f_k,
+\]
+contradicting the return.  Hence the whole segment remains in the current
+sublevel.  The descent lemma at \(t=\eta\) implies
+\[
+  f_{k+1}
+  \le f_k-\eta(1-\delta)g_k^2
+  +\frac{\widehat L_0\eta^2}{2}(1+\delta)^2g_k^2
+  =f_k-\frac{c_\delta}{2\widehat L_0}g_k^2.
+\]
+Hence \(D_{k+1}\le D_k\).  Applying the global PL inequality from the exact
+proof gives
+\[
+  \Delta_{k+1}\le\widehat q_\delta\Delta_k.
+\]
+Iteration and
+\(\Delta_0\le D_0^2/2\le\widehat D_0^2/2\) prove
+\cref{eq:inexact-value-rate}; strong convexity gives
+\cref{eq:inexact-distance-rate}.  The descent bound and
+\(f_{k+1}\ge f_B(\Sigma_\star)\) imply
+\[
+  g_k^2\le\frac{2\widehat L_0}{c_\delta}\Delta_k.
+\]
+Together with \(\fro{\widetilde W_k}\le(1+\delta)g_k\), the value rate, and
+\(\sqrt{c_\delta}=(1-\delta)/(1+\delta)\), this proves
+\cref{eq:inexact-residual-rate}.  Finally, the exact posterior certificates and
+\(g_k\le\fro{\widetilde W_k}/(1-\delta)\) give
+\cref{eq:inexact-certificates}.
+\end{proof}
+
+\subsection{Nested recovery}
+
+\begin{proof}[Proof of \cref{thm:nested-multisecant}]
+For every \(k\),
+\[
+  A_k^\top B_k
+  =c_H(S^{(k)})^\top HS^{(k)}\succ0,
+\]
+so \(\mathscr C_k\) is nonempty, closed, and totally geodesic by
+\cref{thm:action-bundle}.  Also
+\(P_\star A_k=c_HH^{-1}HS^{(k)}=B_k\), so
+\(P_\star\in\mathscr C_k\).  Nested column spaces imply
+\(\mathscr C_{k+1}\subset\mathscr C_k\).  Metric projection onto a
+nonempty closed geodesically convex subset of a Hadamard manifold exists
+uniquely, proving that every update is well defined and retains every earlier
+action.
+
+For completeness, if \(y=\operatorname{Proj}_C(x)\) and \(z\in C\), first
+variation along the geodesic from \(y\) to \(z\) gives
+\(\ip{\operatorname{Log}_y(x)}{\operatorname{Log}_y(z)}\le0\).  Since the
+exponential map is distance expanding,
+\[
+\begin{aligned}
+  d(x,z)^2
+  &\ge\norm{\operatorname{Log}_y(x)-\operatorname{Log}_y(z)}^2\\
+  &\ge d(x,y)^2+d(y,z)^2.
+\end{aligned}
+\]
+Apply this with \(x=P_{k-1}\), \(y=P_k\), \(z=P_\star\), and
+\(C=\mathscr C_k\) to obtain
+\cref{eq:multisecant-pythagorean}.  Summation telescopes to
+\cref{eq:multisecant-energy}; Cauchy--Schwarz then gives
+\cref{eq:multisecant-length}.
+
+If \(r_K=d-1\), the bundle fiber is diffeomorphic to
+\(\mathscr P_{d-r_K}=\mathscr P_1=\{1\}\), so
+\(\mathscr C_K=\{P_\star\}\).  If \(r\le d-2\), then
+\(n=d-r\ge2\) and the fiber is diffeomorphic to \(\mathscr P_n\), whose
+dimension \(n(n+1)/2-1\) is positive; it therefore contains infinitely many
+completions.  This proves the sharp threshold and the stated block count.
+
+Finally, for the \(k\)-th projection set
+\[
+  \widetilde P=P_{k-1}^{-1/2}PP_{k-1}^{-1/2},\quad
+  \widetilde A_k=P_{k-1}^{1/2}A_k,\quad
+  \widetilde B_k=P_{k-1}^{-1/2}B_k.
+\]
+Then \(PA_k=B_k\) is equivalent to
+\(\widetilde P\widetilde A_k=\widetilde B_k\), determinant one is
+preserved, and congruence invariance turns the objective into
+\(\dai(I,\widetilde P)\).  Thus every outer update is an identity-reference
+action problem.  The exact projection is the limit covered by
+\cref{thm:certified-action-solver}; \cref{cor:inexact-action-solver} certifies
+finite inner approximations but is not used in the exact Pythagorean identities.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:approximate-multisecant}]
+Fix a round and abbreviate
+\[
+  x=\widetilde P_{k-1},\qquad y=Q_k,\qquad
+  \widetilde y=\widetilde P_k,\qquad z=P_\star,
+\]
+and let \(a=\dai(x,y)\), \(b=\dai(y,z)\),
+\(e=\dai(y,\widetilde y)\), and \(D=\dai(x,z)\).
+Because \(y\) is the projection of \(x\) onto \(\mathscr C_k\) and
+\(z\in\mathscr C_k\), the CAT(0) projection inequality gives
+\[
+  a^2+b^2\le D^2.
+\]
+The triangle inequality and \(e\le\varepsilon_k\) give
+\[
+\begin{aligned}
+  \dai(x,\widetilde y)^2+\dai(\widetilde y,z)^2
+  &\le(a+e)^2+(b+e)^2\\
+  &\le D^2+2e(a+b)+2e^2\\
+  &\le D^2+2\sqrt2\,eD+2e^2,
+\end{aligned}
+\]
+where the last line uses
+\(a+b\le\sqrt{2(a^2+b^2)}\le\sqrt2D\).  This proves
+\cref{eq:approximate-multisecant-pythagorean}.  Also
+\[
+  D_k\le b+e\le D_{k-1}+\varepsilon_k,
+\]
+and induction proves \cref{eq:approximate-multisecant-distance}.  Rearranging
+\cref{eq:approximate-multisecant-pythagorean} and summing proves
+\cref{eq:approximate-multisecant-energy}.  Nested feasibility preserves the
+earlier actions.  The stated observable bounds are the posterior certificates
+after the congruence in the preceding proof.  Finally, \(r_K=d-1\) makes the
+final fiber a singleton by \cref{thm:nested-multisecant}.
+\end{proof}

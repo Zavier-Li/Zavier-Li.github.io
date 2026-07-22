@@ -1,0 +1,188 @@
+\section{Proofs for Variational Reduction and Response}
+\label{app:reduction-response}
+
+\subsection{Algebraic reduction}
+
+\begin{proof}[Proof of \cref{thm:algebraic-reduction}]
+Fix \(z\in\Zspace\).  Partitioning the composite fiber by its intermediate
+visible value gives
+\[
+\begin{aligned}
+  ((\rho\circ\pi)_!E)(z)
+  &=\inf_{x:\rho(\pi(x))=z}E(x)\\
+  &=\inf_{y:\rho(y)=z}\inf_{x:\pi(x)=y}E(x)\\
+  &=(\rho_!(\pi_!E))(z).
+\end{aligned}
+\]
+Likewise,
+\[
+\begin{aligned}
+  \inf_x\{E(x)+\ell(\pi(x))\}
+  &=\inf_y\inf_{\pi(x)=y}\{E(x)+\ell(y)\}\\
+  &=\inf_y\{(\pi_!E)(y)+\ell(y)\}.
+\end{aligned}
+\]
+The base-potential law follows because \(\varphi(\pi(x))=\varphi(y)\) is
+constant on each fiber.  The constraint law follows from the definition of
+the indicator energy.  No attainment assumption is used.
+\end{proof}
+
+\subsection{Existence and uniqueness of the canonical lift}
+
+\begin{proof}[Proof of \cref{thm:canonical-lift}]
+Fix \(y\) with finite reduced energy.  Coercivity places every minimizing
+sequence in a bounded sublevel set.  Properness makes its closure compact, and
+lower semicontinuity gives a minimizer in the closed fiber.
+
+If \(x_0\ne x_1\) were two minimizers, their fiber geodesic would satisfy
+\[
+  E(x_0\#_{1/2}x_1)
+  \le\frac12E(x_0)+\frac12E(x_1)
+  -\frac\mu8d(x_0,x_1)^2,
+\]
+contradicting minimality.  Thus the minimizer is unique.
+
+For equivariance, \(g s_E(y)\) lies in the fiber over \(gy\) and has the same
+energy as \(s_E(y)\).  Uniqueness on that fiber gives
+\(s_E(gy)=g s_E(y)\).
+\end{proof}
+
+\subsection{Smooth minimizer response}
+
+\begin{proof}[Proof of \cref{thm:response-schur}]
+We first show continuity of the global minimizer section.  Let \(z_k\to z\).
+Choose one fixed trial point near \(\sigma_\star(z)\).  Continuity of \(E\)
+uniformly bounds the optimal values for all sufficiently large \(k\).  Local
+uniform inf-compactness therefore places \(\sigma_\star(z_k)\) in a common
+relatively compact set.  Every convergent subsequence has a limit
+\(\bar\sigma\).  Optimality and continuity give, for every trial \(\sigma\),
+\[
+  E(z,\bar\sigma)
+  =\lim E(z_k,\sigma_\star(z_k))
+  \le\lim E(z_k,\sigma)=E(z,\sigma).
+\]
+The minimizer at \(z\) is unique, so \(\bar\sigma=\sigma_\star(z)\).  Every
+subsequence has the same limit, proving continuity.
+
+The first-order condition is
+\begin{equation}
+  E_\sigma(z,\sigma_\star(z))=0.
+  \label{eq:appendix-stationarity}
+\end{equation}
+Its derivative with respect to \(\sigma\) is the invertible matrix \(H\).
+The implicit-function theorem gives a local \(C^r\) critical section.  The
+continuous global minimizer section agrees with it near every point and is
+therefore \(C^r\).  Differentiating
+\cref{eq:appendix-stationarity} gives
+\[
+  E_{\sigma z}+H D_z\sigma_\star=0,
+\]
+which proves \cref{eq:hidden-response}.  The chain rule gives
+\[
+  D_z\bar E
+  =E_z+E_\sigma D_z\sigma_\star=E_z,
+\]
+and a second derivative gives
+\[
+  D^2_{zz}\bar E
+  =E_{zz}+E_{z\sigma}D_z\sigma_\star
+  =E_{zz}-E_{z\sigma}H^{-1}E_{\sigma z}.
+\]
+
+For nested variables \(\sigma=(\alpha,\beta)\), let \(q\) be the quadratic
+form defined by the complete Hessian at the optimum.  Positive definiteness of
+the joint hidden block makes both quadratic minimizations unique.  Algebraic
+reduction gives
+\[
+  \inf_{\delta\alpha,\delta\beta}
+  q(\delta z,\delta\alpha,\delta\beta)
+  =\inf_{\delta\alpha}
+  \left(\inf_{\delta\beta}
+  q(\delta z,\delta\alpha,\delta\beta)\right).
+\]
+The matrix of a partially minimized quadratic form is the corresponding Schur
+complement.  Equality for every \(\delta z\) proves
+\cref{eq:schur-associativity}.
+\end{proof}
+
+\subsection{Interaction curvature and finite contrasts}
+
+\begin{proof}[Proof of \cref{thm:interaction-curvature}]
+For \cref{eq:affine-interventions},
+\[
+  E_{uu}=0,
+  \qquad
+  E_{\sigma u}=G.
+\]
+The \(u\)-block of \cref{eq:schur-effective-hessian} is therefore
+\[
+  D^2_{uu}\bar E=-G^*H^{-1}G.
+\]
+For every \(a\in\mathbb R^p\),
+\[
+  \ip{a}{D^2_{uu}\bar E\,a}
+  =-\ip{Ga}{H^{-1}Ga}\le0,
+\]
+because \(H^{-1}\succ0\).  Expanding in coordinate vectors gives
+\cref{eq:pair-interaction-curvature}.  A mixed entry is zero exactly when the
+two corresponding covectors are orthogonal under the inner product induced by
+\(H^{-1}\).  Finally, without differentiability,
+\[
+  \bar E(y,u)=\inf_\sigma
+  \left(E_0(y,\sigma)+\sum_i u_i\Delta_i(y,\sigma)\right)
+\]
+is a pointwise infimum of affine functions of \(u\), hence concave.
+\end{proof}
+
+\subsection{Finite contrasts and order of reduction}
+\label{app:finite-contrasts}
+
+\begin{corollary}[Factorial finite differences]
+\label{cor:factorial-contrast}
+Assume \([0,1]^p\subset\Uspace\).  For \(T\subseteq[p]\), define
+\begin{equation}
+  \delta_T\bar E
+  =\sum_{B\subseteq T}(-1)^{|T|-|B|}
+  \bar E(y,\mathbf1_B).
+  \label{eq:factorial-contrast}
+\end{equation}
+If \(\bar E\in C^{|T|}\), then
+\begin{equation}
+  \delta_T\bar E
+  =\int_{[0,1]^T}
+  \partial_T^{|T|}\bar E(u_T,0_{T^c})\,\dd u_T.
+  \label{eq:factorial-integral}
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+For a single coordinate, the fundamental theorem of calculus gives
+\[
+  \bar E(e_i)-\bar E(0)
+  =\int_0^1\partial_{u_i}\bar E(t e_i)\,\dd t.
+\]
+Apply the same identity successively to each coordinate in \(T\).  The product
+of difference operators expands as
+\[
+  \prod_{i\in T}(\mathsf T_i-I)\bar E(0)
+  =\sum_{B\subseteq T}(-1)^{|T|-|B|}\bar E(\mathbf1_B),
+\]
+and repeated integration gives
+\[
+  \prod_{i\in T}(\mathsf T_i-I)\bar E(0)
+  =\int_{[0,1]^T}\partial_T^{|T|}\bar E(u_T,0_{T^c})\,\dd u_T.
+\]
+For \(T=\{i,j\}\), substitute
+\cref{eq:pair-interaction-curvature} to obtain
+\cref{eq:pair-factorial-integral}.
+\end{proof}
+
+Reduction need not commute with finite differencing.  For
+\[
+  E_0(\sigma)=\sigma^2,\qquad E_1(\sigma)=(\sigma-1)^2,
+\]
+both reduced minima are zero, but
+\(\inf_\sigma(E_1-E_0)=\inf_\sigma(1-2\sigma)=-\infty\).
+Thus hidden states must be reduced first.  If every perturbation
+\(\Delta_i\) is constant on each fiber, the minimizer is unchanged and all
+higher-order contrasts vanish; this is the exact commuting case.

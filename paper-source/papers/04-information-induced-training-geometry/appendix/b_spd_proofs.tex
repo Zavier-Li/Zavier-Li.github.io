@@ -1,0 +1,250 @@
+\section{Proofs for SPD Compression and Completion}
+\label{app:spd-proofs}
+
+\begin{proof}[Proof of \cref{prop:reference-necessary}]
+Choose a direct-sum decomposition \(E=W\oplus W'\) with \(W'\ne\{0\}\).
+For \(t>0\), let \(T_t\) act as the identity on \(W\) and as multiplication
+by \(t\) on \(W'\).  If a selected positive form \(P\) were invariant under
+every such map, then for nonzero \(n\in W'\),
+\[
+  P(n,n)=P(T_tn,T_tn)=t^2P(n,n)
+  \qquad\forall t>0,
+\]
+contradicting \(P(n,n)>0\).  Hence no invariant selector exists without a
+reference or equivalent off-visible structure.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:spd-compression}]
+Fix \(P\in\SPD^d\), write \(R=A^\top PA\), and let \(H=H^\top\) be a
+tangent at \(P\).  Define
+\[
+  C=P^{1/2}AR^{-1/2},
+  \qquad
+  X=P^{-1/2}HP^{-1/2}.
+\]
+Then \(C^\top C=I_m\) and
+\[
+  R^{-1/2}A^\top HA R^{-1/2}=C^\top XC.
+\]
+Complete \(C\) to an orthogonal matrix \([C,N]\).  The exact block identity
+is
+\begin{equation}
+  \fro X^2
+  =\fro{C^\top XC}^2
+  +2\fro{N^\top XC}^2
+  +\fro{N^\top XN}^2.
+  \label{eq:block-frobenius-identity}
+\end{equation}
+Therefore
+\[
+  \norm{D\pi_A(P)[H]}_{R,\AI}
+  =\fro{C^\top XC}
+  \le\fro X
+  =\norm H_{P,\AI}.
+\]
+Integrating along curves proves global contraction
+\eqref{eq:spd-contraction}.
+
+Congruence by \(P_0^{-1/2}\) in the ambient cone and by \(R_0^{-1/2}\) in
+the visible cone reduces the completion problem to
+\[
+  \min\{\dai(I,X):U_0^\top XU_0=\widetilde R\},
+  \qquad
+  \widetilde R=R_0^{-1/2}RR_0^{-1/2}.
+\]
+The candidate
+\[
+  X_\star=I+U_0(\widetilde R-I)U_0^\top
+\]
+is positive definite, has compression \(\widetilde R\), and satisfies
+\[
+  \dai(I,X_\star)=\fro{\log\widetilde R}=\dai(I,\widetilde R).
+\]
+Contraction proves it is a minimizer.
+
+For uniqueness, suppose feasible \(X\) attains equality and write
+\(L=\log X\).  The compressed curve
+\(Y_t=U_0^\top\exp(tL)U_0\) joins \(I\) to \(\widetilde R\).  Hence
+\[
+  \dai(I,\widetilde R)
+  \le\operatorname{Len}(Y)
+  \le\fro L
+  =\dai(I,X)
+  =\dai(I,\widetilde R).
+\]
+Both length inequalities are therefore equalities.  The nonnegative
+continuous difference between the constant ambient speed and the compressed
+speed has zero integral, so it vanishes for every \(t\), in particular at
+\(t=0\).  Equality in \eqref{eq:block-frobenius-identity} there forces
+\(N^\top LU_0=0\) and \(N^\top LN=0\).  Thus
+\(L=U_0L_0U_0^\top\), and the endpoint constraint gives
+\(\exp(L_0)=\widetilde R\).  Therefore \(X=X_\star\).  Undoing congruence
+gives \eqref{eq:canonical-completion} and
+\eqref{eq:spd-shortest-completion}.
+
+For \(R,S\in\SPD^m\), the normalized lifts are
+\(\widetilde R\oplus I\) and \(\widetilde S\oplus I\).  Their ambient AIRM
+distance is the visible AIRM distance, and their geodesic keeps the identity
+block fixed.  Thus the section is isometric and totally geodesic.  The ball
+identity follows by combining contraction with the equal-distance lift.
+
+At a general \(P\), let
+\(L_P(h)=D\Psi_{P,A}(A^\top PA)[h]\).  The section identity and isometry give
+\[
+  D\pi_A(P)[L_P(h)]=h,
+  \qquad
+  \norm{L_P(h)}_{P,\AI}=\norm h_{A^\top PA,\AI}.
+\]
+If \(V\in\ker D\pi_A(P)\), then \(L_P(h)+sV\) is another lift of \(h\).
+Infinitesimal contraction gives
+\(\norm h^2\le\norm{L_P(h)+sV}^2\) for all \(s\), with equality at zero.
+Differentiation shows \(L_P(h)\perp V\).  Surjectivity and dimension counting
+identify the image of \(L_P\) with the full horizontal space.  This proves
+the Riemannian-submersion and horizontal-lift statements.
+
+For an anchor \(P\), write \(\mathcal L_P=\Psi_{P,A}(\SPD^m)\).  The
+sections obey the coherence identity
+\begin{equation}
+  \Psi_{\Psi_{P,A}(S),A}(T)=\Psi_{P,A}(T),
+  \qquad S,T\in\SPD^m.
+  \label{eq:spd-section-coherence-proof}
+\end{equation}
+Indeed, congruence and visible-coordinate covariance reduce the identity to
+\(P=I\) and an orthonormal channel \(U\).  Then
+\(Q=\Psi_{I,U}(S)=I+U(S-I)U^\top\), so \(QU=US\), and the completion formula
+gives
+\[
+  \Psi_{Q,U}(T)
+  =Q+QU S^{-1}(T-S)S^{-1}U^\top Q
+  =I+U(T-I)U^\top
+  =\Psi_{I,U}(T).
+\]
+Consequently, if \(Q\in\mathcal L_P\), then
+\(\mathcal L_Q=\mathcal L_P\).  Differentiating this identity at \(Q\), and
+using the horizontal-lift identification above, yields
+\[
+  T_Q\mathcal L_P
+  =\range D\Psi_{Q,A}(A^\top QA)
+  =\mathcal H_Q
+  \qquad\text{for every }Q\in\mathcal L_P.
+\]
+Thus through every ambient point there is a connected embedded integral
+manifold of the full horizontal distribution.  The distribution is therefore
+integrable.  Any horizontal curve beginning at \(P\) remains in
+\(\mathcal L_P\) by local uniqueness of integral manifolds; hence every
+connected horizontal integral manifold through \(P\) is contained in
+\(\mathcal L_P\).  Therefore \(\mathcal L_P\) is the maximal horizontal
+leaf.  The isometry and total-geodesy argument above also shows that it is
+complete.  The maximal horizontal leaves are thus complete and totally
+geodesic, proving that \(\pi_A\) is split-Hadamard.
+
+For the minimax statement, if \(B=0\), the bounded fiber is the singleton
+\(\{X_0\}\), and the radius and unique minimax center are immediate.  Suppose
+\(B>0\).  Work in the normalized splitting and choose
+symmetric \(H\in\R^{(d-m)\times(d-m)}\) with \(\fro H=1\).  The curve
+\[
+  X_s=\widetilde R\oplus\exp(sH)
+\]
+stays in the visible fiber and satisfies
+\(\dai(X_0,X_s)=|s|\).  This proves infinite diameter.  The two points
+\(X_{-B},X_B\) lie in the bounded fiber and are distance \(2B\) apart, so
+every center has worst-case distance at least \(B\).  The canonical point
+\(X_0\) has worst-case distance at most \(B\).  If another point attained
+\(B\), equality in the triangle inequality between the endpoints would make
+it their midpoint.  AIRM is uniquely geodesic, so the midpoint is uniquely
+\(X_0\).
+
+Finally, for any admissible \((P_0,A)\), every \(P\) with
+\(R=A^\top PA\) obeys
+\[
+  \dai(P_0,P)\ge\dai(A^\top P_0A,R),
+\]
+and the canonical lift realizes equality.  Monotonicity of \(\rho\) proves
+both inequalities in \eqref{eq:spd-decision-reduction}.  The same construction
+lifts every reduced minimizer.  Under strict monotonicity, replacing a
+noncanonical full point by the strictly nearer canonical point lowers the
+objective, proving the final correspondence.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:visible-update}]
+For \(\alpha=Ac\),
+\[
+  A^\top u_P=-A^\top PA c=-Rc,
+\]
+so all feasible updates have the same quotient class.
+
+For the converse, use a \(P_0\)-orthogonal splitting of the cotangent space
+into the visible span and its complement, and choose coordinates in which
+\(\alpha\) has visible coordinate \(c_0\ne0\).  A feasible completion has
+blocks
+\[
+  P=\begin{pmatrix}R&B\\B^\top&C\end{pmatrix}.
+\]
+The invisible component of \(-P\alpha\) is \(-B^\top c_0\).  Given the
+coordinate vector \(z\) of any desired invisible drift, take
+\[
+  B=-\frac{c_0z^\top}{c_0^\top c_0}.
+\]
+Then \(-B^\top c_0=z\).  Choosing
+\[
+  C=B^\top R^{-1}B+tI,
+  \qquad t>0,
+\]
+makes the Schur complement positive, hence \(P\succ0\).  This realizes every
+invisible drift.  The final claim follows from the block-diagonal form and
+uniqueness of the canonical completion.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:gaussian-kl}]
+Normalize to \(P_0=I\) and an orthogonal frame adapted to \(U_0\).  Every
+feasible covariance has blocks
+\[
+  X=\begin{pmatrix}\widetilde R&C\\C^\top&D\end{pmatrix},
+  \qquad
+  S=D-C^\top\widetilde R^{-1}C\succ0.
+\]
+Up to constants independent of \((C,S)\), twice the forward Gaussian KL is
+\begin{align*}
+  \tr X-\log\det X
+  &=\tr\widetilde R-\log\det\widetilde R
+  +\tr S-\log\det S
+  +\tr(C^\top\widetilde R^{-1}C).
+\end{align*}
+The last term is uniquely minimized at \(C=0\).  The scalar inequality
+\(s-\log s\ge1\) applied to the eigenvalues of \(S\) shows that the middle
+term is uniquely minimized at \(S=I\).  Hence
+\(X=\widetilde R\oplus I\), the normalized canonical completion.  Congruence
+returns \(\Psi_{P_0,A}(R)\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:prior-data}]
+For any \(P\), put \(R=A^\top PA\).  Canonical completion gives
+\[
+  \dai(P_0,P)\ge\dai(R_0,R),
+\]
+with equality exactly at \(P=\Psi_{P_0,A}(R)\).  The full problem therefore
+reduces exactly to
+\[
+  \min_{R\in\SPD^m}
+  (1-\tau)\dai(R_0,R)^2+\tau\dai(R,\Rhat)^2.
+\]
+Let \(x=\dai(R_0,R)\), \(y=\dai(R,\Rhat)\), and
+\(D=\dai(R_0,\Rhat)\).  The triangle inequality gives \(x+y\ge D\), while
+\[
+  (1-\tau)x^2+\tau y^2
+  =\tau(1-\tau)(x+y)^2+((1-\tau)x-\tau y)^2.
+\]
+The lower bound \(\tau(1-\tau)D^2\) is attained only when \(R\) lies on the
+unique AIRM geodesic from \(R_0\) to \(\Rhat\) with
+\(x=\tau D\), \(y=(1-\tau)D\).  Thus
+\(R=R_0\#_\tau\Rhat\), and canonical completion proves
+\eqref{eq:prior-data-solution} and the distance identities.
+
+For robustness, geodesic convexity of distance in a Hadamard manifold gives
+\[
+  \dai(R_0\#_\tau R_1,R_0\#_\tau R_2)
+  \le\tau\dai(R_1,R_2).
+\]
+The completion section is isometric, so the same bound holds for the full
+solutions.
+\end{proof}

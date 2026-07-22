@@ -1,0 +1,26 @@
+{
+  "slug": "optimization-geometrodynamics",
+  "number": "2",
+  "order": 2,
+  "year": "2026",
+  "status": "preprint",
+  "arxiv": "2607.06723",
+  "source": {
+    "directory": "papers/01-optimization-geometrodynamics",
+    "tex": "main_arxiv.tex",
+    "include": [
+      "main_arxiv.tex", "math_commands.tex", "preamble.tex", "fancyhdr.sty",
+      "tmlr.sty", "tmlr.bst", "references.bib", "sections", "appendix", "figures"
+    ]
+  },
+  "en": {
+    "title": "Optimization Geometrodynamics: Variational Reduction and Interaction Curvature",
+    "short": "A variational account of hidden optimizer geometry, with exact reduction and certified computation on affine-invariant SPD geometry.",
+    "abstract": "Adaptive optimizers carry hidden states that shape how visible gradients become parameter motion. This paper develops a variational theory for that hidden geometry: infimal pushforward removes hidden states that realize the same action, while the affine-invariant SPD action map admits a global analytic bundle, a unique nearest-controller section, and a globally convergent solver with posterior certificates."
+  },
+  "zh": {
+    "title": "优化几何动力学：变分约化与交互曲率",
+    "short": "从变分角度刻画优化器的隐状态几何，并在仿射不变 SPD 几何上给出精确约化与可认证计算。",
+    "abstract": "自适应优化器的隐状态决定了可见梯度如何转化为参数运动。本文为这种隐几何建立变分理论：下确界推送消去实现相同行为的隐状态；仿射不变 SPD 作用映射具有全局解析丛、唯一的最近控制器截面，以及带后验认证的全局收敛求解器。"
+  }
+}

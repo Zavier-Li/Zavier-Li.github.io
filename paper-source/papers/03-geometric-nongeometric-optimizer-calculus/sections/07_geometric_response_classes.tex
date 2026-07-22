@@ -1,0 +1,66 @@
+\section{Structured Geometry as a Response Class}
+\label{sec:geometric-response}
+
+Geometry is one declared sector inside the causal calculus.  This section records the response classes used by the experiments and clarifies their representational boundaries.
+
+\subsection{Pointwise expressivity}
+
+\begin{proposition}[Full-SPD geometricization]
+\label{prop:full-spd-geometricization}
+For nonzero $g\in\R^d$ and $u\in\R^d$, there exists $P\in\SPD^d$ with $u=-Pg$ if and only if $g^\top u<0$.
+\end{proposition}
+
+Thus full positive geometry expresses exactly strict descent directions relative to the declared visible covector.  At an exact critical point, every pure positive-geometric update is zero.
+
+\begin{corollary}[Critical-point boundary]
+\label{cor:critical-boundary}
+If $g=0$ and $u\ne0$, the motion requires another declared sector, an enlarged state-space geometry, or a non-gradient mechanism.
+\end{corollary}
+
+For the positive diagonal family $P=\diag(p_1,\ldots,p_d)$, $p_i>0$:
+
+\begin{proposition}[Diagonal expressivity and residual]
+\label{prop:diagonal-expressivity}
+Exact expression holds if and only if $g_i=0\Rightarrow u_i=0$ and $g_i\ne0\Rightarrow u_ig_i<0$ for every $i$.  Moreover,
+\[
+\rho_{\rm diag}(u;g)^2
+=\sum_{i:g_i=0}u_i^2+
+\sum_{i:g_i\ne0,\,u_ig_i>0}u_i^2.
+\]
+If $g_i\ne0$ and $u_i=0$, the coordinate infimum is zero but is not attained in the open positive cone.
+\end{proposition}
+
+For a coordinate partition $\{B_1,\ldots,B_s\}$:
+
+\begin{proposition}[Block expressivity]
+\label{prop:block-expressivity}
+A block-diagonal $P\succ0$ satisfies $u=-Pg$ if and only if each block obeys $g_{B_j}=0\Rightarrow u_{B_j}=0$ and $g_{B_j}\ne0\Rightarrow g_{B_j}^\top u_{B_j}<0$.
+\end{proposition}
+
+The proofs and the closed-form bounded-diagonal projection are in \cref{app:proofs}.  Diagonal and block statements depend on parameterization; intrinsic claims require an intrinsic reference geometry and family.
+
+\subsection{Trajectory residual complexity}
+
+For a trace $\Tcal_N=\{(\theta_k,\alpha_k,u_k)\}_{k=0}^{N-1}$ with $\norm u>0$, stack the updates in the product response space and define
+\begin{equation}
+\TRC_{\Fcal,B}(\Tcal_N)
+=\inf_{m\in\Mcal_{\Fcal,B}}\norm{u-m},
+\qquad
+\TGER_{\Fcal,B}=1-
+\frac{\TRC_{\Fcal,B}}{\norm u}.
+\label{eq:trajectory-residual-complexity}
+\end{equation}
+The raw residual permits a fresh map at each step and therefore audits a high-capacity response class.  A coherent budget restricts temporal variation; $B=0$ fits one shared map in the declared parameterization.  Since the model class need not contain the zero response, $\TGER\le1$ may be negative; zero means that the best class member is no closer than the zero response under the chosen norm.
+
+Closedness and convexity require structure.  A sufficient condition for the audited finite traces is that every parameter fiber is nonempty compact convex in the common finite-dimensional space $\mathbb Q$, at least one parameter path satisfies all fiber constraints and the variation budget, $Q\mapsto-Q\alpha_k$ is linear, and $\VarOp$ is the convex continuous variation defined in \cref{sec:language}.  The feasible parameter path set is then nonempty compact convex and its response image is nonempty compact convex.  This covers the bounded-diagonal, bounded block, channel-scalar, and layer-scalar audits, whose shared constant maps provide budget-feasible paths.  Open positive cones and arbitrary nonlinear SPD path families do not inherit this conclusion.  Under the sufficient condition, \cref{thm:projection-information-decision} gives a unique shadow, a dual residual certificate, nesting monotonicity, and perturbation stability.
+
+For the accumulation map $L_t(r_0,\ldots,r_{N-1})=\sum_{k<t}r_k$,
+\[
+\norm{\theta_t-\bar\theta_t}
+\le\opnorm{L_t}\TRC_{\Fcal,B}.
+\]
+Thus a response-space residual transfers to trajectory shadowing.  It does not identify which implementation module caused the residual.
+
+\subsection{Relation to the companion geometry papers}
+
+P4 studies when a visible SPD action has a unique minimal full completion and supplies exact AIRM quotient geometry \citep{li2026informationinducedgeometry}.  P1 studies smooth hidden-variable reduction and metric evolution \citep{li2026optimizationgeometrodynamics}.  P2 restricts geometry families and path budgets \citep{li2026restrictedcomplexity}.  Here their outputs become response classes and intervention coordinates.  The causal and statistical theorems remain valid for nongeometric sectors as well.

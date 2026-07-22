@@ -1,0 +1,169 @@
+\section{Proof of the Universal Representation Theorem}
+\label{app:theory-strengthening}
+
+We prove \cref{thm:universal-interventional-calculus} in full.
+
+\subsection{Canonical causal realization}
+
+Fix an intervention configuration $a$.  At time $k$, let $h_k$ denote the
+complete extended history of oracle observations, exogenous inputs, realized
+innovations, and previous outputs.  All component spaces are standard Borel.
+Causality means that, after exposing the protocol's innovation, the current
+response is a measurable function of $h_k$, the current declared input, and
+that innovation, without dependence on future inputs or innovations.  Taking
+$x_k^a=h_k$ and letting $\Phi_k^a$ append the next declared input,
+observation, innovation, and output gives a pathwise unifilar history-state
+realization of \cref{eq:causal-response}.  Thus existence requires no
+finite-memory assumption.
+
+For extended histories at the same time, define $h\sim h'$ when every common
+future sequence of declared inputs and innovation values produces identical
+future response sequences.  This is an equivalence relation.  Let $[h]$ be
+the equivalence class.  If $h\sim h'$, append the same next input and
+innovation value.  Every later input--innovation sequence is then a common
+continuation of the original histories, so the two extended histories remain
+equivalent.  The transition $[h]\mapsto[h^+]$ is therefore well-defined, and
+the response map is constant on equivalence classes.  The classes form a
+sufficient pathwise predictive-state realization in the category defined in
+\cref{sec:language}.
+
+Now let $s(h)$ be the state reached by any other admissible sufficient
+pathwise/unifilar realization.  If $s(h)=s(h')$, its response map and
+unifilar updates produce the same future response sequence under every common
+input--innovation continuation, so $h\sim h'$.  Hence
+\[
+\pi:s(h)\longmapsto[h]
+\]
+is a well-defined surjection from its reachable states onto the predictive
+quotient.  A realization with two reachable states mapped to the same class
+is not behaviorally minimal.  Every behaviorally minimal reachable
+realization therefore makes $\pi$ bijective.  Its transition and response
+maps are conjugate to the quotient maps, proving uniqueness up to state
+relabeling.  This is a set-level behavioral quotient relative to the fixed
+innovation representation.  A standard-Borel structure on the quotient
+requires the induced equivalence relation to be smooth; the theorem does not
+assume that additional descriptive-set-theoretic property.
+
+\subsection{Incidence-algebra completeness}
+
+Let $\mu_{\mathcal P}$ be the M\"obius function of the lower-finite poset.
+Every sum below is finite.  Define
+\[
+\zeta_t=\sum_{s\preceq t}\mu_{\mathcal P}(s,t)F(s).
+\]
+For fixed $a\in\mathcal P$, exchange the finite sums:
+\begin{align*}
+\sum_{t\preceq a}\zeta_t
+&=\sum_{t\preceq a}\sum_{s\preceq t}
+\mu_{\mathcal P}(s,t)F(s)\\
+&=\sum_{s\preceq a}F(s)
+\sum_{t:s\preceq t\preceq a}\mu_{\mathcal P}(s,t).
+\end{align*}
+By the defining inverse identity for the M\"obius function, the inner sum is
+one when $s=a$ and zero otherwise.  The result is $F(a)$.  Applying the same
+M\"obius transform to any proposed reconstruction proves uniqueness.
+
+For the Boolean lattice, the interval $[B,T]$ is a Boolean lattice of rank
+$|T|-|B|$, so $\mu(B,T)=(-1)^{|T|-|B|}$ and the formula reduces to mixed
+finite differences.  For a product of chains, the product M\"obius function
+gives the corresponding graded mixed differences.
+
+\subsection{The complete experimental gauge}
+
+Assume $\mathbb H\cong\mathbb R^d$ and stack the supported effect vectors.
+For queried configurations $\mathcal D=(a_1,\ldots,a_n)$,
+\begin{equation}
+y_{\mathcal D}
+=(X_{\mathcal D,\mathcal K}\otimes I_d)\zeta,
+\qquad
+X_{\mathcal D,\mathcal K}(i,t)=\mathbf1\{t\preceq a_i\}.
+\label{eq:appendix-mask-linear-system}
+\end{equation}
+Two collections produce the same observations exactly when their difference
+lies in the kernel.  Since
+\[
+\rank(X_{\mathcal D,\mathcal K}\otimes I_d)
+=d\rank X_{\mathcal D,\mathcal K},
+\]
+rank--nullity gives compatible-fiber dimension
+$d(|\mathcal K|-r_{\mathcal D})$ and proves the identification criterion.
+
+If a finite poset has a greatest element $\top$, then $t\preceq\top$ for every
+$t\in\mathcal K$.  The single passive row is all ones, has rank one, and
+leaves ambiguity dimension $d(|\mathcal K|-1)$.
+
+\subsection{Sharp quotient stability}
+
+Put $A=X\otimes I_d$ and first suppose $X$ has positive rank.  Let
+$\widehat\zeta=A^\dagger y$.  Since $A^\dagger A$ projects orthogonally onto
+$\ker A^\perp$,
+\[
+\widehat\zeta-\zeta_{\rm can}
+=A^\dagger e
+=A^\dagger\operatorname{Proj}_{\operatorname{range}A}e.
+\]
+The positive singular values of $X\otimes I_d$ are those of $X$, each
+repeated $d$ times.  Therefore
+\[
+\norm{\widehat\zeta-\zeta_{\rm can}}
+\le
+\frac{\norm{\operatorname{Proj}_{\operatorname{range}A}e}}
+{\sigma_{\min}^+(X)}.
+\]
+Equality holds when the projected error is a left singular vector associated
+with $\sigma_{\min}^+(X)$.
+If $X$ has rank zero, $\ker A$ is the entire coordinate space and its
+canonical identifiable quotient is $\{0\}$, so there is no positive singular
+direction to estimate.
+
+\subsection{Exact fixed and adaptive intervention complexity}
+
+An $n\times|\mathcal K|$ matrix cannot have full column rank for
+$n<|\mathcal K|$, so every fixed exact design needs at least
+$|\mathcal K|$ queries.  To attain the bound, query the configurations in
+$\mathcal K$.  Choose a linear extension of the partial order and use it for
+both rows and columns.  In the square matrix
+\[
+X_{a,t}=\mathbf1\{t\preceq a\},
+\qquad a,t\in\mathcal K,
+\]
+a nonzero entry can occur only when the column precedes the row, and every
+diagonal entry is one.  The matrix is lower triangular with unit diagonal and
+is invertible.
+
+For the deterministic adaptive lower bound, run a strategy with fewer than
+$|\mathcal K|$ queries against the zero effect law.  Let $\mathcal D_0$ be its
+realized configurations.  Choose nonzero
+$c\in\ker X_{\mathcal D_0,\mathcal K}$ and nonzero $v\in\Hspace$, and set
+$h_t=c_tv$.  The zero law and the law $\zeta'=h$
+return identical responses at the first query.  If their transcripts agree
+through one query, determinism selects the same next configuration, where the
+responses again agree by the kernel construction.  Induction gives identical
+complete transcripts under distinct laws.
+
+Now consider a randomized strategy.  Although the ambient lower-finite poset
+need not be finite, a query produces one of at most $2^{|\mathcal K|}$
+distinct incidence row patterns on the finite support $\mathcal K$.  Fewer
+than $|\mathcal K|$ queries therefore produce one of finitely many row-pattern
+sequences.  Under the zero law, at least one such sequence $R_0$ occurs with
+positive probability.  Its stacked matrix has fewer than $|\mathcal K|$
+rows, so choose nonzero $c$ in its kernel, fix nonzero $v\in\Hspace$, and set
+$h_t=c_tv$.  On the event producing $R_0$, the zero law and $h$ return
+identical responses at every queried pattern.  With
+the same internal random choices, induction gives the same subsequent
+configurations and hence the same full transcript.  The estimator returns
+the same value for two distinct laws on an event of positive probability, so
+it cannot be correct with probability one for both.  Randomization cannot
+beat the lower bound.
+
+\subsection{Prediction and falsification}
+
+When $X_{\mathcal D,\mathcal K}$ has full column rank, the fitting responses
+determine a unique $\zeta$.  The structural model forces
+\[
+F_{\mathcal K}(b)
+=\sum_{\substack{t\in\mathcal K\\t\preceq b}}\zeta_t
+\qquad\forall b\in\mathcal P.
+\]
+A held-out response differing from this value cannot belong to the declared
+support class.  This proves falsifiability and completes the theorem.

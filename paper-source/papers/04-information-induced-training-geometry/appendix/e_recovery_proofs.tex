@@ -1,0 +1,229 @@
+\section{Proofs for Deterministic and Statistical Recovery}
+\label{app:recovery-proofs}
+
+\begin{proof}[Proof of \cref{thm:joint-perturbation}]
+Set
+\[
+  P=\Cpl(U,R),
+  \qquad
+  P_1=\Cpl(U,S),
+  \qquad
+  Q=\Cpl(V,S).
+\]
+At fixed \(U\), the completion section is isometric, so
+\(\dai(P,P_1)=\dai(R,S)\).  Let \(U_t\) be the horizontal minimizing
+Grassmann geodesic from \(U\) to \(V\), and keep \(S\) fixed in the parallel
+frame.  The exact line element gives
+\[
+  \norm{\dot Q_t}_{Q_t,\AI}^2
+  =2\tr(K_t\Xiop(S)K_t^\top)
+  \le2\chi(S)^2\fro{K_t}^2.
+\]
+Therefore
+\[
+  \dai(P_1,Q)
+  \le\sqrt2\chi(S)\int_0^1\fro{K_t}\,\dd t
+  =\sqrt2\chi(S)\dgr(W,\widetilde W).
+\]
+The triangle inequality gives the claimed bound with \(\chi(S)\).  Reversing
+the order, first rotating with \(R\) and then changing visible geometry at
+fixed \(V\), gives the bound with \(\chi(R)\).  Taking the smaller proves
+\eqref{eq:joint-perturbation}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:known-subspace-recovery}]
+Let \(Y_i=R^{-1/2}X_i\).  Then
+\[
+  \E[Y_iY_i^\top]=I,
+  \qquad
+  \norm{Y_i}_2\le L,
+\]
+and
+\[
+  \widehat S=R^{-1/2}\Rhat R^{-1/2}
+  =\frac1n\sum_{i=1}^nY_iY_i^\top.
+\]
+The \(Y_i\) are i.i.d.  For fixed unit \(u\), the variables
+\(Z_i=(u^\top Y_i)^2\) satisfy \(0\le Z_i\le L^2\) and
+\(\E Z_i=1\).  Hoeffding's inequality gives
+\[
+  \Pr\left\{
+  \left|\frac1n\sum_iZ_i-1\right|\ge t
+  \right\}
+  \le2\exp\left(-\frac{2nt^2}{L^4}\right).
+\]
+Let \(\mathcal N\) be a \(1/4\)-net of the unit sphere in \(\R^m\), with
+\(|\mathcal N|\le9^m\), and take \(t=\varepsilon/4\).  A union bound and the
+sample-size assumption show that, with probability at least \(1-\delta\),
+\[
+  |u^\top(\widehat S-I)u|\le\varepsilon/4
+  \qquad\forall u\in\mathcal N.
+\]
+For symmetric \(H\), a \(1/4\)-net obeys
+\[
+  \opnorm H\le2\sup_{u\in\mathcal N}|u^\top Hu|.
+\]
+Indeed, if unit \(x\) attains the operator norm and
+\(\norm{x-u}\le1/4\), then
+\(|x^\top Hx-u^\top Hu|\le\frac12\opnorm H\).  Hence
+\(\opnorm{\widehat S-I}\le\varepsilon/2\).  For
+\(0<\varepsilon\le1\),
+\[
+  e^{-\varepsilon}I
+  \preceq(1-\varepsilon/2)I
+  \preceq\widehat S
+  \preceq(1+\varepsilon/2)I
+  \preceq e^\varepsilon I.
+\]
+Congruence by \(R^{1/2}\) gives the Loewner sandwich.  Its generalized
+log-eigenvalues have magnitude at most \(\varepsilon\), so
+\(\dai(R,\Rhat)\le\sqrt m\,\varepsilon\).  Fixed-channel completion is
+isometric, proving \eqref{eq:known-subspace-bound}.
+\end{proof}
+
+\begin{lemma}[Spectral-gap subspace perturbation]
+\label{lem:spectral-subspace}
+Let \(\Sigmahat=\Sigma+E\),
+\(\opnorm E\le\delta<\gamma\), and let \(V\) span the leading
+\(m\)-dimensional eigenspace of \(\Sigmahat\).  Then
+\begin{equation}
+  \opnorm{U_\perp^\top V}
+  \le s_\delta=\frac{\delta}{\gamma-\delta}.
+  \label{eq:sin-theta}
+\end{equation}
+If \(\delta<\gamma/2\), then
+\begin{equation}
+  \dgr(W,\widehat W)
+  \le\sqrt m\,\arcsin(s_\delta),
+  \label{eq:grassmann-stat}
+\end{equation}
+and after orthogonal Procrustes alignment,
+\begin{equation}
+  \opnorm{V-U}\le\sqrt2\,s_\delta.
+  \label{eq:frame-stat}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+In the orthogonal basis \([U,U_\perp]\), write
+\[
+  \Sigma=\begin{pmatrix}A&0\\0&C\end{pmatrix},
+  \qquad A\succeq\lambda_mI,
+  \qquad C\preceq\lambda_{m+1}I.
+\]
+Let \(\widehat\Lambda\) contain the leading eigenvalues of \(\Sigmahat\).
+Weyl's inequality gives
+\(\widehat\Lambda\succeq(\lambda_m-\delta)I\).  With
+\(Y=U_\perp^\top V\), projection of
+\(\Sigmahat V=V\widehat\Lambda\) gives the Sylvester equation
+\[
+  Y\widehat\Lambda-CY=F,
+  \qquad F=U_\perp^\top EV.
+\]
+The spectra are separated by at least \(\gamma-\delta\), and
+\[
+  Y=\int_0^\infty e^{tC}Fe^{-t\widehat\Lambda}\,\dd t.
+\]
+Thus
+\[
+  \opnorm Y
+  \le\int_0^\infty e^{-t(\gamma-\delta)}\delta\,\dd t
+  =\frac{\delta}{\gamma-\delta}.
+\]
+The singular values of \(U_\perp^\top V\) are the sines of the principal
+angles, proving \eqref{eq:grassmann-stat}.  In principal frames,
+\[
+  \opnorm{V-U}
+  =\max_i2\sin(\theta_i/2)
+  \le\sqrt2\max_i\sin\theta_i
+  \le\sqrt2s_\delta,
+\]
+which proves \eqref{eq:frame-stat}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:unknown-subspace-recovery}]
+Align \(V\) to \(U\) as in \cref{lem:spectral-subspace}, and conjugate
+\(\Rhat\) by the same orthogonal alignment.  Denote the aligned matrix by
+\(S\); the completed estimator is unchanged.  Then
+\begin{align*}
+  \opnorm{S-R}
+  &\le\opnorm{V^\top(\Sigmahat-\Sigma)V}
+  +\opnorm{V^\top\Sigma V-U^\top\Sigma U}\\
+  &\le\delta+2\lambda_1\opnorm{V-U}\\
+  &\le\delta+2\sqrt2\lambda_1s_\delta
+  =\varepsilon_{\mathrm{vis}}.
+\end{align*}
+Since \(R\succeq\lambda_mI\),
+\[
+  \opnorm{R^{-1/2}(S-R)R^{-1/2}}
+  \le\eta_\delta<1.
+\]
+Therefore
+\[
+  (1-\eta_\delta)R\preceq S\preceq(1+\eta_\delta)R,
+\]
+and
+\begin{equation}
+  \dai(R,S)\le\sqrt m[-\log(1-\eta_\delta)].
+  \label{eq:aligned-visible-bound}
+\end{equation}
+Weyl's inequality places the eigenvalues of \(S\) in
+\([\lambda_m-\delta,\lambda_1+\delta]\), so
+\(\chi(S)\le\omega_\delta\).  Apply
+\cref{thm:joint-perturbation,lem:spectral-subspace} and
+\eqref{eq:aligned-visible-bound}:
+\begin{align*}
+  \dai(P,\Phat)
+  &\le\dai(R,S)+\sqrt2\chi(S)\dgr(W,\widehat W)\\
+  &\le\sqrt m[-\log(1-\eta_\delta)]
+  +\sqrt2\omega_\delta\sqrt m\arcsin(s_\delta).
+\end{align*}
+This is \eqref{eq:unknown-subspace-bound}.
+\end{proof}
+
+\begin{lemma}[Ambient second-moment concentration]
+\label{lem:ambient-concentration}
+Under the assumptions of \cref{cor:unknown-subspace-sample}, with probability
+at least \(1-\alpha\),
+\[
+  \opnorm{\Sigmahat-\Sigma}\le\delta_n(\alpha).
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(\mathcal N\) be a \(1/4\)-net of the Euclidean unit sphere with
+\(|\mathcal N|\le9^d\).  For fixed \(u\in\mathcal N\), the i.i.d. variables
+\(Z_i=(u^\top X_i)^2\) lie in \([0,L^2]\).  Hoeffding and a union bound give
+\[
+  \Pr\left\{
+  \sup_{u\in\mathcal N}|u^\top(\Sigmahat-\Sigma)u|\ge t
+  \right\}
+  \le2\cdot9^d\exp\left(-\frac{2nt^2}{L^4}\right).
+\]
+The net estimate used above gives
+\(\opnorm{\Sigmahat-\Sigma}\le2t\).  Taking
+\(t=\delta_n(\alpha)/2\) makes the failure probability at most \(\alpha\).
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:unknown-subspace-sample}]
+On the event from \cref{lem:ambient-concentration}, all assumptions of
+\cref{thm:unknown-subspace-recovery} hold with
+\(\delta=\delta_n(\alpha)\).  Apply that theorem.  For the explicit sufficient
+condition, \(\delta\le\delta_\star\le\gamma/4\) gives
+\[
+  s_\delta=\frac{\delta}{\gamma-\delta}
+  \le\frac{4\delta}{3\gamma}.
+\]
+Consequently
+\[
+  \varepsilon_{\mathrm{vis}}
+  \le\delta\left(1+\frac{8\sqrt2\lambda_1}{3\gamma}\right)
+  =c_\gamma\delta
+  \le\frac{\lambda_m}{2},
+  \qquad
+  \eta_\delta\le\frac12.
+\]
+Also \(\delta\le\gamma/4<\gamma/2\) and
+\(\delta\le\lambda_m/(2c_\gamma)<\lambda_m\), so every hypothesis of
+\cref{thm:unknown-subspace-recovery} is satisfied.
+\end{proof}

@@ -1,0 +1,206 @@
+\section{A Closed-Form Diagonal RDGC Model}
+\label{sec:diagonal-model}
+
+The general theory has a nontrivial realization in the determinant-one
+two-dimensional diagonal family.  Write
+\[
+  D(u)=\diag(e^{u/2},e^{-u/2}),
+\]
+so the global scale has been quotiented out.  The induced affine-invariant
+length is
+\[
+  \Len_{\diag}(u_{[0,T]})
+  =
+  \frac{1}{\sqrt2}\int_0^T|\dot u_t|\,\dd t.
+\]
+For \(H\in\SPD^2\), define
+\[
+  K_{\diag}^\ast(H)
+  =\inf_{u\in\R}\kappa_{\rm gen}(H,D(u)).
+\]
+
+\begin{theorem}[Two-dimensional diagonal exact complexity]
+\label{thm:2d-diag}
+Let \(H\in\SPD^2\), \(K\ge1\), and
+\[
+  R_K=\frac{K+1}{\sqrt K}\sqrt{\det H}.
+\]
+If \(K<K_{\diag}^\ast(H)\), then
+\[
+  D_{K,\diag}^{2D}(u_0;H)=+\infty.
+\]
+If \(K\ge K_{\diag}^\ast(H)\), define
+\[
+  x_\pm(K)
+  =
+  \frac{R_K\pm\sqrt{R_K^2-4H_{11}H_{22}}}{2H_{22}},
+  \qquad
+  u_\pm(K)=2\log x_\pm(K).
+\]
+Then the feasible set is
+\[
+  \mathcal I_K(H)=[u_-(K),u_+(K)]
+\]
+and
+\[
+  D_{K,\diag}^{2D}(u_0;H)
+  =
+  \frac{1}{\sqrt2}\dist(u_0,\mathcal I_K(H)).
+\]
+\end{theorem}
+
+The interval \(\mathcal I_K(H)\) records the exact expressive range of the
+remaining log-scale ratio.  The off-diagonal entry of (H) enters through
+\(\det H\), so correlation shrinks the feasible interval and raises the
+smallest reachable condition number.
+
+Let
+\[
+  q=P_{\mathcal I_K(H)}(u_0)
+\]
+be the unique RDGC endpoint and fix \(T>0\).  For mechanism intensities
+\(a=(a_1,a_2)\in\R^2\), consider paths \(v\in H^1([0,T])\) satisfying
+\(v(0)=u_0\), \(v(T)=q\), with action
+\begin{equation}
+  \mathfrak A(v;a)
+  =\frac14\int_0^T\dot v(t)^2\,\dd t
+  -a_1\int_0^T v(t)\,\dd t
+  -a_2\int_0^T\frac{t}{T}v(t)\,\dd t.
+  \tag{D1}
+\end{equation}
+
+\begin{theorem}[Exact forced diagonal RDGC response]
+\label{thm:diag-forced-response}
+Assume \(K\ge K_{\diag}^\ast(H)\).  The action in \textup{(D1)} has the
+unique minimizer
+\[
+  v_a(t)
+  =u_0+\frac{q-u_0}{T}t+a_1w_1(t)+a_2w_2(t),
+\]
+where
+\[
+  w_1(t)=t(T-t),
+  \qquad
+  w_2(t)=\frac{Tt}{3}-\frac{t^3}{3T}.
+\]
+At \(a=0\), this is the constant-speed RDGC path and
+\[
+  \mathfrak A(v_0;0)
+  =\frac{D_{K,\diag}^{2D}(u_0;H)^2}{2T}.
+\]
+For \(\Val(a)=\min_v\mathfrak A(v;a)\), the path response is
+\(\partial_{a_i}v_a=w_i\), and
+\begin{equation}
+  \boxed{
+  D_a^2\Val
+  =-T^3
+  \begin{pmatrix}
+    1/6 & 1/12\\
+    1/12 & 2/45
+  \end{pmatrix}\prec0.}
+  \tag{D2}
+\end{equation}
+The positive matrix inside the minus sign has determinant \(1/2160\).
+\end{theorem}
+
+The preceding examples use the unrestricted path class inside a geodesically
+convex diagonal family.  A coordinate-update protocol gives a simple case in
+which the admissible path geometry cannot be replaced by the ambient AIRM
+projection in \cref{prop:rdgc-target-projection}.  Define
+\[
+  D_3(x)=\diag(e^{x_1},e^{x_2},e^{-x_1-x_2}),
+  \qquad x\in\R^2,
+\]
+and call a path sequential if at most one of \(\dot x_1,\dot x_2\) is nonzero
+almost everywhere.  This models a diagonal preconditioner that rescales one
+independent log-coordinate at a time.
+
+\begin{proposition}[Exact coordinate-sequential RDGC]
+\label{prop:sequential-diagonal-rdgc}
+For \(H=I\), put \(k=\log K\) and
+\[
+  \mathcal H_k
+  =\left\{y\in\R^2:
+  \max(y_1,y_2,-y_1-y_2)-
+  \min(y_1,y_2,-y_1-y_2)\le k\right\}.
+\]
+The sequential path distance and RDGC are
+\begin{equation}
+  d_{\rm seq}(x,y)=\sqrt2\norm{x-y}_1,
+  \qquad
+  D_{K,{\rm seq}}^{3D}(x_0;I)
+  =\sqrt2\min_{y\in\mathcal H_k}\norm{x_0-y}_1.
+  \tag{D7}
+\end{equation}
+In particular, if \(x_0=(a,a)\) with \(a>k/3\), the unique symmetric target
+point is \(q=(k/3,k/3)\), and
+\begin{equation}
+\begin{aligned}
+  D_{K,{\rm seq}}^{3D}(x_0;I)
+  &=2\sqrt2\left(a-\frac{k}{3}\right),\\
+  d_{\AI}(D_3(x_0),D_3(q))
+  &=\sqrt6\left(a-\frac{k}{3}\right).
+\end{aligned}
+\tag{D8}
+\end{equation}
+Thus the sequential update protocol has a strictly larger exact RDGC, by the
+factor \(2/\sqrt3\), than the ambient AIRM projection benchmark.
+\end{proposition}
+
+The fixed-endpoint model verifies the unconstrained Green response directly
+and shows that two time profiles acquire a nonzero interaction solely through
+relaxation of a structured metric path.  The next model keeps the terminal
+condition hard and moves its active spectral boundary.
+
+Let \(b\in\R^m\), put \(\rho(u)=\rho_0+b^\top u\), and define the
+determinant-one Hessian family
+\[
+  H_u=\diag(e^{\rho(u)/2},e^{-\rho(u)/2}).
+\]
+
+\begin{theorem}[Exact moving hard-target diagonal response]
+\label{thm:diag-moving-hard-target}
+Let \(K>1\), and suppose an open set \(\mathcal U_0\supset[0,1]^m\)
+satisfies
+\begin{equation}
+  v_0>\rho(u)+\log K,
+  \qquad u\in\mathcal U_0.
+  \tag{D3}
+\end{equation}
+For the metric path \(D(v(t))\), impose the hard terminal condition
+\[
+  \kappa_{\rm gen}(H_u,D(v(T)))\le K
+\]
+and minimize the kinetic action \(\frac14\int_0^T\dot v^2\dd t\).  Then the
+active target endpoint, path, multiplier, and value are
+\begin{equation}
+\begin{aligned}
+  q_u&=\rho(u)+\log K,\\
+  v_u(t)&=v_0+\frac{q_u-v_0}{T}t,\\
+  \lambda_u&=\frac{v_0-q_u}{2T}>0,\\
+  \mathcal V_{\rm hard}(u)&=\frac{(v_0-q_u)^2}{4T}.
+\end{aligned}
+\tag{D4}
+\end{equation}
+Consequently,
+\begin{equation}
+  \partial_{u_i}v_u(t)=b_i\frac{t}{T},
+  \qquad
+  \partial_{u_i}\lambda_u=-\frac{b_i}{2T},
+  \qquad
+  \boxed{D_{uu}^2\mathcal V_{\rm hard}=\frac{bb^\top}{2T}.}
+  \tag{D5}
+\end{equation}
+Every Boolean conditional pair effect on the cube is therefore
+\begin{equation}
+  \boxed{\zeta_{\{i,j\}\mid C}^{\rm hard}=\frac{b_i b_j}{2T}.}
+  \tag{D6}
+\end{equation}
+Thus equally oriented target shifts have positive hard interaction and
+oppositely oriented shifts have negative hard interaction.  The whole cube
+remains on one simple active spectral stratum by \textup{(D3)}, so
+\textup{(D4)}--\textup{(D6)} instantiate \textup{(HT4)}--\textup{(HT6)}.
+\end{theorem}
+
+\FloatBarrier
+

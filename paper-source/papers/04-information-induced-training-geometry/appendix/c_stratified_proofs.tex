@@ -1,0 +1,227 @@
+\section{Proofs for Rank-Stratified Geometry}
+\label{app:stratified-proofs}
+
+\begin{proof}[Proof of \cref{thm:rank-stratification}]
+Let \(\mathrm{Fr}_m\) be the manifold of full-column-rank \(d\times m\)
+frames.  Its right \(GL(m)\) action is free and proper, with quotient
+\(\Gr(m,d)\).  The diagonal action on
+\(\mathrm{Fr}_m\times\SPD^m\) used in
+\eqref{eq:total-descriptor-space} is also free.  It is proper by the
+sequential criterion: if \((A_k,R_k)\) and
+\((A_kB_k,B_k^\top R_kB_k)\) both converge inside the product, then smooth
+left inverses of the full-rank \(A_k\) show that \(B_k\) converges; the limit
+is invertible because the limiting transformed frame has rank \(m\).
+Consequently the quotient is a smooth manifold.  Equivalently, it is the
+smooth open cone bundle
+\[
+  \{(W,g):W\in\Gr(m,d),\ g\text{ is a positive-definite bilinear form on }W\}
+\]
+over the Grassmannian.  The identification sends \([A,R]\) to
+\(W=\range(A)\) and the form defined by
+\(g(Ax,Ay)=x^\top Ry\).  This formula is independent of the representative.
+The regular descriptor space is the open subbundle on which
+\(g-P_0|_W\) is nondegenerate.
+
+Gauge invariance follows because the replacement
+\((A,R)\mapsto(AB,B^\top RB)\) leaves
+\(P_0AR_0^{-1}(R-R_0)R_0^{-1}A^\top P_0\) unchanged.  Moreover,
+\begin{equation}
+  \Psi_{P_0,A}(R)-P_0
+  =P_0AR_0^{-1}(R-R_0)R_0^{-1}A^\top P_0.
+  \label{eq:rank-factorization-proof}
+\end{equation}
+If \(R-R_0\) is invertible, this difference has rank \(m\).
+
+Conversely, let \(P\in\mathfrak S_m(P_0)\), put \(H=P-P_0\), and define
+\(\mathcal W=P_0^{-1}\range(H)\).  Choose full-column-rank \(A\) spanning
+\(\mathcal W\).  Then \(P_0A\) spans \(\range(H)\).  Since \(H\) is
+symmetric of rank \(m\), there is an invertible symmetric \(C\) such that
+\[
+  H=P_0ACA^\top P_0.
+\]
+For example, with \(B=P_0A\), take
+\[
+  C=(B^\top B)^{-1}B^\top H B(B^\top B)^{-1}.
+\]
+The identity follows because the range and co-range of \(H\) both equal
+\(\range(B)\).  Setting \(R=A^\top PA\) and \(R_0=A^\top P_0A\) gives
+\[
+  R-R_0=A^\top H A=R_0CR_0,
+\]
+which is invertible, and \eqref{eq:rank-factorization-proof} reconstructs
+\(P\).
+
+The subspace \(\mathcal W\) is intrinsic.  Two frames for it differ by a
+unique \(B\in GL(m)\), and their compressed matrices differ by congruence.
+This proves bijectivity.  It remains to verify the smooth structures rather
+than only the set-theoretic inverse.  After whitening \(P_0\), the bundle
+description above identifies a regular descriptor with a pair \((W,T)\),
+where \(T\) is a positive-definite self-adjoint endomorphism of \(W\) and
+\(T-I_W\) is invertible.  In a local orthonormal frame \(U(W)\), the map is
+\[
+  (W,T)\longmapsto I+U(W)([T]_{U(W)}-I)U(W)^\top,
+\]
+so it is smooth and has rank-\(m\) displacement.  Conversely, on the
+fixed-rank symmetric displacement manifold, the nonzero spectrum of
+\(H=P-P_0\) remains locally separated from zero.  The range projector
+\(\Pi_H\) is therefore smooth by spectral functional calculus.  A local
+smooth frame of \(\range(\Pi_H)\), together with the restriction of \(P\) to
+that range, gives exactly the local inverse \((W,T)\).  Transition between
+two such frames is smooth congruence, which is the quotient transition
+already built into the form bundle.  Fixed inertia classes of \(H\) are
+open-and-closed components of the fixed-rank symmetric manifold; the same
+argument applies on every component, so no signature branch is omitted.
+Hence \(\Gamma_{m,P_0}\) and its inverse are smooth, and the map is a
+diffeomorphism.
+
+Every SPD matrix lies in exactly one rank stratum.  A limit of rank-\(m\)
+symmetric differences has rank at most \(m\).  Conversely, if
+\(\rank(P-P_0)=r<m\), whiten by \(P_0\), choose \(m-r\) orthonormal kernel
+directions of the whitened difference, and add arbitrarily small nonzero
+eigenvalues in those directions.  The perturbation stays SPD for sufficiently
+small magnitudes, has rank \(m\), and converges to \(P\).  This proves
+\eqref{eq:strata-closure}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:stratified-line-element}]
+Under \(A^\top P_0A=I\), put \(U=P_0^{1/2}A\).  Whitening sends the base
+point and the differential represented by \(\xi_i=(H_i,K_i)\) to
+\[
+  \Gamma\longleftrightarrow
+  \begin{pmatrix}R&0\\0&I\end{pmatrix},
+  \qquad
+  D\widetilde\Gamma[\xi_i]\longleftrightarrow
+  \begin{pmatrix}
+    H_i&(R-I)K_i^\top\\
+    K_i(R-I)&0
+  \end{pmatrix}.
+\]
+Using
+\(
+\langle X,Y\rangle_{P,\AI}=\tr(P^{-1}XP^{-1}Y)
+\), direct block multiplication for directions \(i,j\) gives
+\[
+  \tr(R^{-1}H_iR^{-1}H_j)
+  +2\tr(K_i(R-I)R^{-1}(R-I)K_j^\top),
+\]
+which is \eqref{eq:completion-pair-kernel}.  Setting \(i=j\) proves
+\eqref{eq:stratified-line-element}.  Factoring its two blocks gives
+\eqref{eq:completion-feature}.  The pair matrix is therefore a Gram matrix,
+which proves its positive semidefiniteness, the rank identity
+\eqref{eq:completion-gram-rank}, and the orthogonality criterion
+\eqref{eq:completion-pair-orthogonality}.
+
+The differential vanishes exactly when \(H=0\) and \(K(R-I)=0\), proving
+\eqref{eq:stratified-kernel}.  If \(m<d\) and \(R-I\) is singular, a nonzero
+row in its nullspace can be placed in \(K\), producing a nonzero kernel
+direction; if \(R-I\) is invertible, the kernel condition gives \(K=0\).
+Thus for \(m<d\) the pullback is positive definite exactly on the regular
+domain of \cref{thm:rank-stratification}.  If \(m=d\), the horizontal
+Grassmann block has dimension zero, so \(K\) is absent and the visible term is
+positive definite for every \(R\in\SPD^d\).  In this case the base
+Grassmannian is a point and, after whitening, the total descriptor is simply a
+positive form on the full space; the completion map returns that same form.
+It is therefore a global diffeomorphism onto \(\SPD^d\).
+
+The eigenvalues of \(\Xiop(R)\) are
+\((\lambda_i(R)-1)^2/\lambda_i(R)\).  Under the spectral assumptions,
+\[
+  \lambda_{\min}(\Xiop(R))\ge\frac{\zeta^2}{b},
+  \qquad
+  \lambda_{\max}(\Xiop(R))
+  \le\max_{x\in[a,b]}\frac{(x-1)^2}{x}.
+\]
+Substitution into the exact line element proves
+\eqref{eq:stratified-conditioning}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:reduced-completion-value}]
+The shortest-completion identity \eqref{eq:spd-shortest-completion} gives
+\[
+  \min_{A^\top PA=R}\frac12\dai(P_0,P)^2
+  =\frac12\dai(A^\top P_0A,R)^2.
+\]
+Under the normalization \(A^\top P_0A=I\), this is
+\eqref{eq:reduced-completion-energy} and is independent of the horizontal
+subspace coordinate.  Derivatives with respect to that coordinate at fixed
+\(R\) consequently vanish.  The minimizer is the explicit section
+\(P=\Psi_{P_0,A}(R)\), so evaluating it requires no further vertical
+stationarity equation.  Differentiating that section instead measures the
+motion of the minimizing ambient matrix, whose AIRM inner product is
+\eqref{eq:completion-pair-kernel}; it is not the Hessian of the reduced value.
+\end{proof}
+
+\paragraph{Frozen--relaxed decomposition in the two-dimensional example.}
+The cancellation mentioned in \cref{rem:value-versus-motion} can be made
+explicit in fixed ambient coordinates.  Write
+\[
+  u(\theta)=(\cos\theta,\sin\theta)^\top,
+  \qquad
+  P=\begin{pmatrix}a&c\\c&b\end{pmatrix},
+\]
+and eliminate the constraint \(u(\theta)^\top Pu(\theta)=r\) as
+\[
+  a=
+  \frac{r-2c\sin\theta\cos\theta-b\sin^2\theta}
+       {\cos^2\theta}.
+\]
+For
+\(F(b,c,\theta)=\tfrac12\fro{\log P}^2\), the hidden minimizer at
+\(\theta=0\) is \((b,c)=(1,0)\).  Direct differentiation there gives
+\[
+  F_{\theta\theta}=\frac{2(r-1)\log r}{r},
+  \qquad
+  F_{\theta c}=-\frac{2\log r}{r},
+  \qquad
+  F_{cc}=\frac{2\log r}{r(r-1)},
+\]
+with \(F_{\theta b}=F_{bc}=0\) and \(F_{bb}=1\).  The hidden Hessian is
+positive definite because \(\log r/(r-1)>0\).  Consequently the relaxed
+second derivative is
+\[
+  F_{\theta\theta}
+  -F_{\theta z}F_{zz}^{-1}F_{z\theta}
+  =\frac{2(r-1)\log r}{r}
+  -\frac{2(r-1)\log r}{r}
+  =0,
+  \qquad z=(b,c).
+\]
+Thus the frozen direct term and the nonzero Schur term cancel, consistently
+with the constant reduced value.  The response
+\(c'(0)=-F_{cc}^{-1}F_{c\theta}=r-1\) is the off-diagonal derivative of the
+canonical completion in \cref{rem:value-versus-motion}.
+
+\begin{proof}[Proof of \cref{prop:moving-reference}]
+By definition, \(P_t=G_tQ_tG_t^\top\).  Differentiating and multiplying by
+\(G_t^{-1}\) and \(G_t^{-\top}\) gives
+\[
+  G_t^{-1}\dot P_tG_t^{-\top}
+  =\dot Q_t+\Omega_tQ_t+Q_t\Omega_t^\top
+  =\mathfrak D_tQ_t.
+\]
+Congruence invariance of AIRM yields \eqref{eq:moving-reference}.
+
+If \(G_t'=G_tO_t\), then
+\[
+  Q_t'=O_t^\top Q_tO_t,
+  \qquad
+  \Omega_t'=O_t^\top\Omega_tO_t+O_t^\top\dot O_t.
+\]
+Differentiating \(Q_t'\) and substituting these identities cancels all terms
+containing \(O_t^\top\dot O_t\), leaving
+\[
+  \mathfrak D_t'Q_t'=O_t^\top(\mathfrak D_tQ_t)O_t.
+\]
+Orthogonal congruence preserves the displayed Frobenius norm.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:rank-loss}]
+After whitening, the nonzero singular values of
+\[
+  P_t-I=U_t(R_t-I)U_t^\top
+\]
+are exactly those of \(R_t-I\).  Singular values vary continuously with the
+matrix.  If the limit has rank at most \(m-r\), at least \(r\) of the first
+\(m\) singular values converge to zero.  The same therefore holds for
+\(R_t-I\).
+\end{proof}

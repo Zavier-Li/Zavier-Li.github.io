@@ -1,0 +1,93 @@
+\section{Split-Hadamard Information Maps}
+\label{sec:split-hadamard}
+
+We now identify a smooth global condition that produces rigid coherent
+information sheets.  Let \((M,g)\) and \((B,h)\) be finite-dimensional
+Hadamard manifolds, and let \(q:M\to B\) be a surjective Riemannian
+submersion.  Its vertical and horizontal distributions are
+\[
+  \mathcal V_x=\ker Dq(x),
+  \qquad
+  \mathcal H_x=\mathcal V_x^{\perp_g}.
+\]
+
+\begin{definition}[Split-Hadamard information map]
+\label{def:split-hadamard}
+\mbox{}\par\noindent
+The map \(q\) is split-Hadamard if \(\mathcal H\) is integrable and every
+maximal horizontal leaf is complete and totally geodesic.
+\end{definition}
+
+This condition rules out holonomy between visible and invisible directions.
+It does not require the fibers themselves to be linear or compact.
+
+\begin{theorem}[Global split-Hadamard information theorem]
+\label{thm:split-hadamard}
+Let \(q:M\to B\) be split-Hadamard.  For every \(x\in M\), let \(L_x\) be
+the horizontal leaf through \(x\).  Then:
+\begin{enumerate}[label=(\roman*),leftmargin=*]
+  \item The restriction \(q|_{L_x}:L_x\to B\) is a global Riemannian
+  isometry.  Its inverse
+  \[
+    s_x:B\to L_x\subset M
+  \]
+  is the unique horizontal isometric totally geodesic section satisfying
+  \(s_x(q(x))=x\).
+  \item The map \(q\) is a metric submetry and \(s_x\) is the unique shortest
+  completion:
+  \begin{equation}
+    s_x(b)=\argminop_{q(z)=b}d_M(x,z),
+    \qquad
+    d_M(x,s_x(b))=d_B(q(x),b).
+    \label{eq:split-shortest-lift}
+  \end{equation}
+  \item Universal radial reduction \eqref{eq:universal-radial-reduction}
+  holds.  Every reduced minimizer lifts through \(s_x\); if \(\rho\) is
+  strictly increasing on its finite domain, these are all finite-valued full
+  minimizers.
+  \item Moreau envelopes and proximal maps commute exactly:
+  \begin{align}
+    e_\tau^M(\phi\circ q)(x)&=e_\tau^B\phi(q(x)),
+    \label{eq:split-moreau}\\
+    \prox^M_{\tau(\phi\circ q)}(x)
+    &=s_x\!\left(\prox^B_{\tau\phi}(q(x))\right)
+    \label{eq:split-prox}
+  \end{align}
+  for proper lower-semicontinuous geodesically convex bounded-below
+  \(\phi\).  The visible proximal point is unique by Hadamard convexity; the
+  full proximal point is unique because equality requires both that visible
+  point and its unique shortest lift.
+  \item If \(\phi\in C^1(B)\), then
+  \begin{equation}
+    \operatorname{grad}_M(\phi\circ q)(z)
+    =
+    \bigl(Dq(z)|_{\mathcal H_z}\bigr)^{-1}
+    \operatorname{grad}_B\phi(q(z)).
+    \label{eq:split-gradient}
+  \end{equation}
+  Consequently, every solution \(y:I\to B\) of
+  \(\dot y=-\operatorname{grad}_B\phi(y)\) with \(y(0)=q(x)\) lifts on the
+  same existence interval to the solution
+  \(z=s_x\circ y\) of
+  \(\dot z=-\operatorname{grad}_M(\phi\circ q)(z)\) with \(z(0)=x\).
+  If \(\operatorname{grad}_B\phi\) is locally Lipschitz, the corresponding
+  maximal solutions are unique.
+\end{enumerate}
+\end{theorem}
+
+The proof in \cref{app:split-proofs} has two ingredients.  Completeness
+extends every horizontal lift of a visible geodesic, and Hadamard uniqueness
+makes the restriction to a horizontal leaf globally injective.  Equality in
+Riemannian-submersion length contraction forces a shortest ambient geodesic
+to be horizontal, yielding uniqueness of the nearest completion.
+
+\begin{corollary}[Rigid coherent quotient]
+\label{cor:split-coherent}
+The sections \(s_x\) satisfy \eqref{eq:coherent-sections}; hence every
+split-Hadamard map is a rigid coherent metric quotient in the sense of
+\cref{thm:coherent-reduction}.
+\end{corollary}
+
+The abstract theorem is useful only after its hypotheses have been verified.
+The next section proves them globally for SPD information compression and, in
+addition, resolves the section in closed form.

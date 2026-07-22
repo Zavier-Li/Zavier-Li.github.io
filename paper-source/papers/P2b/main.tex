@@ -1,0 +1,67 @@
+\documentclass[review,onefignum,onetabnum]{siamart250211}
+
+\input{preamble}
+
+\headers{Structured Preconditioning in Affine-Invariant Geometry}{Z. Li}
+
+\title{Structured Preconditioning in Affine-Invariant Geometry:
+Projection, Certificates, and Kronecker Separation}
+
+\author{Zavier Li\thanks{Xidian University, Xi'an, China
+  (\email{zavierli888@gmail.com}).}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Nearest structured approximation and best structured preconditioning solve
+different matrix optimization problems.  We determine their exact relation
+for Kronecker positive-definite matrices under the affine-invariant
+Riemannian metric.  The Kronecker family is closed and geodesically convex, so
+every full matrix has a unique affine-invariant projection.  Its logarithmic
+residual satisfies partial-trace normal equations and yields certified point
+and objective errors for an Armijo projection solver.  Our central result
+shows that this unique projection is also a minimizer of the
+Hessian-relative condition number if and only if the extreme spectral states
+admit identical tensor marginals.  A computable marginal-mismatch residual
+either vanishes at a condition-optimal projection or produces a strict
+descent direction.  Two relative spectral levels always force projection
+optimality; more strongly, every \(2\times2\) Kronecker projection is
+condition-optimal.  An explicit \(2\times3\) construction is therefore a
+dimension-minimal strict separation.  Residual-calibrated bounds further bracket
+the best attainable Kronecker condition number and the suboptimality of the
+projection.  Supporting results place classical diagonal and block Loewner
+sandwiches, fixed-basis primal--dual obstructions, and general log-spectral
+targets in the same certificate language.  Given validated numerical
+enclosures and outward-rounded comparisons, an interval-safe corollary
+preserves the soundness of the full
+Kronecker tests.  Deterministic small-matrix checks, including a multistart generic
+log-factor oracle independent of the partial-trace solver, verify the stated
+identities and bounds.
+\end{abstract}
+
+\begin{keywords}
+positive-definite matrix, affine-invariant metric, Kronecker product,
+structured preconditioning, condition number, geodesic convexity
+\end{keywords}
+
+\begin{MSCcodes}
+15A18, 15B48, 65F08, 65F35, 90C25
+\end{MSCcodes}
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_matrix_targets}
+\input{sections/04_diagonal_block}
+\input{sections/05_kronecker}
+\input{sections/06_verification}
+\input{sections/07_discussion}
+
+\bibliographystyle{siamplain}
+\bibliography{references}
+
+\appendix
+\input{appendix/a_matrix_proofs}
+\input{appendix/b_extensions}
+
+\end{document}

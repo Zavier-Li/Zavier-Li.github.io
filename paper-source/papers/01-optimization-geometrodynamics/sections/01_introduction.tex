@@ -1,0 +1,145 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Let \(A,B\in\mathbb R^{d\times m}\), with \(A\) of full column rank and
+\(1\le m<d\).  Consider the affine-invariant least-deformation problem
+\begin{equation}
+  \min_{P\in\mathbb S_{++}^d}
+  \frac12 d_{\mathrm{AI}}(P_{\rm ref},P)^2
+  \quad\text{subject to}\quad
+  PA=B,
+  \qquad
+  \det P=\det P_{\rm ref}.
+  \label{eq:introduction-main-problem}
+\end{equation}
+After an affine-invariant congruence and a scalar normalization, it is enough
+to take \(P_{\rm ref}=I\) and \(\det P=1\).  The feasibility condition is
+\(A^\top B\in\mathbb S_{++}^m\).  When \(m<d\), the action \(PA=B\) leaves a
+positive-dimensional family of feasible completions, and
+\cref{eq:introduction-main-problem} selects the one of minimum intrinsic
+deformation.  The same problem is an affine-invariant multi-secant completion
+when \(A\) contains secant directions and \(B\) contains their desired inverse
+actions.
+
+This completion problem is motivated by adaptive optimization.  Moments,
+curvature surrogates, Kronecker factors, and tensor preconditioners act as
+hidden positive operators that turn visible gradients into parameter motion
+\cite{duchi2011adagrad,kingma2014adam,martens2015kfac,
+gupta2018shampoo,morwani2024shampoo,jordan2024muon,
+essentialai2025muon,crawshaw2025muonvariants}.  Observing the action of such an
+operator on a low-dimensional subspace does not determine its complementary
+geometry.  Problem \eqref{eq:introduction-main-problem} supplies a canonical
+completion and an intrinsic measure of the deformation required to realize
+the observed action.
+
+Three issues prevent the formulation alone from giving an algorithmic result.
+The feasible set is a nonlinear SPD fiber whose global topology and geodesic
+geometry are initially unknown; nearest-point existence does not by itself
+produce a computable optimality residual; and a dense implementation would
+appear to require matrix functions in the ambient dimension \(d\).  We resolve
+these issues by combining a global action-bundle theorem with an explicit
+residual-gradient iteration and an exact active-subspace reduction.
+
+The matrix problem sits inside a general variational-reduction mechanism.  For
+hidden state \(x\), visible action \(y=\pi(x)\), and deformation energy \(E\),
+define the infimal pushforward
+\[
+  (\pi_!E)(y)=\inf_{\pi(x)=y}E(x).
+\]
+It eliminates hidden realizations and composes across nested maps.
+Convex-fiber regularity selects a canonical lift, while smooth nondegeneracy
+gives
+\[
+  D\sigma_\star=-E_{\sigma\sigma}^{-1}E_{\sigma y},
+  \qquad
+  D^2(\pi_!E)
+  =E_{yy}-E_{y\sigma}E_{\sigma\sigma}^{-1}E_{\sigma y}.
+\]
+When mechanism amplitudes enter affinely before reduction, their interaction
+curvature is
+\[
+  D^2_{uu}(\pi_!E)=-G^*H^{-1}G\preceq0,
+\]
+and its mixed entries integrate to finite contrasts under the specified
+intervention protocol.  In the SPD action problem, the same vertical Hessian
+governs both this response and the susceptibility of the nearest completion.
+
+Our principal realization is the determinant-one SPD action map
+\[
+  \pi_A(P)=PA.
+\]
+Every admissible fiber has a global analytic parameterization by a smaller
+determinant-one SPD factor and is closed and totally geodesic under the
+affine-invariant metric.  Projection of the reference therefore gives a unique
+analytic canonical controller.  A strongly-convex fiber argument connects
+this selection to computation, while the action bundle makes its logarithmic
+residual explicit.  A sublevel first-return argument yields the radius
+majorant \(L_0=\psi(D_0/\sqrt2)\), nonasymptotic iteration bounds from exact
+inversion of the linear rate, and posterior controller and objective
+certificates.  The same analysis propagates certified matrix-function errors
+and radius majorants.
+
+From the identity hidden coordinate, and more generally from an
+active-compatible hidden coordinate, the solver has an exact realization on
+\(\operatorname{span}(\operatorname{col}A,\operatorname{col}B)\), of dimension
+\(r\le2m\).  It replaces the full spectral kernel by \(r\times r\) operations
+and gives a strict dimension reduction when \(r<d\).  Arbitrary hidden
+initialization retains the global convergence theorem but need not preserve
+this active symmetry.  Nested shape-normalized actions then satisfy a CAT(0)
+Pythagorean law and identify \(c_HH^{-1}\) at the sharp rank \(d-1\), provided
+the scalar gauge \(c_H=(\det H)^{1/d}\) is known.  Finite inner solves obey an
+observable residual-controlled perturbation of the same law.
+
+\paragraph{Contributions.}
+\begin{enumerate}[leftmargin=*,itemsep=0.2em]
+  \item \textbf{Global geometry of the action constraint.}
+  We construct a global analytic trivialization of \(P\mapsto PA\), prove that
+  every determinant-one feasible fiber is closed and totally geodesic, and
+  obtain a unique analytic affine-invariant nearest-completion section.
+
+  \item \textbf{A global solver with posterior certificates.}
+  The exact logarithmic residual is the whitened negative gradient of a
+  strongly geodesically convex reduced objective.  Its exponential update
+  converges globally and linearly from every initial hidden coordinate, with
+  explicit iteration bounds and sharp posterior distance and objective-gap
+  certificates.  A conditional inexact theorem propagates certified errors in
+  the residual direction; update, factorization, and storage errors remain the
+  responsibility of the numerical implementation.
+
+  \item \textbf{Active complexity and finite identification.}
+  From an active-compatible initializer, the exact iteration reduces to an
+  active space of dimension \(r\le2m\), costs \(O(r^3)\) per step after
+  \(O(dm^2+r^3)\) preprocessing, and applies the resulting controller in
+  \(O(dr+r^2)\).  Nested projections obey exact and residual-controlled
+  approximate CAT(0) laws and recover determinant-one inverse-Hessian shape
+  after \(\lceil(d-1)/b\rceil\) independent width-\(b\) rounds, assuming the
+  scalar determinant gauge is supplied.
+
+  \item \textbf{Variational response and interaction.}
+  Associative hidden-state elimination yields the canonical response and the
+  Schur reduced Hessian in fixed product coordinates.  Affine mechanism
+  perturbations give a
+  negative-semidefinite interaction curvature whose action specialization is
+  locally controlled by the same inverse vertical Hessian as completion
+  sensitivity.
+\end{enumerate}
+
+Controlled synthetic experiments accompany the theorem chain.  They test the
+posterior inequalities against high-accuracy reference solutions, compare the
+full and active iterates, measure the dense spectral kernels as \(d\) grows,
+and track the curvature radius as \(\lambda_{\min}(A^\top B)\downarrow0\).
+
+Together, these results turn the intrinsic completion problem
+\eqref{eq:introduction-main-problem} into a globally solvable reduced
+optimization problem with observable termination criteria.  The global action
+bundle links its geometry, sensitivity, algorithm, and finite-identification
+law through one variational-reduction chain.
+
+\paragraph{Organization.}
+\Cref{sec:reduction,sec:interaction} develop variational reduction and its
+response theory.  \Cref{sec:action-bundle} establishes the global action
+geometry, \cref{sec:certified-solver} gives the solver, certificates, and operation
+bounds, \cref{sec:numerical-validation} reports controlled numerical tests,
+and \cref{sec:multisecant-recovery} proves finite recovery.  The appendices
+contain complete proofs and a theorem-level comparison with the closest
+literature.

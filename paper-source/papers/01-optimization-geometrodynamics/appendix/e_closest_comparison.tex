@@ -1,0 +1,79 @@
+\section{Closest-Work Comparison}
+\label{app:closest-comparison}
+
+The solver theorem combines standard Hadamard first-order principles with an
+action-specific geometric construction.  \Cref{tab:theorem-level-comparison}
+separates those responsibilities.  It compares theorem outputs, not algorithms
+with different feasible models.
+
+\begin{table}[ht]
+\centering
+\begingroup
+\setlength{\tabcolsep}{5pt}
+\footnotesize
+\begin{tabular}{@{}p{0.18\textwidth}p{0.36\textwidth}p{0.40\textwidth}@{}}
+\toprule
+Work & Established output & Action-specific distinction \\
+\midrule
+Hadamard first-order methods \cite{zhang2016firstorder}
+& Global complexity for smooth or nonsmooth geodesically convex objectives,
+including strongly convex and curvature-dependent regimes
+& No parameterization of \(PA=B\), logarithmic action residual, or active
+controller realization \\
+
+Hadamard convex analysis \cite{bacak2014convex}
+& Projection, proximal, and convex-analytic foundations on closed geodesically
+convex sets
+& Supplies abstract projection principles; does not construct or solve the
+action fiber \\
+
+Tian \cite{tian2013hermitian}
+& Equalities, inequalities, existence conditions, and parameterizations for
+Hermitian and definite solutions of matrix equations including \(AX=B\)
+& Establishes the algebraic feasibility layer; does not select the
+determinant-one AIRM nearest solution or derive a residual iteration \\
+
+Lim \cite{lim2004best}
+& Best approximation in Riemannian geodesic SPD submanifolds, with explicit
+formulas for selected involutive block models
+& Supplies nearest-point precedents; does not identify all \(PA=B\) fibers as
+one analytic bundle or give the action normal equation and active solver \\
+
+Tumpach--Larotonda \cite{tumpach2024totally}
+& General criteria and structure for totally geodesic submanifolds of the SPD
+manifold
+& Supplies general structural tools; does not construct the action-indexed
+fiber family, its analytic section, or its posterior certificates \\
+
+Conic SPD optimization \cite{sra2015conic}
+& Algorithms for geodesically convex conic optimization over SPD matrices
+& Does not specialize the \(PA=B\) fiber into the residual, active reduction,
+or finite identification law \\
+
+Least-change and multi-secant updates
+\cite{dennis1979leastchange,schnabel1983multiple,fletcher1991variational,
+gao2018block,boutet2022grouped,kanamori2013bregman}
+& Update formulas and convergence properties for secant equations under
+method-specific norms or divergences
+& Do not parameterize the complete AIRM action fiber or prove the normalized
+rank-\(d-1\) identification threshold \\
+
+This paper
+& For \(PA=B\), \(P\succ0\), \(\det P=1\): global action bundle, total
+geodesy, analytic canonical section, exact
+residual, global rate, posterior certificates, and active total complexity
+& Specializes the general principles into an exact action solver with
+posterior certificates and conditional residual-error propagation \\
+\bottomrule
+\end{tabular}
+\endgroup
+\caption{Theorem-level comparison with the closest geometric optimization and
+multi-secant baselines.}
+\label{tab:theorem-level-comparison}
+\end{table}
+
+The residual-oracle corollary assumes rigorous direction-error and radius
+majorants.  It propagates those certificates through an exact exponential
+update; unlike a certified numerical linear-algebra package, it does not
+enclose update, factorization, basis, storage, or determinant errors and does
+not establish bit complexity.

@@ -1,0 +1,133 @@
+\section{Observation, Inference, and Experimental Design}
+\label{sec:observation-design}
+
+Let $\mathbb Y\cong\R^n$ have covariance $V\succ0$ and norm $\norm y_{V^{-1}}^2=y^\top V^{-1}y$.  Let $\Mcal\subseteq\mathbb Y$ be a nonempty closed convex response class, let $\mathbb Z$ be a finite-dimensional real inner-product space, and let the linear map $A:\mathbb Z\to\mathbb Y$ generate responses from coordinates $z\in\mathbb Z$.  Write
+\[
+\mathcal I=A^*V^{-1}A,
+\qquad K=\ker A,
+\qquad r=\rank A.
+\]
+
+\begin{theorem}[Identifiable observation--inference--decision calculus]
+\label{thm:projection-information-decision}
+Under this setup:
+\begin{enumerate}[leftmargin=*,itemsep=4pt,label=(\roman*)]
+\item Every $y$ has a unique shadow $\widehat m=\argminop_{m\in\Mcal}\frac12\norm{y-m}_{V^{-1}}^2$.  Define $\delta_{\Mcal}(y)=\norm{y-\widehat m}_{V^{-1}}$.  With the extended-real support function $\sigma_{\Mcal}(q)=\sup_{m\in\Mcal}q^\top m\in\R\cup\{+\infty\}$,
+\begin{equation}
+\frac12\delta_{\Mcal}(y)^2
+=\max_q\left\{q^\top y-\sigma_{\Mcal}(q)-\frac12q^\top Vq\right\},
+\label{eq:master-projection-dual}
+\end{equation}
+and $q^\star=V^{-1}(y-\widehat m)$.  Distance is one-Lipschitz and decreases under nesting of response classes.
+\item In $Y=Az+\varepsilon$, $\varepsilon\sim N(0,V)$, the identifiable parameter is the quotient by $K$.  On $K^\perp$, generalized least squares
+\[
+\widehat z=\mathcal I^\dagger A^*V^{-1}Y
+\]
+is exactly minimax:
+\begin{equation}
+\inf_{\widetilde z}\sup_{z\in K^\perp}\EE_z\norm{\widetilde z-z}^2
+=\tr(\mathcal I^\dagger),
+\label{eq:master-minimax-risk}
+\end{equation}
+and $(\widehat z-z)^*\mathcal I(\widehat z-z)\sim\chi_r^2$.
+\item Partition $A=[A_{-G}\ A_G]$, put $\widetilde A=V^{-1/2}A$, let $\Pi_{-G}$ project onto $\range(\widetilde A_{-G})$, and define $B_G=(I-\Pi_{-G})\widetilde A_G$.  The statistic
+\[
+\norm{\Proj_{\range(B_G)}V^{-1/2}Y}^2
+\]
+is central $\chi^2_{\rank B_G}$ under $B_Gz_G=0$ and noncentral with parameter $\norm{B_Gz_G}^2$ otherwise.  If the true mean is $Az+b$ with the canonical representative $z\in K^\perp$, let $\Pi_A$ project onto $\range(V^{-1/2}A)$ and define
+\[
+b_\parallel=\mathcal I^\dagger A^*V^{-1}b,
+\qquad
+b_\perp=(I-\Pi_A)V^{-1/2}b.
+\]
+Omitted structure decomposes exactly into estimation bias and orthogonal lack of fit:
+\begin{equation}
+\EE\norm{\widehat z-z}^2=\norm{b_\parallel}^2+\tr(\mathcal I^\dagger),
+\qquad
+\norm{(I-\Pi_A)V^{-1/2}Y}^2\sim\chi^2_{n-r}(\norm{b_\perp}^2).
+\label{eq:master-misspecification}
+\end{equation}
+\item Every linear downstream map obeys
+\[
+\norm{L(y-\widehat m)}\le\opnorm{LV^{1/2}}\delta_{\Mcal}(y).
+\]
+For a declared finite action class, or more generally an action class on which the displayed minima are attained, let $\Delta(\pi;z)=d_\pi+\ell_\pi^\top z$ with $\ell_\pi\in K^\perp$ and define
+\[
+\rho_\pi(\delta)=\sqrt{\chi^2_{r,1-\delta}}
+\sqrt{\ell_\pi^\top\mathcal I^\dagger\ell_\pi},
+\qquad
+\widehat\pi\in\argminop_\pi
+\{\Delta(\pi;\widehat z)+\rho_\pi(\delta)\}.
+\]
+On one event of probability $1-\delta$,
+\begin{equation}
+\Delta(\widehat\pi;z)
+\le\Delta(\pi^\star;z)+2\rho_{\pi^\star}(\delta),
+\qquad
+\pi^\star\in\argminop_\pi\Delta(\pi;z).
+\label{eq:master-action-oracle}
+\end{equation}
+\item For a saturated incidence design $\Dcal=\Kcal$, let $M=X_{\Kcal,\Kcal}^{-1}$.  With independent response covariance $\Sigma$ and continuous design weights $n_a>0$, $\sum_an_a=N$, the exact relaxed total recovery risk is
+\begin{equation}
+R(n)=\tr(\Sigma)\sum_a\frac{c_a}{n_a},
+\qquad c_a=\norm{M_{:,a}}_2^2,
+\label{eq:exact-replication-risk}
+\end{equation}
+with unique optimum
+\begin{equation}
+n_a^\star=N\frac{\sqrt{c_a}}{\sum_b\sqrt{c_b}},
+\qquad
+R^\star=\frac{\tr(\Sigma)}{N}\left(\sum_a\sqrt{c_a}\right)^2.
+\label{eq:exact-a-optimal-allocation}
+\end{equation}
+For the unrestricted Boolean lattice,
+\begin{equation}
+c_A=2^{m-|A|},
+\quad
+n_A^\star=N\frac{2^{(m-|A|)/2}}{(1+\sqrt2)^m},
+\quad
+R^\star=\frac{\tr(\Sigma)}{N}(3+2\sqrt2)^m.
+\label{eq:boolean-exact-a-optimal-allocation}
+\end{equation}
+These formulas solve the continuous allocation problem exactly.  Integer replication counts require a feasible rounding rule and its associated excess-risk analysis.
+\end{enumerate}
+\end{theorem}
+
+\begin{corollary}[Exact target-optimal replication]
+\label{cor:target-optimal-replication}
+In the saturated scalar incidence design, let $M=X_{\Kcal,\Kcal}^{-1}$ and
+let $L$ select or linearly combine target effects.  Suppose the independent
+configuration-level observation variance is $\sigma_a^2/n_a$ and
+\[
+c_a=\norm{LM_{:,a}}_2^2>0.
+\]
+Then the exact target risk and its continuous optimum are
+\begin{equation}
+R_L(n)=\tr\!\left[L M\diag\!\left(\frac{\sigma_a^2}{n_a}\right)M^\top L^\top\right]
+=\sum_a\frac{c_a\sigma_a^2}{n_a},
+\label{eq:target-replication-risk}
+\end{equation}
+\begin{equation}
+n_a^\star
+=N\frac{\sigma_a\sqrt{c_a}}{\sum_b\sigma_b\sqrt{c_b}},
+\qquad
+R_L^\star
+=\frac1N\left(\sum_a\sigma_a\sqrt{c_a}\right)^2.
+\label{eq:target-optimal-allocation}
+\end{equation}
+The integer design used in \cref{sec:experiments} rounds these weights while
+preserving the total budget and a declared minimum replication.
+\end{corollary}
+
+The proof is in \cref{app:deep-theory}.  The theorem turns the deterministic gauge of \cref{thm:universal-interventional-calculus} into finite-sample uncertainty.  Rank determines what is identifiable; the positive spectrum determines how accurately; the target decision determines which directions matter.
+
+\paragraph{Exact non-Gaussian calibration.}
+If a finite group $G$ leaves the null response law invariant, then for any residual statistic $T$,
+\begin{equation}
+p_G(Y)=\frac1{|G|}\sum_{g\in G}\mathbf1\{T(gY)\ge T(Y)\}
+\label{eq:exact-randomization-pvalue}
+\end{equation}
+is super-uniform under the null \citep{hemerik2018exact,phipson2010permutation}.  This calibrates arbitrary response-class residuals when the group action is scientifically justified.
+
+\paragraph{Design for interaction curvature.}
+For the mask experiment $A=X_{\Dcal,\Kcal}\otimes I_d$, design can maximize rank, the smallest positive information eigenvalue, or a target contrast precision.  To identify the left-hand side of \cref{eq:mobius-schur-bridge}, the support must include the relevant pair effect and the queried masks must make its residualized column nonzero.  An order-two design with that rank property is the minimal direct identification extension; separate held-out higher masks test the order-two support assumption.  Validation of the hidden right-hand side additionally needs measurements or a separately fitted structural model for $H$ and $G$.

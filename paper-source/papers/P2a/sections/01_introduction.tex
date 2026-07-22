@@ -1,0 +1,150 @@
+\section{Introduction}
+
+Structured preconditioners constrain optimization to a small family of
+positive metrics.  This creates an endpoint question and a path question.
+The endpoint question asks whether the family can reach a prescribed
+condition number.  The path question asks how much intrinsic metric motion is
+required to reach it from the current state.  Endpoint feasibility alone does
+not measure this geometric effort: two families may reach the same target but
+place it at very different affine-invariant distances from the initial
+metric.
+
+We formulate the path question as a value problem.  For a quadratic objective
+with Hessian \(H\succ0\), a metric \(G\succ0\) induces the generalized
+eigenproblem \(Hv=\lambda Gv\).  In relative coordinates
+\[
+  S=H^{-1/2}GH^{-1/2},
+\]
+the relevant condition ratio is
+\[
+  \kappa_{\rm gen}(H,G)
+  :=\frac{\lambda_{\max}(G^{-1/2}HG^{-1/2})}
+  {\lambda_{\min}(G^{-1/2}HG^{-1/2})}
+  =\kappa(S).
+\]
+This is the positive generalized-eigenvalue ratio of \(Hv=\lambda Gv\),
+which is invariant under inversion of the relative spectrum.  Given a metric
+family \(\F\), an initial
+state \(S_0\), and \(K\ge1\), restricted dynamic geometric complexity
+\(D_{K,\F}(S_0;H)\) is the least affine-invariant length of an admissible
+metric path that reaches
+\[
+  \Ck=\{S\in\SPD^d:\kappa(S)\le K\}.
+\]
+The value is \(+\infty\) when the target is structurally unreachable.  The
+word complexity refers throughout to minimum intrinsic metric motion (or,
+after fixing the horizon, its exactly equivalent action value); it carries no
+iteration-count or wall-clock complexity claim.
+
+The central operation is elimination of an entire future path.  If
+\(c_{s,t}(x,y)\) denotes the least action between two states, then restriction
+and concatenation yield
+\[
+  c_{s,t}(x,z)
+  =
+  \inf_y\{c_{s,r}(x,y)+c_{r,t}(y,z)\}.
+\]
+This min-plus semigroup is the exact global law of path elimination.  It
+precedes smoothness, existence, and Hamilton--Jacobi regularity.  Tonelli
+conditions supply attained paths, while a separate compact-control
+realization supplies the HJB characterization.  For fixed-horizon kinetic
+action, constant-speed gauge fixing gives the exact identity
+\[
+  \inf_\gamma\frac12\int_0^T\norm{\dot\gamma_t}^2\,\dd t
+  =
+  \frac{D_{K,\F}(S_0;H)^2}{2T}.
+\]
+Thus the smooth action used for response analysis has precisely the same
+geometric minimizers as length RDGC.
+
+Path elimination also has a differential law.  Near a unique smooth optimum,
+the vertical second variation is a Jacobi operator \(\Jac\).  Eliminating
+path fluctuations gives
+\[
+  D\gamma_\star=-\Jac^{-1}\mathcal A_{\gamma z},
+  \qquad
+  D^2\Val
+  =
+  \mathcal A_{zz}
+  -\mathcal A_{z\gamma}\Jac^{-1}\mathcal A_{\gamma z}.
+\]
+The second term is the path-space Schur complement.  For additive
+interventions it is a negative-semidefinite Gram operator.  Its mixed entries
+integrate over cube faces to exact Boolean M\"obius effects.
+
+The local formula becomes global under geometric hypotheses.  On a Hadamard
+state space, smooth geodesically convex bulk and terminal potentials yield a
+unique optimal path for every intervention in a neighborhood of the Boolean
+cube.  Nonpositive curvature makes the full Jacobi index form uniformly
+coercive.  The Green inverse then solves bulk forcing and terminal Robin
+forcing simultaneously, generates pair and conditional M\"obius effects, and
+recursively determines every prescribed finite interaction order under the
+corresponding smoothness.  Its Gram representation also
+identifies the exact nullspace and rank of value curvature and bounds that
+curvature by the intervention-force norm and the Jacobi spectrum.
+
+The hard condition target has a different local operator.  On a regular
+active spectral stratum, terminal feasibility adds one multiplier and one
+linearized boundary equation.  The resulting bordered Jacobi--KKT inverse
+jointly differentiates the optimal path, moving projection endpoint, and
+multiplier, and yields the constrained value Hessian.  This directly treats a
+moving hard RDGC target while locating the precise failure boundary at
+eigenvalue collisions, loss of strict complementarity, or active-stratum
+changes.  A determinant-one diagonal RDGC model realizes the unconstrained
+Green theory in closed form and produces a strictly negative-definite
+interaction matrix.
+
+\paragraph{Contributions.}
+The paper establishes four results.
+
+\begin{enumerate}[leftmargin=*,itemsep=0.25em]
+  \item We define RDGC as an affine-invariant path distance to a
+  Hessian-relative generalized spectral target and derive the
+  full-SPD spectral benchmark.  Exact min-plus composition and the
+  length--energy identity provide its path-elimination and fixed-horizon
+  foundations.
+
+  \item We prove a global Hadamard M\"obius--Jacobi theorem.  One uniformly
+  coercive Green operator handles bulk and terminal forcing, gives exact
+  force-to-curvature bounds and rank identities, integrates to pair and
+  conditional effects, and recursively generates every prescribed finite
+  interaction order.
+
+  \item We prove a bordered Jacobi--KKT theorem for a genuinely hard terminal
+  inequality.  On a smooth active condition-number stratum it differentiates
+  the moving RDGC projection and multiplier and gives an exact constrained
+  M\"obius formula whose sign can differ from the unconstrained Gram law.
+
+  \item We give explicit Tonelli and compact-control realizations, specialize
+  the response theory to affine-invariant SPD geometry, and solve a
+  two-dimensional determinant-one diagonal RDGC model exactly.  Both the
+  fixed-endpoint Green response and a moving hard condition target have
+  closed-form paths and interactions; the latter realizes both interaction
+  signs.  A three-dimensional coordinate-sequential update protocol has an
+  exact \(\ell_1\)-type RDGC strictly larger than its ambient AIRM projection,
+  showing where the declared path class changes the optimization value.
+\end{enumerate}
+
+The finite-dimensional companion \cite{li2026optimizationgeometrodynamics}
+proves generic Schur response and affine-intervention Gram formulas for hidden
+controller states.  Those
+formulas are the finite-dimensional template here.  The present paper's new
+response results begin
+with their path-Hilbert realization: Hadamard geometry derives global
+existence and cube-wide coercivity, the weak inverse becomes a strong
+Green--Jacobi problem with Robin forcing, arbitrary prescribed finite orders
+share that inverse, and a bordered boundary system treats the moving hard
+condition target.  The companion
+information-induced-geometry paper studies exact visible metric completion
+\cite{li2026informationinducedgeometry}.  The present work is
+self-contained at the path-space level and does not depend on the subsequent
+causal optimizer calculus.
+
+\paragraph{Organization.}
+\Cref{sec:related} positions the results relative to optimal control,
+parametric optimization, SPD geometry, and interaction decompositions.
+\Cref{sec:spd-rdgc} defines the affine-invariant optimization target.
+\Cref{sec:path-reduction} develops path elimination and global response.
+\Cref{sec:diagonal-model} gives the exact diagonal realization, and
+\cref{sec:verification,sec:discussion} record verification and scope.
+

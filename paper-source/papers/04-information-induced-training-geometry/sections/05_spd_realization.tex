@@ -1,0 +1,209 @@
+\section{SPD Information Compression and Canonical Completion}
+\label{sec:spd-realization}
+
+Let \(A\in\R^{d\times m}\) have full column rank.  The associated information
+compression is
+\begin{equation}
+  \pi_A:\SPD^d\to\SPD^m,
+  \qquad
+  \pi_A(P)=A^\top P A.
+  \label{eq:spd-compression}
+\end{equation}
+For \(R,S\in\SPD^m\), write
+\begin{equation}
+  R\#_tS
+  =R^{1/2}(R^{-1/2}SR^{-1/2})^tR^{1/2},
+  \qquad 0\le t\le1,
+  \label{eq:airm-geodesic}
+\end{equation}
+for AIRM geodesic interpolation.
+For a reference \(P_0\in\SPD^d\), write
+\[
+  R_0=A^\top P_0A,
+  \qquad
+  U_0=P_0^{1/2}AR_0^{-1/2},
+  \qquad U_0^\top U_0=I_m.
+\]
+For \(R\in\SPD^m\), define
+\begin{align}
+  \Psi_{P_0,A}(R)
+  &=P_0^{1/2}
+  \left[I+U_0(R_0^{-1/2}RR_0^{-1/2}-I)U_0^\top\right]
+  P_0^{1/2}
+  \nonumber\\
+  &=P_0+P_0AR_0^{-1}(R-R_0)R_0^{-1}A^\top P_0.
+  \label{eq:canonical-completion}
+\end{align}
+This expression is invariant under the visible coordinate change
+\((A,R)\mapsto(AB,B^\top RB)\), \(B\in GL(m)\).
+
+\begin{proposition}[A reference is necessary]
+\label{prop:reference-necessary}
+Let \(W\subsetneq E\) and \(R\in\SPD(W)\).  There is no rule depending only
+on \((W,R)\) that selects a full \(P\in\SPD(E)\), restricts to \(R\) on
+\(W\), and is invariant under every linear automorphism of \(E\) that fixes
+\(W\) pointwise.  Canonical ambient completion therefore requires additional
+structure such as \(P_0\).
+\end{proposition}
+
+\begin{theorem}[Complete SPD information-compression theorem]
+\label{thm:spd-compression}
+The map \(\pi_A\) and the section \(\Psi_{P_0,A}\) satisfy the following.
+\begin{enumerate}[label=(\Alph*),leftmargin=*]
+  \item \emph{Contraction and submetry.}  For all \(P,Q\in\SPD^d\),
+  \begin{equation}
+    \dai(A^\top PA,A^\top QA)\le\dai(P,Q),
+    \label{eq:spd-contraction}
+  \end{equation}
+  and for every \(r\ge0\),
+  \begin{equation}
+    \pi_A(\overline B_{\AI}(P_0,r))
+    =\overline B_{\AI}(R_0,r).
+    \label{eq:spd-ball-submetry}
+  \end{equation}
+  \item \emph{Unique canonical completion.}  For every \(R\in\SPD^m\),
+  \begin{equation}
+    \boxed{
+    \Psi_{P_0,A}(R)
+    =\argminop_{A^\top PA=R}\dai(P_0,P),
+    \qquad
+    \dai(P_0,\Psi_{P_0,A}(R))=\dai(R_0,R).}
+    \label{eq:spd-shortest-completion}
+  \end{equation}
+  The minimizer is unique.
+  \item \emph{Horizontal geometry.}  The section \(\Psi_{P_0,A}\) is an
+  isometric totally geodesic embedding.  The map \(\pi_A\) is a Riemannian
+  submersion; at \(P\), the inverse of
+  \(D\pi_A(P)|_{\mathcal H_P}\) is
+  \begin{equation}
+    h\longmapsto D\Psi_{P,A}(A^\top PA)[h].
+    \label{eq:spd-horizontal-lift}
+  \end{equation}
+  Hence \(\pi_A\) is split-Hadamard and visible AIRM geodesics have unique
+  horizontal ambient lifts.
+  \item \emph{Invisible-fiber minimax geometry.}  If \(m<d\), the fiber
+  \(\mathcal F_A(R)=\{P:A^\top PA=R\}\) has infinite AIRM diameter.  With
+  \(P_\star=\Psi_{P_0,A}(R)\) and
+  \[
+    \mathcal F_A(R;B)
+    =\mathcal F_A(R)\cap\overline B_{\AI}(P_\star,B),
+  \]
+  one has
+  \begin{equation}
+    \inf_{Q\in\SPD^d}\sup_{P\in\mathcal F_A(R;B)}\dai(Q,P)=B,
+    \label{eq:spd-minimax}
+  \end{equation}
+  and \(P_\star\) is the unique minimax center.
+  \item \emph{Exact radial decision reduction.}  Let \(\mathcal A\) be any
+  family of admissible \((P_0,A)\), let \(m(A)\) denote the number of columns
+  of \(A\), allowing different visible dimensions,
+  let \(\rho\) be nondecreasing, and let \(\varphi\) be any extended-real
+  visible functional.  Then
+  \begin{align}
+    &\inf_{\substack{(P_0,A)\in\mathcal A\\P\in\SPD^d}}
+    \left\{\rho(\dai(P_0,P))+\varphi(P_0,A,A^\top PA)\right\}
+    \nonumber\\
+    &\quad=
+    \inf_{\substack{(P_0,A)\in\mathcal A\\R\in\SPD^{m(A)}}}
+    \left\{\rho(\dai(A^\top P_0A,R))+\varphi(P_0,A,R)\right\}.
+    \label{eq:spd-decision-reduction}
+  \end{align}
+  Every reduced minimizer has the canonical full lift
+  \(P=\Psi_{P_0,A}(R)\).  If \(\rho\) is strictly increasing on its finite
+  domain, every finite-valued full minimizer is canonical.
+\end{enumerate}
+\end{theorem}
+
+The closed form requires no constrained SPD optimization.  A stable
+implementation forms \(R_0=A^\top P_0A\), uses Cholesky or symmetric solves
+instead of explicit inverses, and applies the resulting rank-\(m\) update in
+\eqref{eq:canonical-completion}.  Dense assembly costs
+\(O(d^2m+dm^2+m^3)\), while a low-rank representation avoids materializing
+the full update.  Numerical sensitivity is governed by the conditioning of
+\(R_0\); recovery of the descriptor subspace additionally becomes ill
+conditioned as an eigenvalue of the normalized target approaches the
+reference value one, as quantified in \eqref{eq:stratified-conditioning}.
+
+The set \(\mathcal F_A(R;B)\) is a local AIRM ambiguity model centered at
+the reference-selected completion \(P_\star\).  Thus
+\eqref{eq:spd-minimax} is a radius-conditioned nonidentifiability statement:
+it does not define a reference-free uncertainty set or a reference-free
+minimax center.
+
+\begin{corollary}[Visible update quotient and invisible drift]
+\label{cor:visible-update}
+Let \(\alpha=Ac\ne0\) be a visible covector and let
+\(u_P=-P\alpha\).  For every \(P\) satisfying \(A^\top PA=R\),
+\begin{equation}
+  A^\top u_P=-Rc.
+  \label{eq:visible-update-quotient}
+\end{equation}
+Thus the class of the update modulo \(\ker A^\top\) is fixed.  Conversely,
+for every \(n\in\ker A^\top\), there exists a feasible \(P\) such that
+\begin{equation}
+  u_P=u_{\Psi_{P_0,A}(R)}+n.
+  \label{eq:arbitrary-invisible-drift}
+\end{equation}
+The canonical completion is the unique AIRM-nearest representative and has no
+invisible component in the \(P_0\)-orthogonal splitting.
+\end{corollary}
+
+\begin{remark}[What is selected]
+The visible target \(R\) is an input to the theorem.  The result selects the
+least AIRM deformation of \(P_0\) compatible with that target.  It does not
+assert that a first-order oracle uniquely determines \(R\), nor that the
+reference \(P_0\) is reference-free.
+\end{remark}
+
+The same completion also has an information-theoretic characterization.
+For Gaussians it can equivalently be read from the KL chain rule as retaining
+the reference conditional law on invisible coordinates.  We include it as a
+consequence and alternate characterization of the AIRM completion, rather
+than as an independent divergence-projection novelty claim.
+
+\begin{corollary}[Gaussian KL completion]
+\label{cor:gaussian-kl}
+Viewing \(P\) as the covariance of a zero-mean Gaussian, the problem
+\begin{equation}
+  \min_{A^\top PA=R}
+  D_{\mathrm{KL}}\!\left(N(0,P)\,\|\,N(0,P_0)\right)
+  \label{eq:gaussian-kl-problem}
+\end{equation}
+has the unique minimizer \(\Psi_{P_0,A}(R)\).
+\end{corollary}
+
+For a fixed information channel, exact decision reduction yields an explicit
+regularized update.  Let \(R_0=A^\top P_0A\), let \(\Rhat\in\SPD^m\) be a
+positive data-visible target, and let \(0<\tau<1\).
+
+\begin{corollary}[Prior--data geodesic completion]
+\label{cor:prior-data}
+The full-SPD objective
+\begin{equation}
+  (1-\tau)\dai(P_0,P)^2
+  +\tau\dai(A^\top PA,\Rhat)^2
+  \label{eq:prior-data-objective}
+\end{equation}
+has the unique minimizer
+\begin{equation}
+  \boxed{
+  P_\tau=\Psi_{P_0,A}(R_0\#_\tau\Rhat).}
+  \label{eq:prior-data-solution}
+\end{equation}
+If \(D=\dai(R_0,\Rhat)\), then
+\[
+  \dai(P_0,P_\tau)=\tau D,
+  \qquad
+  \dai(A^\top P_\tau A,\Rhat)=(1-\tau)D,
+\]
+and the minimum objective value is \(\tau(1-\tau)D^2\).  Perturbing the
+visible target from \(R_1\) to \(R_2\) changes the completed solution by at
+most \(\tau\dai(R_1,R_2)\).
+\end{corollary}
+
+The proofs of
+\cref{prop:reference-necessary,thm:spd-compression,cor:visible-update,cor:gaussian-kl,cor:prior-data}
+are in
+\cref{app:spd-proofs}.  Their common mechanism is that orthogonal compression
+contracts the whitened Frobenius norm, while the section
+\eqref{eq:canonical-completion} attains equality.

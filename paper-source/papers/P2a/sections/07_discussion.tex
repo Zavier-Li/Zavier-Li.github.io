@@ -1,0 +1,40 @@
+\section{Discussion}
+\label{sec:discussion}
+
+The results separate four logical layers of restricted metric optimization.
+Path concatenation gives the exact min-plus semigroup.  Tonelli assumptions
+give minimizers.  A compact-control representation supplies the conditional
+Hamilton--Jacobi layer.  Smooth nondegeneracy gives the Jacobi inverse and its
+Schur-complement response.  In the Hadamard mechanical model, nonpositive
+curvature and convex potentials derive that nondegeneracy globally on an
+entire neighborhood of the intervention cube.
+
+The fixed-horizon energy gauge is essential.  It removes the
+reparameterization zero mode of length while preserving the RDGC minimizer and
+fixes the action value at \(D_{K,\F}^2/(2T)\).  The resulting Green operator
+handles bulk and terminal Robin forcing in one system, generates the value
+Hessian with exact spectral and rank information, and recursively determines
+every prescribed finite interaction order under corresponding regularity.
+When the condition target itself moves, the
+bordered Jacobi--KKT operator adds the active boundary and its multiplier to
+the same response calculation.  This supplies a classical hard-RDGC response
+on each regular active spectral stratum.
+
+The strongest statements are finite-dimensional and deterministic.  A
+nonlinear training problem requires a separate realization theorem connecting
+optimizer state, damping, bias correction, and interpolation to an admissible
+metric path.  Eigenvalue collisions, nonsmooth active-set changes, rank
+changes, multiple minimizers, and loss of Jacobi coercivity require stratified
+or generalized response theory.  These boundaries delimit the classical
+derivatives proved here.
+
+In summary, RDGC is a genuine path-space value: its global elimination law is
+Bellman composition, its smooth local response is a Jacobi Schur complement,
+and its finite intervention effects are exact integrals of a Green or bordered
+Green kernel.  The closed-form diagonal model demonstrates the unconstrained
+layers within a restricted preconditioning geometry.  Its moving-Hessian
+specialization additionally gives the hard spectral endpoint, multiplier, and
+both possible pair-interaction signs in closed form.  The coordinate-sequential
+three-dimensional example shows separately that an update protocol can make
+RDGC strictly exceed the ambient static projection benchmark.
+

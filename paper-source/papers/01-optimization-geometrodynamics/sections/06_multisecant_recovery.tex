@@ -1,0 +1,138 @@
+\section{Canonical Multi-Secant Recovery}
+\label{sec:multisecant-recovery}
+
+The posterior-certified exact solver computes one canonical action projection.  Nested action
+fibers turn those projections into a finite inverse-shape recovery law.  Let
+\(H\in\SPD^d\) be a fixed quadratic Hessian and define its determinant-one
+inverse shape
+\begin{equation}
+  P_\star=c_HH^{-1},
+  \qquad c_H=(\det H)^{1/d}.
+  \label{eq:inverse-shape}
+\end{equation}
+The scalar \(c_H\) is assumed known, or supplied by an independent scalar
+gauge.  This information requirement is part of the theorem.
+
+Let \(S^{(1)},\ldots,S^{(K)}\) have strictly nested column spaces, delete
+dependent columns, and write \(r_k=\rank S^{(k)}\).  Define the cumulative
+shape-normalized actions
+\begin{equation}
+  A_k=HS^{(k)},
+  \qquad B_k=c_HS^{(k)},
+  \qquad
+  \mathscr C_k=\{P\in\Pdet:PA_k=B_k\}.
+  \label{eq:nested-action-fibers}
+\end{equation}
+Then \(P_\star\in\mathscr C_k\) and
+\(\mathscr C_{k+1}\subset\mathscr C_k\).  Starting from any
+\(P_0\in\Pdet\), define
+\begin{equation}
+  P_k=\argminop_{P\in\mathscr C_k}\dai(P_{k-1},P).
+  \label{eq:canonical-multisecant-update}
+\end{equation}
+
+\begin{theorem}[Nested canonical multi-secant identification]
+\label{thm:nested-multisecant}
+For the exact outer projections in \eqref{eq:canonical-multisecant-update},
+every update exists uniquely and
+preserves all earlier cumulative secants.  For every \(k\),
+\begin{equation}
+  \boxed{
+  \dai(P_k,P_\star)^2+
+  \dai(P_{k-1},P_k)^2
+  \le\dai(P_{k-1},P_\star)^2.}
+  \label{eq:multisecant-pythagorean}
+\end{equation}
+Consequently,
+\begin{align}
+  \sum_{j=1}^k\dai(P_{j-1},P_j)^2
+  &\le\dai(P_0,P_\star)^2-
+       \dai(P_k,P_\star)^2,
+  \label{eq:multisecant-energy}\\
+  \sum_{j=1}^k\dai(P_{j-1},P_j)
+  &\le\sqrt{k}\,\dai(P_0,P_\star).
+  \label{eq:multisecant-length}
+\end{align}
+The determinant-one identification threshold is sharp:
+\begin{equation}
+  r_K=d-1\quad\Longrightarrow\quad P_K=P_\star,
+  \label{eq:sharp-identification-sufficiency}
+\end{equation}
+whereas any cumulative rank \(r\le d-2\) leaves infinitely many feasible
+determinant-one SPD completions.  If each pre-final round contributes exactly
+\(b\) new independent probe directions and the final round contributes the
+remainder, exact recovery occurs after
+\begin{equation}
+  K=\left\lceil\frac{d-1}{b}\right\rceil
+  \label{eq:block-identification-rounds}
+\end{equation}
+rounds.  Each exact outer projection reduces by AIRM congruence to the
+identity-reference problem in \cref{thm:certified-action-solver}; the inner
+iteration converges globally to it and supplies a residual certificate for a
+finite approximation.
+\end{theorem}
+
+The outer decrease remains quantitative when each projection is stopped after
+finitely many certified inner iterations.  Set \(\widetilde P_0=P_0\).  At
+round \(k\), let
+\[
+  Q_k=\operatorname{Proj}_{\mathscr C_k}(\widetilde P_{k-1})
+\]
+be the exact projection used only for analysis, and let
+\(\widetilde P_k\in\mathscr C_k\) be the feasible inner output.  This theorem
+uses the exact-feasibility model: action-chart inner iterates lie in
+\(\mathscr C_k\) in exact arithmetic.  Floating-point feasibility error is a
+separate perturbation and is not included in \(\varepsilon_k\).
+
+\begin{theorem}[Residual-controlled finite inner projections]
+\label{thm:approximate-multisecant}
+Suppose a posterior inner certificate gives
+\begin{equation}
+  \dai(\widetilde P_k,Q_k)\le\varepsilon_k.
+  \label{eq:inner-projection-certificate}
+\end{equation}
+Then, with \(D_k=\dai(\widetilde P_k,P_\star)\),
+\begin{align}
+  &\dai(\widetilde P_{k-1},\widetilde P_k)^2+D_k^2
+  \nonumber\\
+  &\qquad\le D_{k-1}^2
+  +2\sqrt2\,\varepsilon_kD_{k-1}+2\varepsilon_k^2,
+  \label{eq:approximate-multisecant-pythagorean}\\
+  D_k&\le D_{k-1}+\varepsilon_k
+  \le D_0+\sum_{j=1}^k\varepsilon_j.
+  \label{eq:approximate-multisecant-distance}
+\end{align}
+Consequently,
+\begin{equation}
+  \sum_{j=1}^k
+  \dai(\widetilde P_{j-1},\widetilde P_j)^2
+  \le D_0^2-D_k^2
+  +\sum_{j=1}^k
+   \left(2\sqrt2\,\varepsilon_jD_{j-1}+2\varepsilon_j^2\right).
+  \label{eq:approximate-multisecant-energy}
+\end{equation}
+All earlier cumulative actions remain exact because
+\(\widetilde P_k\in\mathscr C_k\subseteq\mathscr C_j\) for \(j<k\).
+After congruence to the identity-reference inner problem,
+\cref{eq:solver-distance-certificate} permits the observable choice
+\(\varepsilon_k=\fro{W_{B,k}(\widetilde\Sigma_k)}\); under the residual-oracle
+model, \cref{eq:inexact-certificates} supplies the corresponding enlarged
+bound.  If \(r_K=d-1\), then \(\mathscr C_K=\{P_\star\}\), so every feasible
+inner output at the final round equals \(P_\star\) exactly.
+\end{theorem}
+
+The known scalar gauge cannot be dropped.  Ordinary Hessian-vector secants in
+\(d-1\) directions do not determine the inverse shape.  In dimension two,
+\[
+  H_t=\operatorname{diag}(1,t),\qquad s=e_1
+\]
+gives the same observation \(H_ts=e_1\) for every \(t>0\), while
+\[
+  (\det H_t)^{1/2}H_t^{-1}
+  =\operatorname{diag}(\sqrt t,1/\sqrt t)
+\]
+varies with \(t\).  Thus \eqref{eq:sharp-identification-sufficiency} is a
+sharp theorem for shape-normalized exact actions, rather than a claim of
+scale-free identification from ordinary secants.  Acquisition of \(c_H\) is
+external to the action oracle and is not claimed to be cheaper than an
+additional probe.

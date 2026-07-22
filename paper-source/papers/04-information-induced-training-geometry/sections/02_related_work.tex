@@ -1,0 +1,135 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{SPD geometry and matrix completion.}
+The affine-invariant geometry of positive matrices is classical
+\citep{bhatia2007positive,pennec2006riemannian}.  Positive definite and
+covariance completion usually infer missing matrix entries from sparsity or
+graph constraints \citep{dempster1972covariance,grone1984positive}.  Here the
+known object is the compression \(A^\top P A\), and the missing object is the
+entire positive-definite fiber.  The selected completion is defined by AIRM
+distance to a reference and is characterized globally as a horizontal
+section of a metric submetry.
+
+Best approximation under AIRM has been studied for geodesically convex,
+unitarily invariant subsets through logarithmic and spectral reductions
+\citep{bhatia2014approximation}, and for Riemannian geodesic submanifolds
+\citep{lim2004best}.  Totally geodesic AIRM submanifolds and their
+nearest-point projections have also been characterized directly inside the SPD
+manifold \citep{tumpach2024totally}.  Our information sheet is a particular
+congruence-transformed block submanifold of that kind.  The additional object
+here is the transverse affine-compression fiber: we identify its unique
+nearest point to every reference, prove that the compression is a metric
+submetry, and derive universal radial-visible reduction.  Thus total geodesy
+supports the construction but does not by itself supply the fiber-completion
+or variational statements.
+
+The distinction can be stated theorem by theorem.  Existing AIRM
+approximation results supply general uniqueness or explicit projections for
+specified convex or totally geodesic target sets.  In
+\cref{thm:spd-compression}, the constrained set is instead the generally
+noncompact fiber \(\{P:A^\top PA=R\}\).  Contraction of the compression gives
+the lower bound, while a transverse block section attains it for every target.
+The new package is the equality-attaining unique fiber lift, its coherent
+horizontal foliation and submetry consequences, followed by the
+moving-channel pullback metric of \cref{thm:stratified-line-element}.  We use
+the classical approximation and totally geodesic theories as inputs to this
+positioning, rather than claiming that AIRM nearest-point uniqueness by itself
+is new.
+
+Quotient geometries for fixed-rank positive-semidefinite matrices have also
+been developed for matrix means and optimization
+\citep{bonnabel2010fixedrank,vandereycken2013fixedrank,massart2020quotient}.
+Those manifolds parameterize a rank-\(m\) PSD matrix.  Our stratum instead
+fixes the rank of the displacement \(P-P_0\), which may be indefinite while
+\(P\) remains positive definite, and its line element is the pullback of the
+ambient AIRM at \(P_0+(P-P_0)\).  The resulting mismatch weight
+\(R+R^{-1}-2I\) and its reference-valued rotation kernel are specific to this
+completion geometry.
+Viewed only as a set, each fixed-inertia component of this displacement
+stratum is an open part of the standard fixed-rank symmetric matrix manifold.
+The contribution is therefore not the existence of that manifold alone; it is
+the global completion-descriptor diffeomorphism and the ambient-AIRM pullback,
+whose mismatch weight and reference-valued rotation kernel do not arise from
+the usual Euclidean fixed-rank metric.
+
+\paragraph{Riemannian submersions and submetries.}
+The differential geometry of Riemannian submersions starts from the
+horizontal--vertical equations of O'Neill \citep{oneill1966submersion}.
+Metric submetries provide the corresponding ball-surjectivity language;
+Berestovskii and Guijarro \citep{berestovskii2000metric} characterize
+Riemannian submersions through this metric property, and Guijarro and
+Walschap \citep{guijarro2011submetries} delineate when submetries recover
+smooth submersions.  Our abstract theorem uses this
+classical metric structure and adds a variational characterization: exact
+fiber distance is equivalent to lossless reduction for every monotone radial
+visible objective.  The split-Hadamard result imposes global integrable
+horizontal geometry to obtain coherent shortest sections, while the SPD
+compression theorem verifies this structure and resolves the section in
+closed form.
+
+\paragraph{Information geometry and natural gradient.}
+Natural gradient equips statistical model space with Fisher geometry
+\citep{amari1998natural}.  Structured Fisher and Gauss--Newton approximations
+motivate K-FAC, EK-FAC, and related methods
+\citep{martens2015kfac,george2018ekfac,martens2020natural}; limitations of
+identifying Fisher and Hessian geometry are discussed by Kunstner, Balles,
+and Hennig \citep{kunstner2019limitations}.  Mirror descent also admits an
+information-geometric interpretation \citep{raskutti2015information}.  Our
+focus is the observation layer beneath a chosen training geometry: which
+cotangent information is visible, which ambient completions are compatible,
+and which completion is selected by a reference.
+
+Sufficient statistics contract information-geometric tensors and preserve
+them under stronger sufficiency conditions \citep{ay2015sufficient}.  That
+work concerns statistical models and Fisher-type tensors.  Here the declared
+object is a finite-dimensional positive cometric, the observation is the
+linear compression \(A^\top PA\), and the main question is its
+reference-dependent AIRM completion.  Statistical sufficiency motivates the
+visibility language, while the completion and moving-channel line element
+address a different geometric problem.
+The AIRM covariance factor is also the Fisher geometry of the multivariate
+normal family up to convention-dependent scaling
+\citep{lovric2000multivariate}; this explains the Gaussian interpretation but
+does not determine the reference-relative completion of an arbitrary declared
+visible cometric.
+
+\paragraph{Metric learning and relative-entropy projections.}
+Information-theoretic metric learning uses LogDet or relative-entropy
+projections under supervised constraints \citep{davis2007information}.  Our
+Gaussian KL consequence is related, but the main object is the full fiber of
+an information compression.  The metric-submetry theorem explains when every
+radial visible decision, not only a particular divergence projection, reduces
+without loss.  Classical information projections minimize divergence under
+linear or convex constraints
+\citep{csiszar1975idivergence,csiszar2003projections}.  Our Gaussian KL
+corollary is a finite-dimensional instance with a closed-form fiber
+projection; the AIRM shortest-completion and stratified line-element claims
+are separate from the divergence-projection theory.
+
+\paragraph{Adaptive and structured preconditioning.}
+AdaGrad, Adam, Shampoo, and related methods impose diagonal, block, matrix, or
+tensor structure on positive preconditioners
+\citep{duchi2011adagrad,kingma2014adam,gupta2018shampoo,morwani2024shampoo}.
+Optimal diagonal preconditioning and matrix-scaling viewpoints study related
+coordinate restrictions \citep{qu2025optimaldiagonal}.  We formulate a
+different certificate: whether a structured positive family can realize a
+declared visible target.  The answer is a relative-interior condition in a
+linear conic image, which distinguishes strict representability, boundary
+failure, and closed-cone infeasibility.
+
+\paragraph{Convex certificates.}
+The structured certificates use finite-dimensional convex separation,
+relative interiors, and semidefinite images
+\citep{rockafellar1970convex,vandenberghe1996semidefinite,boyd2004convex}.
+These tools enter only after the full-SPD information map has been resolved;
+they quantify what is lost when the completion is restricted to an
+implementable optimizer family.
+
+\paragraph{Subspace perturbation and matrix concentration.}
+When the visible subspace is estimated from a covariance or Gram matrix, its
+recovery requires an eigengap and a principal-angle perturbation bound
+\citep{yu2015davis}.  Covariance concentration then controls the ambient
+operator error \citep{tropp2015matrix}.  We combine these ingredients with
+the exact stratified line element to obtain a completed-geometry error bound
+that separates visible SPD error from subspace rotation.

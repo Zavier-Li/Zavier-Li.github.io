@@ -1,0 +1,233 @@
+\section{Restricted Metric Paths in Affine-Invariant Geometry}
+\label{sec:spd-rdgc}
+
+We now specialize the path system to positive-definite metrics and make the
+terminal optimization problem explicit.  Let
+\[
+  f(\theta)=\frac12\theta^\top H\theta,
+  \qquad H\in\SPD^d,
+\]
+and let \(G\in\SPD^d\) be a positive metric.  In Hessian-relative
+coordinates,
+\[
+  S=H^{-1/2}GH^{-1/2}.
+\]
+The Hessian-relative condition ratio is
+\[
+  \kappa_{\rm gen}(H,G)
+  :=\frac{\lambda_{\max}(G^{-1/2}HG^{-1/2})}
+  {\lambda_{\min}(G^{-1/2}HG^{-1/2})}
+  =\kappa(S).
+\]
+Whenever the shorthand \(\kappa(G^{-1}H)\) appears, it denotes this ratio of
+positive generalized eigenvalues, never the Euclidean singular-value
+condition number of the generally nonnormal product \(G^{-1}H\).
+The affine-invariant metric and distance are
+\[
+  \norm{Z}_{S,\AI}
+  =\fro{S^{-1/2}ZS^{-1/2}},
+  \qquad
+  d_{\AI}(S_0,S_1)
+  =\fro{\log(S_0^{-1/2}S_1S_0^{-1/2})}.
+\]
+The cone \(\SPD^d\) is a finite-dimensional Hadamard manifold
+\cite{bhatia2007positive,pennec2006riemannian}.
+
+For \(K\ge1\), define the condition target
+\[
+  \Ck=\{S\in\SPD^d:\kappa(S)\le K\}.
+\]
+The unrestricted distance to this target has a one-dimensional spectral
+formula.
+
+\begin{theorem}[Full-SPD spectral benchmark]
+\label{thm:full-spd-benchmark}
+Let \(y_1\le\cdots\le y_d\) be the ordered log-eigenvalues of
+\(S_0\in\SPD^d\).  Then
+\[
+  D_K(S_0)
+  :=d_{\AI}(S_0,\Ck)
+  =
+  \min_{c\in\R}
+  \left(
+  \sum_{i=1}^d\dist(y_i,[c,c+\log K])^2
+  \right)^{1/2}.
+\]
+\end{theorem}
+
+Let \(\F\subset\SPD^d\) be an admissible family and set
+\[
+  \mathcal S_\F(H)
+  =
+  \{H^{-1/2}GH^{-1/2}:G\in\F\}.
+\]
+A realization includes a path-connected component, a treatment of scale
+freedom, an admissible absolutely continuous path class, and its induced or
+quotient affine-invariant length.
+
+\begin{definition}[Restricted dynamic geometric complexity]
+\label{def:restricted-complexity}
+For \(G_0\in\F\) and \(S_0=H^{-1/2}G_0H^{-1/2}\), define
+\[
+\begin{aligned}
+  D_{K,\F}(S_0;H)
+  =
+  \inf\{&\Len_{\AI}(S_{[0,T]}):
+  S(0)=S_0,\ S(T)\in\Ck,\\
+  &S_t\in\mathcal S_\F(H),
+  \ S_{[0,T]}\text{ admissible}\}.
+\end{aligned}
+\]
+The value is \(+\infty\) if the relative target is empty or belongs to a
+different admissible component.
+\end{definition}
+
+For a closed geodesically convex realization, RDGC is an ordinary Hadamard
+projection distance.  This fact connects the nonsmooth length problem to the
+fixed-horizon action used in the response theory.
+
+\begin{proposition}[Static RDGC projection]
+\label{prop:rdgc-target-projection}
+Suppose that \(\mathcal S_\F(H)\) is nonempty, closed, and geodesically
+convex and that
+\[
+  \mathcal T_{K,\F}(H)
+  =\mathcal S_\F(H)\cap\Ck
+\]
+is nonempty.  Then \(S_0\) has a unique projection
+\(P_{K,\F}(S_0;H)\) onto \(\mathcal T_{K,\F}(H)\), and
+\[
+  D_{K,\F}(S_0;H)
+  =
+  d_{\AI}\bigl(S_0,P_{K,\F}(S_0;H)\bigr).
+\]
+For quadratic kinetic action with terminal indicator of
+\(\mathcal T_{K,\F}(H)\), the value at time \(t<T\) is
+\[
+  V(t,S)=
+  \frac{d_{\AI}(S,\mathcal T_{K,\F}(H))^2}{2(T-t)}.
+\]
+The minimizing path is the unique constant-speed geodesic to the projection.
+\end{proposition}
+
+The projection reduction is a benchmark for unrestricted curves in a closed
+geodesically convex realization.  It does not apply when the update protocol
+restricts admissible velocities or excludes the ambient geodesic.  The exact
+coordinate-sequential model in \cref{prop:sequential-diagonal-rdgc} gives a
+structured example whose RDGC strictly exceeds this ambient benchmark.
+
+The convex potentials required by the global response theorem arise
+naturally from relative spectra.  For \(H_a\in\SPD^d\) and a convex
+permutation-invariant function \(\phi_a:\R^d\to\R\), write
+\[
+  \Omega_a(G)
+  =
+  \phi_a\!\left(
+  \log\lambda(G^{-1/2}H_aG^{-1/2})
+  \right).
+\]
+
+\begin{proposition}[Geodesically convex spectral information]
+\label{prop:spd-spectral-convexity}
+Let \(\F\subset\SPD^d\) be nonempty, closed, and geodesically convex.  If
+\(\rho:\R^q\to\R\) is convex and nondecreasing in every coordinate, then
+\[
+  \mathcal J(G)=\rho(\Omega_1(G),\ldots,\Omega_q(G))
+\]
+is closed and geodesically convex on \(\F\).  If every
+\(\phi_a(x+c\mathbf1)=\phi_a(x)\), then
+\(\mathcal J(cG)=\mathcal J(G)\).
+In particular,
+\[
+  \phi_{\rm osc}(x)=\max_i x_i-\min_i x_i
+\]
+generates \(\mathcal J_H(G)=\log\kappa_{\rm gen}(H,G)\).  Smooth spectral
+approximations retain geodesic convexity.
+\end{proposition}
+
+Combining this construction with the global path theorem gives the exact SPD
+interaction law used below.
+
+\begin{corollary}[SPD--AIRM M\"obius--Jacobi specialization]
+\label{cor:spd-mobius-jacobi}
+Let \(\mathcal N\) be \(\SPD^d\), or a structured AIRM realization that is
+a complete simply connected totally geodesic manifold.  Let the bulk and
+terminal potentials in \cref{thm:global-mobius-jacobi} be smooth
+geodesically convex spectral information potentials satisfying its
+regularity assumptions.  Then the conclusions of that theorem hold with
+\[
+  J_u\xi
+  =-D_t^2\xi-R^{\AI}(\xi,\dot G_u)\dot G_u
+  +\operatorname{Hess}^{\AI}W_u\,\xi,
+\]
+and
+\[
+  -\ip{R^{\AI}(\xi,\dot G_u)\dot G_u}{\xi}_{G_u}\ge0.
+\]
+In particular, the pair effect is
+\[
+  \boxed{
+  \zeta_{\{i,j\}}
+  =-\int_{[0,1]^2}
+  \left\langle
+  D\Delta_i,\mathfrak J_u^{-1}D\Delta_j
+  \right\rangle\dd u_i\dd u_j.}
+\]
+Fixed smooth active strata are covered.  The nonsmooth condition-number width
+requires a generalized Jacobi inclusion at eigenvalue or active-index
+changes.
+\end{corollary}
+
+\begin{remark}[Structured families covered directly]
+The positive diagonal cone in a fixed basis and every fixed block-diagonal
+SPD cone are complete simply connected totally geodesic AIRM submanifolds;
+their geodesics, logarithms, and exponentials preserve the declared block
+structure.  The determinant-one diagonal family is the corresponding flat
+totally geodesic scale section.  Hence the corollaries above apply directly to
+these families.  Generic low-rank and Kronecker parameterizations require
+their own embedded or quotient geometry and are outside this direct
+totally-geodesic specialization.
+\end{remark}
+
+The hard condition target itself also has a classical response away from
+spectral collisions.  It is useful here to write
+\[
+  \kappa_{\rm gen}(H,G)
+  =\frac{\lambda_{\max}(G^{-1/2}HG^{-1/2})}
+  {\lambda_{\min}(G^{-1/2}HG^{-1/2})}.
+\]
+
+\begin{corollary}[Moving hard-condition target on a smooth spectral stratum]
+\label{cor:hard-condition-response}
+Let \(\F\) be a complete simply connected totally geodesic AIRM
+realization, fix \(G_0\in\F\), and let \(H_u\in\SPD^d\) and \(K_u>1\) vary
+smoothly.  Define
+\[
+  c_u(G)=\log\kappa_{\rm gen}(H_u,G)-\log K_u,
+  \qquad
+  \mathcal T_u=\{G\in\F:c_u(G)\le0\}.
+\]
+Suppose that \(G_0\notin\mathcal T_{u_0}\), that the largest and smallest
+generalized eigenvalues of \((H_{u_0},q_0)\) are simple at the AIRM projection
+\(q_0=P_{\mathcal T_{u_0}}G_0\), and that
+\(\dd(c_{u_0}|_{\F})(q_0)\ne0\).  Then, locally in \(u\), the projection
+endpoint \(q_u\), its constant-speed geodesic \(\gamma_u\), and its positive
+terminal multiplier are smooth.  Moreover,
+\[
+  \mathcal V_{\rm hard}(u)
+  =\frac{d_{\AI}(G_0,\mathcal T_u)^2}{2T}
+\]
+satisfies \textup{(HT4)}--\textup{(HT5)} with
+\(\mathfrak J_u\) equal to the kinetic index form plus
+\(\lambda_u\operatorname{Hess}^{\AI}(c_u|_{\F})\) at the endpoint.
+If the active defining function is affine in the intervention coordinates on
+a Boolean face, and the same active spectral stratum, simple extreme
+eigenvalues, LICQ, positive multiplier, and bordered invertibility persist on
+that entire face, \textup{(HT6)} gives its exact hard-RDGC interaction.
+
+Thus the response differentiates the moving hard-target projection itself.
+The conclusion ends precisely when an extreme generalized eigenvalue loses
+simplicity, the restricted boundary loses regularity, strict complementarity
+fails, or the active stratum changes.
+\end{corollary}
+

@@ -1,0 +1,273 @@
+\section{Proof of the Projection--Information--Decision Theorem}
+\label{app:deep-theory}
+
+\subsection{Projection, duality, stability, and nesting}
+
+Because $\mathcal M$ is nonempty, closed, and convex in finite dimension, the
+strictly convex coercive function
+$m\mapsto\frac12\norm{y-m}_{V^{-1}}^2$ has a unique minimizer
+$\widehat m$.  Its first-order variational inequality is
+\begin{equation}
+(y-\widehat m)^\top V^{-1}(m-\widehat m)\le0
+\qquad\forall m\in\mathcal M.
+\label{eq:projection-variational-inequality}
+\end{equation}
+
+For arbitrary $q$ and $m$, weighted Young's inequality gives
+\[
+q^\top(y-m)-\frac12q^\top Vq
+\le\frac12\norm{y-m}_{V^{-1}}^2.
+\]
+Taking the infimum over $m\in\mathcal M$ yields
+\[
+q^\top y-\sigma_{\mathcal M}(q)-\frac12q^\top Vq
+\le\frac12\delta_{\mathcal M}(y)^2.
+\]
+Set $q^\star=V^{-1}(y-\widehat m)$.  By
+\cref{eq:projection-variational-inequality},
+$(q^\star)^\top m\le(q^\star)^\top\widehat m$ for all $m\in\mathcal M$;
+hence
+$\sigma_{\mathcal M}(q^\star)=(q^\star)^\top\widehat m$.  Substitution gives
+equality and proves \cref{eq:master-projection-dual}.
+
+The distance stability follows from the triangle inequality.  For any
+$m\in\mathcal M$,
+\[
+\delta_{\mathcal M}(y)
+\le\norm{y-y'}_{V^{-1}}+\norm{y'-m}_{V^{-1}}.
+\]
+Taking the infimum over $m$ and exchanging $y,y'$ proves the one-Lipschitz
+bound.  If $\mathcal M_1\subseteq\mathcal M_2$, the infimum defining distance
+is taken over a larger set for $\mathcal M_2$, proving nesting monotonicity.
+
+\subsection{Observational quotient and exact minimax risk}
+
+In the model $Y=Az+\varepsilon$ with common covariance $V$, two Gaussian laws
+are equal exactly when their means agree.  Therefore
+\[
+P_z=P_{z'}
+\Longleftrightarrow A(z-z')=0
+\Longleftrightarrow z-z'\in K.
+\]
+Every coset has one orthogonal representative in $K^\perp$.
+
+For $z\in K^\perp$, $\mathcal I^\dagger\mathcal I z=z$, and
+\[
+\widehat z-z
+=\mathcal I^\dagger A^\ast V^{-1}\varepsilon.
+\]
+Its covariance is
+\begin{align*}
+\operatorname{Cov}(\widehat z-z)
+&=\mathcal I^\dagger A^\ast V^{-1}VV^{-1}A\mathcal I^\dagger\\
+&=\mathcal I^\dagger\mathcal I\mathcal I^\dagger
+=\mathcal I^\dagger.
+\end{align*}
+The risk is therefore $\tr(\mathcal I^\dagger)$ for every canonical $z$.
+
+For the matching lower bound, restrict the experiment to $K^\perp$, where
+$\mathcal I$ is positive definite, and use the Gaussian prior
+$z\sim N(0,\tau^2I)$.  The posterior covariance is
+\[
+C_\tau=(\tau^{-2}I+\mathcal I)^{-1}.
+\]
+The Bayes risk of the posterior mean is $\tr(C_\tau)$ and lower-bounds the
+minimax risk.  Letting $\tau\to\infty$ in the eigenvalue formula gives
+\[
+R_{\rm minimax}\ge\tr(\mathcal I^{-1}|_{K^\perp})
+=\tr(\mathcal I^\dagger).
+\]
+Generalized least squares attains the bound.
+
+Let $\eta=V^{-1/2}\varepsilon\sim N(0,I)$.  The whitened fitted-mean error is
+\[
+V^{-1/2}A(\widehat z-z)
+=\operatorname{Proj}_{\operatorname{range}(V^{-1/2}A)}\eta.
+\]
+Its squared norm is
+$(\widehat z-z)^\ast\mathcal I(\widehat z-z)$ and the projection has rank
+$r$, proving the exact $\chi_r^2$ confidence law.
+
+\subsection{Residualized block tests}
+
+Partition $A=[A_{-G}\ A_G]$ and set
+\[
+\widetilde A=V^{-1/2}A,
+\qquad
+\Pi_{-G}=\operatorname{Proj}_{\operatorname{range}(\widetilde A_{-G})},
+\qquad
+B_G=(I-\Pi_{-G})\widetilde A_G.
+\]
+The range of $B_G$ is orthogonal to the nuisance range.  For
+$\widetilde Y=V^{-1/2}Y$,
+\[
+\operatorname{Proj}_{\operatorname{range}(B_G)}\widetilde Y
+=B_Gz_G+
+\operatorname{Proj}_{\operatorname{range}(B_G)}\eta.
+\]
+Under $B_Gz_G=0$, the squared norm has a central chi-square law with
+$\rank B_G$ degrees of freedom.  Under the alternative it has a noncentral
+chi-square law with noncentrality $\norm{B_Gz_G}^2$.
+
+\subsection{Exact misspecification decomposition}
+
+Suppose the true mean is $Az+b$ with $z\in K^\perp$.  Substitution into GLS
+gives
+\[
+\widehat z-z
+=\mathcal I^\dagger A^\ast V^{-1}b
++\mathcal I^\dagger A^\ast V^{-1}\varepsilon
+=b_\parallel+\text{zero-mean noise}.
+\]
+The noise covariance remains $\mathcal I^\dagger$, so the cross term vanishes
+after expectation and
+\[
+\mathbb E\norm{\widehat z-z}^2
+=\norm{b_\parallel}^2+\tr(\mathcal I^\dagger).
+\]
+
+Let $\Pi_A$ project onto $\operatorname{range}(V^{-1/2}A)$.  Then
+\[
+(I-\Pi_A)V^{-1/2}Y
+=(I-\Pi_A)V^{-1/2}b+(I-\Pi_A)\eta.
+\]
+The projection has dimension $n-r$, and the deterministic shift has squared
+norm $\norm{b_\perp}^2$.  The displayed lack-of-fit statistic is therefore
+$\chi^2_{n-r}(\norm{b_\perp}^2)$.
+
+\subsection{Transfer and action selection}
+
+Let $r_y=y-\widehat m$.  Since
+$r_y=V^{1/2}(V^{-1/2}r_y)$,
+\[
+\norm{Lr_y}
+\le\opnorm{LV^{1/2}}\norm{V^{-1/2}r_y}
+=\opnorm{LV^{1/2}}\delta_{\mathcal M}(y).
+\]
+
+On the exact confidence event,
+\[
+(\widehat z-z)^\ast\mathcal I(\widehat z-z)
+\le\chi^2_{r,1-\delta}.
+\]
+For $\ell_\pi\in K^\perp=\operatorname{range}\mathcal I$, generalized
+Cauchy--Schwarz yields, simultaneously for every declared action,
+\[
+|\ell_\pi^\top(\widehat z-z)|
+\le
+\sqrt{\chi^2_{r,1-\delta}}
+\sqrt{\ell_\pi^\top\mathcal I^\dagger\ell_\pi}
+=\rho_\pi(\delta).
+\]
+Hence
+\begin{align*}
+\Delta(\widehat\pi;z)
+&\le\Delta(\widehat\pi;\widehat z)+\rho_{\widehat\pi}\\
+&\le\Delta(\pi^\star;\widehat z)+\rho_{\pi^\star}\\
+&\le\Delta(\pi^\star;z)+2\rho_{\pi^\star}.
+\end{align*}
+
+\subsection{Exact optimal replication}
+
+For the saturated design, $X$ is square and invertible.  With
+$W=\diag(n_a)$ and $M=X^{-1}$,
+\[
+\mathcal I^{-1}
+=(X^{-1}W^{-1}X^{-\top})\otimes\Sigma
+=(MW^{-1}M^\top)\otimes\Sigma.
+\]
+Therefore
+\[
+\tr(\mathcal I^{-1})
+=\tr(\Sigma)\sum_a\frac{\norm{M_{:,a}}_2^2}{n_a}.
+\]
+Writing $c_a=\norm{M_{:,a}}_2^2$, Cauchy--Schwarz gives
+\[
+\left(\sum_a\sqrt{c_a}\right)^2
+=\left(\sum_a\sqrt{\frac{c_a}{n_a}}\sqrt{n_a}\right)^2
+\le\left(\sum_a\frac{c_a}{n_a}\right)N.
+\]
+Equality holds exactly when $n_a$ is proportional to $\sqrt{c_a}$, proving
+\cref{eq:exact-replication-risk,eq:exact-a-optimal-allocation}.
+
+For the full Boolean lattice, M\"obius inversion gives
+\[
+M_{T,A}=(-1)^{|T|-|A|}\mathbf1\{A\subseteq T\}.
+\]
+Column $A$ has $2^{m-|A|}$ nonzero entries of squared magnitude one, so
+$c_A=2^{m-|A|}$.  Moreover,
+\[
+\sum_{A\subseteq[m]}\sqrt{c_A}
+=\sum_{j=0}^m\binom mj2^{(m-j)/2}
+=(1+\sqrt2)^m.
+\]
+Since $(1+\sqrt2)^{2m}=(3+2\sqrt2)^m$, substitution proves
+\cref{eq:boolean-exact-a-optimal-allocation}.  This completes the proof of
+\cref{thm:projection-information-decision}.
+
+\subsection{Target-optimal replication}
+
+For scalar independent configuration means, the saturated effect estimator is
+$\widehat\zeta=M\bar Y$ and
+\[
+\operatorname{Cov}(L\widehat\zeta)
+=L M\diag\!\left(\frac{\sigma_a^2}{n_a}\right)M^\top L^\top.
+\]
+Taking the trace and expanding by columns gives
+\[
+R_L(n)
+=\sum_a\frac{\sigma_a^2}{n_a}\norm{LM_{:,a}}_2^2
+=\sum_a\frac{c_a\sigma_a^2}{n_a}.
+\]
+Cauchy--Schwarz yields
+\[
+\left(\sum_a\sigma_a\sqrt{c_a}\right)^2
+=\left(\sum_a
+\frac{\sigma_a\sqrt{c_a}}{\sqrt{n_a}}\sqrt{n_a}\right)^2
+\le R_L(n)N.
+\]
+Equality holds exactly when
+$n_a\propto\sigma_a\sqrt{c_a}$, proving
+\cref{eq:target-replication-risk,eq:target-optimal-allocation}.
+
+\subsection{Exact group-randomization calibration}
+
+Let $G$ be finite and let the null law of $Y$ be invariant under every
+$g\in G$.  Conditional on an orbit, invariance makes the realized orbit point
+uniform with the multiplicities induced by the group action.  Among the
+$|G|$ transformed statistics, at most an $\alpha$ fraction can have an upper
+rank whose normalized count is at most $\alpha$.  Therefore
+\[
+\Pr_0\{p_G(Y)\le\alpha\mid\operatorname{Orb}(Y)\}\le\alpha.
+\]
+Averaging over orbits proves unconditional super-uniformity.  Ties make the
+nonrandomized upper-tail value conservative.
+
+\subsection{Analytic diagonal sign null}
+
+For unbounded positive diagonal geometry, the coordinate residual is zero
+when $u_ig_i<0$ and has squared magnitude $u_i^2$ when $u_ig_i>0$; zero-update
+coordinates carry no weight.  Conditional on fixed nonzero magnitudes and
+independent fair gradient signs,
+\[
+R=\frac{\rho_{\rm diag,I}(u;g)^2}{\norm u^2}
+=\sum_iw_iB_i,
+\qquad
+w_i=\frac{u_i^2}{\sum_j u_j^2},
+\qquad
+B_i\stackrel{\rm iid}{\sim}\operatorname{Bernoulli}(1/2).
+\]
+Independence gives
+\[
+\mathbb ER=\frac12,
+\qquad
+\operatorname{Var}(R)=\frac14\sum_iw_i^2.
+\]
+Weighted Hoeffding gives
+\[
+\Pr\{|R-1/2|\ge t\}
+\le2\exp\left(-\frac{2t^2}{\sum_iw_i^2}\right)
+=2e^{-2d_{\rm eff}t^2}.
+\]
+If $d_{\rm eff}\to\infty$, then $R\to1/2$ in probability.  Continuity of
+$x\mapsto1-\sqrt x$ gives TGER convergence to $1-1/\sqrt2$.

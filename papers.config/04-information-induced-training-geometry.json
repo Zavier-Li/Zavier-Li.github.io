@@ -1,0 +1,25 @@
+{
+  "slug": "information-induced-training-geometry",
+  "number": "1",
+  "order": 1,
+  "year": "2026",
+  "status": "in-preparation",
+  "source": {
+    "directory": "papers/04-information-induced-training-geometry",
+    "tex": "main_arxiv.tex",
+    "include": [
+      "main_arxiv.tex", "preamble_arxiv.tex", "fancyhdr.sty", "tmlr.sty",
+      "tmlr.bst", "sections", "appendix"
+    ]
+  },
+  "en": {
+    "title": "Information-Induced Training Geometry: Completion, Stratification, and Structured Expressivity",
+    "short": "How partial information channels determine, and fail to determine, full optimizer geometry.",
+    "abstract": "Training data constrains optimizer geometry through the covectors visible to a declared information channel. This manuscript resolves the full-column-rank SPD channel under affine-invariant geometry, giving an explicit nearest completion, exact reduction, gauge-invariant rank stratification, and structured expressivity tests for diagonal and block optimizer families."
+  },
+  "zh": {
+    "title": "信息诱导训练几何：完备化、分层与结构表达能力",
+    "short": "部分信息通道如何决定，又如何无法决定，完整的优化器几何。",
+    "abstract": "训练数据通过某个信息通道可见的余向量约束优化器几何。本文在仿射不变几何下解决满列秩 SPD 通道问题，给出显式的最近完备化、精确约化、规范不变的秩分层，以及针对对角和分块优化器族的结构表达能力检验。"
+  }
+}

@@ -1,0 +1,33 @@
+\section{Extensions}
+\label{app:extensions}
+
+\subsection{Low-rank spectral monotonicity}
+
+Let
+\[
+  \mathcal Y_{K,r}(y)
+  =
+  \{z\in\Yk:\exists c\in\R,\ |\{i:z_i\ne y_i+c\}|\le r\}.
+\]
+Then
+\[
+  D_{K,r}^{\mathrm{spec}}(y)
+  =
+  \dist_{\ell^2}(y,\mathcal Y_{K,r}(y)).
+\]
+\begin{proof}[Proof of \cref{prop:lowrank-monotonicity}]
+If \(r_1\le r_2\), then
+\[
+  \mathcal Y_{K,r_1}(y)\subseteq \mathcal Y_{K,r_2}(y)\subseteq \Yk,
+\]
+and therefore
+\[
+  D_{K,r_1}^{\mathrm{spec}}(y)
+  \ge
+  D_{K,r_2}^{\mathrm{spec}}(y)
+  \ge
+  D_K(y).
+\]
+When \(r\ge d\), the low-rank restriction disappears and equality with
+\(D_K(y)\) holds.
+\end{proof}

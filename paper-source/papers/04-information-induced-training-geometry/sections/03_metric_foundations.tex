@@ -1,0 +1,109 @@
+\section{Metric Foundations of Exact Information Reduction}
+\label{sec:metric-foundations}
+
+We first separate exact information reduction from smooth or matrix-specific
+structure.  Let \((X,d_X)\) and \((Y,d_Y)\) be arbitrary metric spaces and let
+\(q:X\to Y\) be surjective.
+
+\begin{definition}[Metric submetry]
+\label{def:metric-submetry}
+The map \(q\) is a metric submetry if for every \(x\in X\) and \(r\ge0\),
+\begin{equation}
+  q(\overline B_X(x,r))=\overline B_Y(q(x),r).
+  \label{eq:metric-submetry}
+\end{equation}
+\end{definition}
+
+A submetry maps every closed ball onto the ball of the same radius.  It is
+therefore stronger than a nonexpansive surjection: it guarantees that every
+visible displacement has an ambient lift with no excess distance.
+
+\begin{theorem}[Maximal exact information reduction]
+\label{thm:metric-characterization}
+The following statements are equivalent.
+\begin{enumerate}[label=(\Alph*),leftmargin=*]
+  \item \(q\) is a metric submetry.
+  \item For every \(x\in X\) and \(y\in Y\), the fiber distance is attained
+  and exact:
+  \begin{equation}
+    d_Y(q(x),y)=\min_{q(z)=y}d_X(x,z).
+    \label{eq:exact-fiber-distance}
+  \end{equation}
+  \item For every nondecreasing
+  \(\rho:[0,\infty)\to\R\cup\{+\infty\}\), every
+  \(\phi:Y\to\R\cup\{+\infty\}\), and every \(x\in X\),
+  \begin{equation}
+    \boxed{
+    \inf_{z\in X}\{\rho(d_X(x,z))+\phi(q(z))\}
+    =
+    \inf_{y\in Y}\{\rho(d_Y(q(x),y))+\phi(y)\}.}
+    \label{eq:universal-radial-reduction}
+  \end{equation}
+\end{enumerate}
+Thus metric submetries are exactly the observation maps for which every
+reference-radial, visible-functional decision problem reduces without loss.
+\end{theorem}
+
+The proof, given in \cref{app:metric-proofs}, is elementary but sharp.  Hard
+ball costs and singleton visible losses recover the full ball-surjectivity
+condition, so the theorem cannot be enlarged while preserving universal exact
+reduction.
+
+The theorem determines optimal values but does not choose one lift when a
+fiber contains several nearest points.  Canonical completion requires a
+coherent family of sections.  Suppose \(q\) is \(1\)-Lipschitz and for every
+\(x\in X\) a section \(s_x:Y\to X\) is given such that
+\begin{equation}
+  q\circ s_x=\operatorname{id}_Y,
+  \qquad
+  s_x(q(x))=x,
+  \qquad
+  s_{s_x(y)}=s_x.
+  \label{eq:coherent-sections}
+\end{equation}
+The last identity says that moving inside one selected information sheet does
+not change the sheet.
+
+For a function \(F\) on a metric space, we use
+\[
+  e_\tau F(x)=\inf_z\left\{F(z)+\frac{d(x,z)^2}{2\tau}\right\}
+\]
+for its Moreau envelope and \(\prox_{\tau F}(x)\) for the corresponding
+minimizer when it is unique.
+
+\begin{theorem}[Coherent exact reduction]
+\label{thm:coherent-reduction}
+Under \eqref{eq:coherent-sections}, the following are equivalent:
+\begin{enumerate}[label=(\Alph*),leftmargin=*]
+  \item every \(s_x\) is an isometric embedding;
+  \item for every \(x\in X\) and \(y\in Y\),
+  \begin{equation}
+    d_Y(q(x),y)
+    =d_X(x,s_x(y))
+    =\min_{q(z)=y}d_X(x,z);
+    \label{eq:coherent-fiber-distance}
+  \end{equation}
+  \item the equality \eqref{eq:universal-radial-reduction} holds and
+  \(s_x\) maps every reduced minimizer to a full minimizer.
+\end{enumerate}
+Whenever these conditions hold, \(q\) is a metric submetry.  If the nearest
+point in every fiber is unique, the splitting is rigid.
+
+If \(Y\) is complete CAT(0), \(\phi\) is proper, lower semicontinuous,
+geodesically convex, and bounded below, and \(\tau>0\), then
+\begin{equation}
+  \boxed{
+  \prox^{X,\mathrm{can}}_{\tau(\phi\circ q)}(x)
+  =
+  s_x\!\left(\prox^Y_{\tau\phi}(q(x))\right).}
+  \label{eq:coherent-prox}
+\end{equation}
+Coherent proximal iterations are therefore exact lifts of the visible
+iterations; under rigidity, the full proximal point is unique.
+\end{theorem}
+
+\begin{remark}[Three distinct requirements]
+Surjectivity provides visible representatives.  Submetry provides exact
+distance.  Coherence provides a reusable canonical sheet.  None of these
+properties follows from the others without the stated assumptions.
+\end{remark}
