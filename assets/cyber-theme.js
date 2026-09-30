@@ -22,7 +22,7 @@
   const ctx = effects?.getContext('2d');
   let soundOn = localStorage.getItem('zavier-sound') !== 'off';
   const bgm = hero?.querySelector('.cyber-bgm');
-  if (bgm) bgm.volume = .22;
+  if (bgm) bgm.volume = 1;
   let audio;
   let frame = 0, visible = true, lastFrame = 0, clock = 0;
   let down = false, activePointer = null, charge = 0, dragDistance = 0, lastArc = 0;
@@ -40,6 +40,11 @@
     constructor() {
       const c = this.context = new AudioContext();
       this.master = c.createGain(); this.master.gain.value = 0; this.master.connect(c.destination);
+      if (bgm) {
+        this.musicGain = c.createGain(); this.musicGain.gain.value = 0;
+        c.createMediaElementSource(bgm).connect(this.musicGain).connect(c.destination);
+        this.musicStarted = false;
+      }
       this.reverb = c.createConvolver();
       const impulse = c.createBuffer(2, c.sampleRate * 2.7, c.sampleRate);
       for (let ch = 0; ch < 2; ch++) {
@@ -76,12 +81,24 @@
       await this.context.resume();
       if (!soundOn || theme !== 'cyber' || document.hidden) { this.stop(); return; }
       this.master.gain.setTargetAtTime(.66, this.context.currentTime, .7);
+      if (this.musicGain && !this.musicStarted) {
+        const now = this.context.currentTime, gain = this.musicGain.gain;
+        gain.cancelScheduledValues(now);
+        gain.setValueAtTime(0, now);
+        gain.linearRampToValueAtTime(.22, now + 2.7);
+        this.musicStarted = true;
+      }
       labels();
     }
     stop() {
       clearTimeout(this.suspendTimer);
       this.master.gain.cancelScheduledValues(this.context.currentTime);
       this.master.gain.setTargetAtTime(0, this.context.currentTime, .14);
+      if (this.musicGain) {
+        this.musicGain.gain.cancelScheduledValues(this.context.currentTime);
+        this.musicGain.gain.setValueAtTime(0, this.context.currentTime);
+        this.musicStarted = false;
+      }
       this.suspendTimer = setTimeout(() => this.context.suspend().then(labels), 500);
     }
     movement(speed, energy, x) {
@@ -174,8 +191,8 @@
   }
   function startSound(entrance = false) {
     if (!soundOn || theme !== 'cyber') return;
-    if (bgm?.paused) bgm.play().catch(error => console.error('Cyber BGM playback failed', error));
     const first = !audio; audio ||= new Soundscape();
+    if (bgm?.paused) bgm.play().catch(error => { audio.musicStarted = false; console.error('Cyber BGM playback failed', error); });
     audio.start().then(() => { if (first || entrance) audio.note('enter'); });
   }
   function stopSound() { bgm?.pause(); audio?.stop(); }

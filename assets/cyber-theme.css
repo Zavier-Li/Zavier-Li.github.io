@@ -128,13 +128,20 @@ html[data-theme="cyber"] .page-home{overflow:hidden;height:100dvh}
 @media(min-width:721px){.spine-segment[data-spine-segment="1"]{top:50vh}.spine-segment[data-spine-segment="1"] .spine-fiber{left:auto;right:105px;transform-origin:right center;transform:rotateZ(-8deg) translate3d(0,-50%,0) rotateY(75deg) scale(.88)}.spine-segment[data-spine-segment="1"] .spine-fiber.is-open{width:min(620px,54vw);max-height:min(664px,calc(100vh - 56px));transform:rotateZ(-8deg) translate3d(0,-50%,0) rotateY(0) scale(1)}}
 
 /* Keep the original orbit composition; make its control surfaces readable. */
+html[data-theme="signal"] .site-header{mix-blend-mode:normal}
+html[data-theme="signal"] .site-header>.brand,html[data-theme="signal"] .site-header>.top-nav,html[data-theme="signal"] .site-header>.lang-switch{mix-blend-mode:difference}
 html[data-theme="signal"] .theme-tools{top:calc(100% + 10px);right:var(--pad);gap:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;backdrop-filter:none}
 html[data-theme="signal"] .theme-tools .sound-toggle{display:none}
-html[data-theme="signal"] .theme-tools .theme-toggle{position:relative;min-height:42px;max-width:162px;padding:0 16px;gap:10px;border:1px solid #4b5276;border-radius:3px 13px 3px 13px;background:#131725;color:#f7f2ff;box-shadow:5px 5px 0 #5b61913d,0 8px 18px #10121c22;font:700 9px/1.25 "SFMono-Regular",Consolas,monospace;letter-spacing:.055em;transform:none;transition:transform .2s,box-shadow .2s,border-color .2s,background .2s}
-html[data-theme="signal"] .theme-tools .theme-toggle:before{content:"";position:absolute;top:5px;right:5px;width:6px;height:6px;background:#ea537f;box-shadow:0 0 11px #f7498f}
-html[data-theme="signal"] .theme-tools .theme-toggle:hover{transform:translate(-2px,-2px);border-color:#9f6de7;background:#20203a;box-shadow:7px 7px 0 #5b619154,0 10px 22px #59209b35}
-html[data-theme="signal"] .theme-tools .theme-glyph{color:#ed82c6;font-size:18px}
+html[data-theme="signal"] .theme-tools .theme-toggle{position:relative;isolation:isolate;overflow:hidden;min-height:42px;max-width:162px;padding:0 16px;gap:10px;border:1px solid #a260eb;border-radius:3px 13px 3px 13px;background:linear-gradient(115deg,#140a2a,#281150 52%,#101b40);color:#f7eaff;box-shadow:inset 0 0 16px #ba5cff40,0 0 18px #a347ff55,5px 5px 0 #5d278b55;text-shadow:0 0 9px #d393ff88;font:700 9px/1.25 "SFMono-Regular",Consolas,monospace;letter-spacing:.055em;transform:none;transition:transform .2s,box-shadow .2s,border-color .2s,background .2s;animation:night-city-glow 2.8s ease-in-out infinite alternate}
+html[data-theme="signal"] .theme-tools .theme-toggle>span{position:relative;z-index:1}
+html[data-theme="signal"] .theme-tools .theme-toggle:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 95% 15%,#a45aff44,transparent 45%);pointer-events:none}
+html[data-theme="signal"] .theme-tools .theme-toggle:after{content:"";position:absolute;top:-55%;bottom:-55%;left:-65%;width:55%;background:linear-gradient(90deg,transparent,#b477ff44 25%,#ebc6ff99 50%,#a862ff44 75%,transparent);filter:blur(7px);transform:skewX(-18deg);pointer-events:none;animation:night-city-sweep 3.4s ease-in-out infinite}
+html[data-theme="signal"] .theme-tools .theme-toggle:hover{transform:translate(-2px,-2px);border-color:#d294ff;background:linear-gradient(115deg,#241043,#3b176d 52%,#172957);box-shadow:inset 0 0 20px #d487ff66,0 0 28px #b355ff99,7px 7px 0 #5d278b55}
+html[data-theme="signal"] .theme-tools .theme-glyph{color:#d595ff;text-shadow:0 0 12px #c47cff;font-size:18px}
 html[data-theme="signal"] .theme-tools .theme-exchange{display:none}
+@keyframes night-city-glow{to{box-shadow:inset 0 0 22px #d087ff66,0 0 28px #af53ff99,5px 5px 0 #5d278b55}}
+@keyframes night-city-sweep{0%,12%{left:-65%;opacity:0}25%{opacity:.9}65%{opacity:.9}82%,100%{left:110%;opacity:0}}
+@media(prefers-reduced-motion:reduce){html[data-theme="signal"] .theme-tools .theme-toggle,html[data-theme="signal"] .theme-tools .theme-toggle:before,html[data-theme="signal"] .theme-tools .theme-toggle:after{animation:none}}
 
 .cyber-universe>.cyber-monument{opacity:var(--z-presence,.7);filter:none;transform:translate(-50%,-50%) perspective(1000px) rotateX(var(--z-rx,-5deg)) rotateY(var(--z-ry,-12deg)) rotateZ(-8deg) translate3d(var(--z-x,0px),var(--z-y,0px),0) scale(var(--z-scale,1))}
 .spine-camera{pointer-events:none}
