@@ -5,14 +5,14 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let theme = root.dataset.theme === 'cyber' ? 'cyber' : 'signal';
   if (theme === 'cyber' && page !== 'home') { location.replace(`index.html?space=${encodeURIComponent(page)}`); return; }
-  if (home) fetch('assets/cyber-universe.html?v=5').then(response => response.text()).then(markup => {
+  if (home) fetch('assets/cyber-universe.html?v=6').then(response => response.text()).then(markup => {
     document.querySelector('.site-header').insertAdjacentHTML('afterend', markup);
     const language = localStorage.getItem('zavier-lang') || 'en'; root.lang = language === 'zh' ? 'zh-CN' : 'en';
     document.querySelectorAll('.cyber-universe [data-i18n]').forEach(el => { const copy = window.ZAVIER_I18N?.[language]?.[el.dataset.i18n]; if (copy) el.innerHTML = copy; });
-    document.querySelectorAll('.cyber-universe [data-lang]').forEach(button => button.addEventListener('click', () => {
-      const next = button.dataset.lang; localStorage.setItem('zavier-lang', next); root.lang = next === 'zh' ? 'zh-CN' : 'en';
-      document.querySelectorAll('.cyber-universe [data-i18n]').forEach(el => { const copy = window.ZAVIER_I18N?.[next]?.[el.dataset.i18n]; if (copy) el.innerHTML = copy; });
-      const selected = document.querySelector('[data-spine-project][aria-pressed="true"]'); selected?.click(); labels();
+    document.querySelectorAll('.cyber-universe [data-lang-toggle]').forEach(button => button.addEventListener('click', () => {
+      const next = root.lang.startsWith('zh') ? 'en' : 'zh';
+      document.querySelector(`.site-header [data-lang="${next}"]`)?.click();
+      const selected = document.querySelector('[data-spine-project][aria-pressed="true"]'); selected?.click();
     }));
     initializeUniverse();
   }); else initializeUniverse();
@@ -85,7 +85,7 @@
         const now = this.context.currentTime, gain = this.musicGain.gain;
         gain.cancelScheduledValues(now);
         gain.setValueAtTime(0, now);
-        gain.linearRampToValueAtTime(.22, now + 2.7);
+        gain.linearRampToValueAtTime(.30, now + 2.7);
         this.musicStarted = true;
       }
       labels();
@@ -185,6 +185,7 @@
     const playing = theme === 'cyber' && soundOn && audio?.context.state === 'running' && !document.hidden;
     document.querySelectorAll('[data-sound-toggle]').forEach(button => { button.setAttribute('aria-pressed', String(playing)); button.setAttribute('aria-label', zh ? (playing ? '关闭背景音乐和音效' : '开启背景音乐和音效') : (playing ? 'Mute music and effects' : 'Enable music and effects')); });
     document.querySelectorAll('[data-sound-name]').forEach(el => el.textContent = zh ? (playing ? '声音开启' : '开启声音') : (playing ? 'SOUND ON' : 'SOUND OFF'));
+    document.querySelectorAll('[data-lang-toggle]').forEach(button => { button.textContent = zh ? 'EN' : '中'; button.lang = zh ? 'en' : 'zh-CN'; button.setAttribute('aria-label', zh ? 'Switch to English' : '切换中文'); });
     const state = down ? (dragDistance > 12 ? 'FIELD BENDING' : 'CORE CHARGING') : 'FIELD STABLE';
     const translated = zh ? ({ 'FIELD BENDING': '光场牵引中', 'CORE CHARGING': '核心蓄能中', 'FIELD STABLE': '光场稳定' })[state] : state;
     const status = hero?.querySelector('[data-reactor-state]'); if (status) status.textContent = translated;
@@ -319,7 +320,7 @@
     startSound(); shake(.36); audio?.note('release', .42, point.x);
   }));
   function faceSegment(panel, index, event) {
-    if (event.target.closest('a,input,textarea,select,[data-theme-toggle],[data-sound-toggle],[data-lang]')) return;
+    if (event.target.closest('a,input,textarea,select,[data-theme-toggle],[data-sound-toggle],[data-lang-toggle]')) return;
     panel.classList.add('is-facing');
     setCamera(index * segmentGap, targetTurn);
     startSound(); audio?.note('release', .22, point.x); shake(.16);
