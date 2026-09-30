@@ -5,7 +5,7 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let theme = root.dataset.theme === 'cyber' ? 'cyber' : 'signal';
   if (theme === 'cyber' && page !== 'home') { location.replace(`index.html?space=${encodeURIComponent(page)}`); return; }
-  if (home) fetch('assets/cyber-universe.html?v=3').then(response => response.text()).then(markup => {
+  if (home) fetch('assets/cyber-universe.html?v=5').then(response => response.text()).then(markup => {
     document.querySelector('.site-header').insertAdjacentHTML('afterend', markup);
     const language = localStorage.getItem('zavier-lang') || 'en'; root.lang = language === 'zh' ? 'zh-CN' : 'en';
     document.querySelectorAll('.cyber-universe [data-i18n]').forEach(el => { const copy = window.ZAVIER_I18N?.[language]?.[el.dataset.i18n]; if (copy) el.innerHTML = copy; });
@@ -21,6 +21,8 @@
   const effects = hero?.querySelector('.cyber-effects');
   const ctx = effects?.getContext('2d');
   let soundOn = localStorage.getItem('zavier-sound') !== 'off';
+  const bgm = hero?.querySelector('.cyber-bgm');
+  if (bgm) bgm.volume = .22;
   let audio;
   let frame = 0, visible = true, lastFrame = 0, clock = 0;
   let down = false, activePointer = null, charge = 0, dragDistance = 0, lastArc = 0;
@@ -164,7 +166,7 @@
     document.querySelectorAll('[data-theme-name]').forEach(el => el.textContent = theme === 'cyber' ? 'Z SIGNAL' : 'ENTER NIGHT CITY');
     document.querySelectorAll('[data-theme-toggle]').forEach(button => button.setAttribute('aria-label', zh ? `切换到${theme === 'cyber' ? '原始' : '赛博朋克'}主题` : `Switch to ${theme === 'cyber' ? 'Z Signal' : 'Cyberpunk'} theme`));
     const playing = theme === 'cyber' && soundOn && audio?.context.state === 'running' && !document.hidden;
-    document.querySelectorAll('[data-sound-toggle]').forEach(button => { button.setAttribute('aria-pressed', String(playing)); button.setAttribute('aria-label', zh ? (playing ? '关闭城市氛围音效' : '开启城市氛围音效') : (playing ? 'Mute ambient sound' : 'Enable ambient sound')); });
+    document.querySelectorAll('[data-sound-toggle]').forEach(button => { button.setAttribute('aria-pressed', String(playing)); button.setAttribute('aria-label', zh ? (playing ? '关闭背景音乐和音效' : '开启背景音乐和音效') : (playing ? 'Mute music and effects' : 'Enable music and effects')); });
     document.querySelectorAll('[data-sound-name]').forEach(el => el.textContent = zh ? (playing ? '声音开启' : '开启声音') : (playing ? 'SOUND ON' : 'SOUND OFF'));
     const state = down ? (dragDistance > 12 ? 'FIELD BENDING' : 'CORE CHARGING') : 'FIELD STABLE';
     const translated = zh ? ({ 'FIELD BENDING': '光场牵引中', 'CORE CHARGING': '核心蓄能中', 'FIELD STABLE': '光场稳定' })[state] : state;
@@ -172,23 +174,25 @@
   }
   function startSound(entrance = false) {
     if (!soundOn || theme !== 'cyber') return;
+    if (bgm?.paused) bgm.play().catch(error => console.error('Cyber BGM playback failed', error));
     const first = !audio; audio ||= new Soundscape();
     audio.start().then(() => { if (first || entrance) audio.note('enter'); });
   }
+  function stopSound() { bgm?.pause(); audio?.stop(); }
   function changeTheme(next) {
     if (theme === next) return;
     if (next === 'cyber' && page !== 'home') { localStorage.setItem('zavier-theme', next); const project = new URLSearchParams(location.search).get('project'); location.href = `index.html?space=${encodeURIComponent(page)}${project ? `&project=${encodeURIComponent(project)}` : ''}`; return; }
     releaseGesture(); theme = next; root.dataset.theme = theme;
     localStorage.setItem('zavier-theme', theme);
     if (theme === 'cyber') { resize(); startSound(true); schedule(); }
-    else { cancelAnimationFrame(frame); frame = 0; audio?.stop(); }
+    else { cancelAnimationFrame(frame); frame = 0; stopSound(); }
     labels(); window.dispatchEvent(new CustomEvent('zavier:themechange', { detail: theme }));
   }
   document.querySelectorAll('[data-theme-toggle]').forEach(button => button.addEventListener('click', () => changeTheme(theme === 'cyber' ? 'signal' : 'cyber')));
   document.querySelectorAll('[data-sound-toggle]').forEach(button => button.addEventListener('click', () => {
     const playing = soundOn && audio?.context.state === 'running';
     soundOn = !playing; localStorage.setItem('zavier-sound', soundOn ? 'on' : 'off');
-    if (soundOn) startSound(); else audio?.stop(); labels();
+    if (soundOn) startSound(); else stopSound(); labels();
   }));
   new MutationObserver(labels).observe(root, { attributes: true, attributeFilter: ['lang'] });
 
@@ -550,7 +554,7 @@
     resize();
   }
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { cancelAnimationFrame(frame); frame = 0; releaseGesture(); audio?.context.suspend(); }
+    if (document.hidden) { cancelAnimationFrame(frame); frame = 0; releaseGesture(); bgm?.pause(); audio?.context.suspend(); }
     else { schedule(); if (audio && soundOn && theme === 'cyber') startSound(); }
     labels();
   });
