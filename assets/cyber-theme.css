@@ -118,3 +118,62 @@ html[data-theme="cyber"] .page-home{overflow:hidden;height:100dvh}
 .spine-contact-form{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin:12px 0}.spine-contact-form label{display:grid;gap:4px;color:#d1bbdf;font:7px/1.3 "SFMono-Regular",Consolas,monospace;letter-spacing:.08em}.spine-contact-form label:nth-child(3){grid-column:1/-1}.spine-contact-form input,.spine-contact-form textarea{width:100%;min-height:32px;resize:vertical;border:0;border-bottom:1px solid #c18fda55;background:#160d24aa;color:#f8f0ff;padding:7px 8px;font:10px/1.4 "SFMono-Regular",Consolas,monospace;outline:none}.spine-contact-form input:focus,.spine-contact-form textarea:focus{border-color:#ff87bd;box-shadow:0 8px 16px -13px #ff5cab}.spine-contact-form button{justify-self:start;border:1px solid #db9dea88;background:linear-gradient(120deg,#48204f,#1d2141);border-radius:2px 13px 2px 13px;color:#fff;padding:9px 13px;font:8px/1 "SFMono-Regular",Consolas,monospace;letter-spacing:.1em;cursor:pointer}.spine-contact-form button:hover{box-shadow:0 0 22px #de43ff5c}.spine-contact-form textarea{min-height:52px}
 @media(max-width:720px){.spine-principles{gap:4px 8px}.spine-principles article{padding-left:15px}.spine-principles strong{font-size:9px}.spine-principles p{font-size:8px!important}.spine-contact-form{gap:6px 9px}.spine-contact-form input{min-height:28px}}
 @media(min-width:721px){.spine-segment[data-spine-segment="1"]{top:50vh}.spine-segment[data-spine-segment="1"] .spine-fiber{left:auto;right:105px;transform-origin:right center;transform:rotateZ(-8deg) translate3d(0,-50%,0) rotateY(75deg) scale(.88)}.spine-segment[data-spine-segment="1"] .spine-fiber.is-open{width:min(620px,54vw);max-height:min(664px,calc(100vh - 56px));transform:rotateZ(-8deg) translate3d(0,-50%,0) rotateY(0) scale(1)}}
+
+/* Keep the original orbit composition; make its control surfaces readable. */
+html[data-theme="signal"] .theme-tools{top:calc(100% + 10px);right:var(--pad);gap:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;backdrop-filter:none}
+html[data-theme="signal"] .theme-tools .sound-toggle{display:none}
+html[data-theme="signal"] .theme-tools .theme-toggle{position:relative;min-height:42px;max-width:162px;padding:0 16px;gap:10px;border:1px solid #4b5276;border-radius:3px 13px 3px 13px;background:#131725;color:#f7f2ff;box-shadow:5px 5px 0 #5b61913d,0 8px 18px #10121c22;font:700 9px/1.25 "SFMono-Regular",Consolas,monospace;letter-spacing:.055em;transform:none;transition:transform .2s,box-shadow .2s,border-color .2s,background .2s}
+html[data-theme="signal"] .theme-tools .theme-toggle:before{content:"";position:absolute;top:5px;right:5px;width:6px;height:6px;background:#ea537f;box-shadow:0 0 11px #f7498f}
+html[data-theme="signal"] .theme-tools .theme-toggle:hover{transform:translate(-2px,-2px);border-color:#9f6de7;background:#20203a;box-shadow:7px 7px 0 #5b619154,0 10px 22px #59209b35}
+html[data-theme="signal"] .theme-tools .theme-glyph{color:#ed82c6;font-size:18px}
+html[data-theme="signal"] .theme-tools .theme-exchange{display:none}
+
+.cyber-universe>.cyber-monument{opacity:var(--z-presence,.7);filter:none;transform:translate(-50%,-50%) perspective(1000px) rotateX(var(--z-rx,-5deg)) rotateY(var(--z-ry,-12deg)) rotateZ(-8deg) translate3d(var(--z-x,0px),var(--z-y,0px),0) scale(var(--z-scale,1))}
+.spine-camera{pointer-events:none}
+.spine-trigger,.spine-fiber.is-open{pointer-events:auto}
+.spine-thread{width:9px;border-radius:8px;transform:translateX(-50%) translateZ(-180px);background:linear-gradient(90deg,#321c63,#ab86f5 27%,#f6d7ff 48%,#6746b9 72%,#1a173f);box-shadow:0 0 4px #fff9,0 0 24px #b55bffad,0 0 65px #8544fa57}
+.spine-thread:before{inset:0 -17px;opacity:.55;background:repeating-linear-gradient(180deg,transparent 0 33px,#fb599e8c 34px 37px,transparent 38px 54px);filter:blur(3px)}
+.spine-thread:after{inset:0 -5px;background:linear-gradient(180deg,transparent,#6ea5ff66 25%,#fa448d77 54%,#d464ff66 83%,transparent);filter:blur(12px)}
+.spine-vertebra{overflow:visible}
+.spine-trigger{display:block;padding:0}
+.spine-trigger>span{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);max-width:124px;overflow:visible;text-overflow:clip;padding:4px 8px;border:1px solid #d8a5ff7d;border-radius:2px;background:#120b20e8;color:#fff;font-size:9px;letter-spacing:.06em;white-space:nowrap;text-shadow:0 0 12px #dd75ff}
+.spine-segment[data-spine-segment="0"] .spine-trigger>span,.spine-trigger>i{display:none}
+.spine-segment.is-current .spine-vertebra{border-color:#ffd1f0;box-shadow:inset 9px 1px 21px #eab7ff42,inset -10px -3px 20px #4092ff52,0 0 33px #cf6aff96,0 0 100px #fa34705b}
+.spine-fiber.is-open{max-height:min(80vh,680px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#ba76e8 #1a1129;touch-action:pan-y;background:linear-gradient(138deg,#110a20fa,#170b23f8 51%,#110d28fa)}
+.spine-fiber-wide.is-open{max-height:min(86vh,720px)}
+.spine-segment[data-spine-segment="1"]{--panel-counter-roll:-8deg}.spine-segment[data-spine-segment="2"]{--panel-counter-roll:11deg}.spine-segment[data-spine-segment="3"]{--panel-counter-roll:-9deg}.spine-segment[data-spine-segment="4"]{--panel-counter-roll:8deg}
+.spine-segment .spine-fiber.is-open.is-facing{transform:translate3d(0,-50%,65px) rotateZ(var(--panel-counter-roll,0deg)) rotateY(0) scale(1.02);border-color:#f8d6ffb3;background:linear-gradient(138deg,#110a20f7,#170b23f5 51%,#110d28f7);box-shadow:inset 0 0 42px #a040ff22,0 0 38px #bb3fff5c,0 26px 72px #030209c4;transition:transform .8s cubic-bezier(.18,.8,.17,1),max-height .72s cubic-bezier(.2,.8,.2,1),background .4s,box-shadow .4s}
+@media(min-width:721px){
+  .spine-segment[data-spine-segment="1"] .spine-fiber,.spine-segment[data-spine-segment="3"] .spine-fiber{left:auto;right:70px;transform-origin:right center}
+  .spine-segment[data-spine-segment="2"] .spine-fiber,.spine-segment[data-spine-segment="4"] .spine-fiber{left:70px;right:auto;transform-origin:left center}
+  .spine-segment[data-spine-segment="2"] .spine-fiber{top:120px}
+  .spine-segment[data-spine-segment="2"] .spine-fiber.is-open,.spine-segment[data-spine-segment="4"] .spine-fiber.is-open{transform:translate3d(0,-50%,0) rotateY(0) scale(1)}
+}
+.cyber-storm-flash{position:absolute;inset:0;z-index:9;pointer-events:none;background:linear-gradient(120deg,#eef6ff,#b797ff);opacity:var(--storm-flash,0);mix-blend-mode:screen}
+.cyber-universe.is-overloaded>.cyber-city{filter:saturate(1.7) contrast(1.22) brightness(1.32)}
+.cyber-universe.is-overloaded>.cyber-monument{filter:drop-shadow(0 0 45px #e8c9ff)}
+@media(max-width:720px){
+  html[data-theme="signal"] .theme-tools .theme-toggle{min-height:38px;max-width:148px;padding:0 12px;font-size:8px}
+  .cyber-universe{perspective-origin:50% 27%}
+  .cyber-universe>.cyber-monument{top:31%;width:92vw;opacity:var(--z-presence,.7)}
+  .cyber-universe>.cyber-halo{top:31%;width:114vw}
+  .spine-segment{top:calc(25dvh - 50px);--spine-roll:0deg!important}
+  .spine-vertebra{width:75px;height:96px}
+  .spine-vertebra>b{font-size:32px}
+  .spine-trigger>span{font-size:9px;top:calc(100% + 5px)}
+  .spine-fiber.is-open,.spine-segment[data-spine-segment="0"] .spine-fiber.is-open,.spine-fiber-wide.is-open,.spine-segment[data-spine-segment="2"] .spine-fiber.is-open,.spine-segment[data-spine-segment="4"] .spine-fiber.is-open{max-height:min(72dvh,calc(75dvh - 45px));overflow-y:auto;padding:17px 19px;touch-action:pan-y}
+  .spine-segment[data-spine-segment="1"] .spine-fiber.is-open{max-height:calc(72dvh - 70px)}
+  .spine-segment .spine-fiber.is-open.is-facing{transform:translate3d(-50%,0,40px) rotateX(0) scale(1);max-height:min(72dvh,calc(75dvh - 45px))}
+  .spine-fiber p{font-size:13px;line-height:1.58}
+  .spine-fiber .spine-dim{font-size:12px}
+  .spine-fiber h1,.spine-fiber h2{font-size:28px}
+  .spine-project b{font-size:11px}
+  .spine-project-detail p{font-size:12px}
+  .spine-principles strong{font-size:11px}
+  .spine-contact-form{grid-template-columns:1fr;gap:10px;margin:15px 0}
+  .spine-contact-form label{font-size:9px}
+  .spine-contact-form input,.spine-contact-form textarea{min-height:38px;font-size:12px}
+  .spine-contact-form textarea{min-height:58px}
+  .spine-contact-form button{font-size:10px;padding:11px 15px}
+}
+@media(pointer:coarse){.cursor{display:none!important}}

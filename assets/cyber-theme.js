@@ -5,7 +5,7 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let theme = root.dataset.theme === 'cyber' ? 'cyber' : 'signal';
   if (theme === 'cyber' && page !== 'home') { location.replace(`index.html?space=${encodeURIComponent(page)}`); return; }
-  if (home) fetch('assets/cyber-universe.html').then(response => response.text()).then(markup => {
+  if (home) fetch('assets/cyber-universe.html?v=2').then(response => response.text()).then(markup => {
     document.querySelector('.site-header').insertAdjacentHTML('afterend', markup);
     const language = localStorage.getItem('zavier-lang') || 'en'; root.lang = language === 'zh' ? 'zh-CN' : 'en';
     document.querySelectorAll('.cyber-universe [data-i18n]').forEach(el => { const copy = window.ZAVIER_I18N?.[language]?.[el.dataset.i18n]; if (copy) el.innerHTML = copy; });
@@ -28,6 +28,7 @@
   const spineWorld = document.querySelector('[data-spine-world]'), spineCamera = document.querySelector('[data-spine-camera]');
   const spineSegments = [...document.querySelectorAll('[data-spine-segment]')];
   let cameraY = 0, targetCameraY = 0, worldTurn = 0, targetTurn = 0, impact = 0, lastRoll = 0, lastGlide = 0, lastHold = 0;
+  let activeSpine = -1, charged = false, storm = 0;
   const segmentGap = 820, maxCameraY = segmentGap * (spineSegments.length - 1);
   const point = { x: .66, y: .4, xTo: .66, yTo: .4, speed: 0, inside: false };
   const rain = Array.from({ length: matchMedia('(pointer:fine)').matches ? 140 : 68 }, () => ({ x: Math.random(), y: Math.random(), z: .22 + Math.random() * .78 }));
@@ -120,6 +121,26 @@
         burst.connect(tint).connect(transient).connect(pan); burst.start(t); burst.stop(t + .05); burst.onended = () => { burst.disconnect(); tint.disconnect(); transient.disconnect(); };
       }
     }
+    overload() {
+      if (!soundOn || theme !== 'cyber' || this.context.state !== 'running') return;
+      const c = this.context, t = c.currentTime;
+      const thunder = c.createOscillator(), bass = c.createGain();
+      thunder.type = 'sawtooth'; thunder.frequency.setValueAtTime(76, t);
+      thunder.frequency.exponentialRampToValueAtTime(28, t + 1.5);
+      bass.gain.setValueAtTime(.0001, t); bass.gain.exponentialRampToValueAtTime(.2, t + .04);
+      bass.gain.exponentialRampToValueAtTime(.0001, t + 1.8);
+      thunder.connect(bass).connect(this.master); thunder.start(t); thunder.stop(t + 1.82);
+      thunder.onended = () => { thunder.disconnect(); bass.disconnect(); };
+      const buffer = c.createBuffer(1, Math.floor(c.sampleRate * 1.4), c.sampleRate), data = buffer.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+      const crack = c.createBufferSource(), filter = c.createBiquadFilter(), level = c.createGain();
+      crack.buffer = buffer; filter.type = 'lowpass'; filter.frequency.setValueAtTime(5300, t);
+      filter.frequency.exponentialRampToValueAtTime(180, t + 1.3);
+      level.gain.setValueAtTime(.24, t); level.gain.exponentialRampToValueAtTime(.0001, t + 1.4);
+      crack.connect(filter).connect(level).connect(this.master); level.connect(this.reverb);
+      crack.start(t); crack.stop(t + 1.4);
+      crack.onended = () => { crack.disconnect(); filter.disconnect(); level.disconnect(); };
+    }
   }
 
   function labels() {
@@ -127,7 +148,7 @@
     const themeButton = document.querySelector('[data-theme-toggle]');
     const soundButton = document.querySelector('[data-sound-toggle]');
     if (!themeButton || !soundButton) return;
-    document.querySelectorAll('[data-theme-name]').forEach(el => el.textContent = theme === 'cyber' ? 'NIGHT CITY' : 'Z SIGNAL');
+    document.querySelectorAll('[data-theme-name]').forEach(el => el.textContent = theme === 'cyber' ? 'Z SIGNAL' : 'ENTER NIGHT CITY');
     document.querySelectorAll('[data-theme-toggle]').forEach(button => button.setAttribute('aria-label', zh ? `切换到${theme === 'cyber' ? '原始' : '赛博朋克'}主题` : `Switch to ${theme === 'cyber' ? 'Z Signal' : 'Cyberpunk'} theme`));
     const playing = theme === 'cyber' && soundOn && audio?.context.state === 'running' && !document.hidden;
     document.querySelectorAll('[data-sound-toggle]').forEach(button => { button.setAttribute('aria-pressed', String(playing)); button.setAttribute('aria-label', zh ? (playing ? '关闭城市氛围音效' : '开启城市氛围音效') : (playing ? 'Mute ambient sound' : 'Enable ambient sound')); });
@@ -192,17 +213,38 @@
     hero.style.setProperty('--impact-x', `${point.x * 100}%`); hero.style.setProperty('--impact-y', `${point.y * 100}%`);
     hero.style.setProperty('--impact-glow', String(Math.min(.6, power * .45)));
   }
+  function overload() {
+    charged = true; storm = 1;
+    audio?.overload(); pulse(width * .5, height * .48, 1.25); shake(.95);
+    hero.classList.add('is-overloaded');
+    setTimeout(() => hero.classList.remove('is-overloaded'), 900);
+  }
+  function activateSegment(index) {
+    if (index === activeSpine && spineSegments[index]?.querySelector('.spine-fiber.is-open')) return;
+    activeSpine = index;
+    spineSegments.forEach((segment, i) => {
+      const active = i === index, button = segment.querySelector('.spine-trigger'), panel = segment.querySelector('.spine-fiber');
+      button?.setAttribute('aria-expanded', String(active));
+      panel?.classList.toggle('is-open', active);
+      if (!active) panel?.classList.remove('is-facing');
+      segment.classList.toggle('is-current', active);
+    });
+  }
   function paintCamera() {
     if (!spineWorld) return;
     const depth = cameraY / segmentGap, twist = worldTurn + depth * 1.2;
-    spineWorld.style.transform = `translate3d(0,${-cameraY}px,0) rotateY(${twist}deg) rotateX(${Math.sin(twist * Math.PI / 180) * 2.6}deg)`;
+    activateSegment(Math.round(targetCameraY / segmentGap));
+    const visibleTwist = width <= 720 ? Math.max(-4, Math.min(4, twist * .15)) : twist;
+    const pitch = width <= 720 ? 0 : Math.sin(twist * Math.PI / 180) * 2.6;
+    spineWorld.style.transform = `translate3d(0,${-cameraY}px,0) rotateY(${visibleTwist}deg) rotateX(${pitch}deg)`;
     spineSegments.forEach((segment, index) => {
       const distance = Math.abs(index * segmentGap - cameraY) / segmentGap;
-      segment.style.setProperty('--clarity', Math.max(.12, 1 - distance * .3).toFixed(3));
+      segment.style.setProperty('--clarity', Math.max(.12, 1 - distance * .46).toFixed(3));
       segment.style.setProperty('--vertebra-turn', `${Math.sin((index * 51 + twist) * Math.PI / 180) * 17}deg`);
     });
-    hero.style.setProperty('--z-presence', Math.max(.12, .68 - depth * .12).toFixed(3));
-    hero.style.setProperty('--z-blur', `${Math.min(2.2, depth * .42).toFixed(2)}px`);
+    hero.style.setProperty('--z-presence', (.7 - Math.sin(depth * 1.4) * .07).toFixed(3));
+    hero.style.setProperty('--z-blur', '0px');
+    hero.style.setProperty('--z-scale', (1 + Math.sin(depth * Math.PI) * .065).toFixed(3));
     const jolt = Math.min(1, impact);
     if (spineCamera) spineCamera.style.transform = `translate3d(${Math.sin(clock * 71) * jolt * 3}px,${Math.cos(clock * 83) * jolt * 2}px,0)`;
   }
@@ -217,12 +259,25 @@
     setCamera(next * segmentGap, targetTurn + Math.sign(delta) * Math.min(22, Math.abs(delta) * .012));
     if (makeSound) { startSound(); audio?.note('roll', .34, point.x); shake(.22); }
   }
-  document.querySelectorAll('.spine-trigger').forEach(button => button.addEventListener('click', () => {
-    const open = button.getAttribute('aria-expanded') !== 'true';
-    button.setAttribute('aria-expanded', String(open));
-    document.getElementById(button.getAttribute('aria-controls'))?.classList.toggle('is-open', open);
-    startSound(); shake(open ? .36 : .19); audio?.note(open ? 'release' : 'press', open ? .42 : .2, point.x);
+  document.querySelectorAll('.spine-trigger').forEach((button, index) => button.addEventListener('click', () => {
+    activateSegment(index); seekSpine(index, false);
+    startSound(); shake(.36); audio?.note('release', .42, point.x);
   }));
+  document.querySelectorAll('.spine-fiber').forEach((panel, index) => panel.addEventListener('pointerdown', event => {
+    if (event.target.closest('a,button,input,textarea,select')) return;
+    panel.classList.add('is-facing');
+    setCamera(index * segmentGap, -index * 1.2);
+    startSound(); audio?.note('release', .22, point.x); shake(.16);
+  }));
+  document.querySelectorAll('.spine-fiber').forEach(panel => {
+    let lastTouchY = 0;
+    panel.addEventListener('touchstart', event => { lastTouchY = event.touches[0].clientY; }, { passive: true });
+    panel.addEventListener('touchmove', event => {
+      const y = event.touches[0].clientY;
+      panel.scrollTop += lastTouchY - y; lastTouchY = y;
+      event.preventDefault();
+    }, { passive: false });
+  });
   document.querySelectorAll('[data-spine-filter]').forEach(button => button.addEventListener('click', () => {
     const filter = button.dataset.spineFilter;
     document.querySelectorAll('[data-spine-filter]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
@@ -246,15 +301,18 @@
   const initialSpace = ({ home: 0, about: 1, work: 2, project: 2, contact: 4 })[routeSpace];
   if (initialSpace !== undefined && theme === 'cyber') {
     cameraY = targetCameraY = initialSpace * segmentGap; worldTurn = targetTurn = initialSpace * 12; paintCamera();
-    if (routeSpace === 'about') document.querySelector('.spine-trigger[aria-controls="fiber-about"]')?.click();
-    if (routeSpace === 'work' || routeSpace === 'project') document.querySelector('.spine-trigger[aria-controls="fiber-work"]')?.click();
-    if (routeSpace === 'contact') document.querySelector('.spine-trigger[aria-controls="fiber-contact"]')?.click();
+    activateSegment(initialSpace);
     const key = new URLSearchParams(location.search).get('project');
     if (key) document.querySelector(`[data-spine-project="${CSS.escape(key)}"]`)?.click();
     history.replaceState(null, '', 'index.html');
   }
   document.addEventListener('wheel', event => {
     if (theme !== 'cyber') return;
+    const panel = event.target.closest('.spine-fiber.is-open');
+    if (panel && panel.scrollHeight > panel.clientHeight && ((event.deltaY > 0 && panel.scrollTop + panel.clientHeight < panel.scrollHeight - 2) || (event.deltaY < 0 && panel.scrollTop > 2))) {
+      const now = performance.now(); if (now - lastRoll > 82) { startSound(); audio?.note('roll', .16, event.clientX / innerWidth); lastRoll = now; }
+      return;
+    }
     event.preventDefault(); startSound();
     const movement = Math.max(-170, Math.min(170, event.deltaY)) * 1.45;
     setCamera(targetCameraY + movement, targetTurn + movement * .024);
@@ -291,7 +349,8 @@
   }, { passive: true });
   hero?.addEventListener('pointerleave', () => { point.inside = false; if (!down) { point.xTo = .66; point.yTo = .4; } });
   hero?.addEventListener('pointerdown', event => {
-    if (theme !== 'cyber' || event.button !== 0 || activePointer !== null || event.target.closest('a,button')) return;
+    if (theme !== 'cyber' || event.button !== 0 || activePointer !== null || event.target.closest('a,button,input,textarea,select') || (event.pointerType !== 'mouse' && event.target.closest('.spine-fiber'))) return;
+    charged = false; charge = 0;
     startSound(); locate(event); activePointer = event.pointerId; down = true; dragDistance = 0; dragOrigin.x = event.clientX; dragOrigin.y = event.clientY; lastHold = performance.now();
     if (event.pointerType === 'mouse') { event.preventDefault(); hero.setPointerCapture(event.pointerId); }
     document.body.classList.add('is-charging'); pulse(point.xTo * width, point.yTo * height, .13);
@@ -336,6 +395,9 @@
     impact *= Math.exp(-dt * 9); paintCamera();
     point.x += (point.xTo - point.x) * ease; point.y += (point.yTo - point.y) * ease; point.speed *= Math.exp(-dt * 5);
     charge = down ? Math.min(1, charge + dt * .43) : charge * Math.exp(-dt * 3.3);
+    if (down && charge >= 1 && !charged) overload();
+    storm = Math.max(0, storm - dt * .9);
+    hero.style.setProperty('--storm-flash', (storm * Math.max(0, Math.sin(clock * 67) * .42 + Math.sin(clock * 113) * .28)).toFixed(3));
     if (down && soundOn && performance.now() - lastHold > 580) { audio?.note('hold', charge, point.x); lastHold = performance.now(); }
     const px = point.x - .5, py = point.y - .5;
     if (!reduced.matches) {
@@ -391,6 +453,20 @@
       ctx.lineWidth = b.active ? 1.7 : .8; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
     }
     if (trail.length) trail[0].age += dt; trail = trail.filter(t => t.age < .42);
+    if (storm > 0) {
+      ctx.save(); ctx.globalCompositeOperation = 'screen';
+      for (let bolt = 0; bolt < 5; bolt++) {
+        let bx = width * (.1 + bolt * .2 + Math.sin(clock * 13 + bolt) * .04), by = -20;
+        ctx.beginPath(); ctx.moveTo(bx, by);
+        for (let step = 0; step < 8; step++) {
+          bx += (Math.random() - .5) * (45 + storm * 75); by += height * (.08 + Math.random() * .045);
+          ctx.lineTo(bx, by);
+        }
+        ctx.strokeStyle = `rgba(155,104,255,${storm * .35})`; ctx.lineWidth = 12; ctx.shadowColor = '#a981ff'; ctx.shadowBlur = 24; ctx.stroke();
+        ctx.strokeStyle = `rgba(236,246,255,${storm * .92})`; ctx.lineWidth = 1.6; ctx.shadowBlur = 10; ctx.stroke();
+      }
+      ctx.restore();
+    }
     if (down) {
       ctx.lineWidth = 1.4; ctx.strokeStyle = '#e0a2ffba'; ctx.beginPath(); ctx.arc(mx, my, 22 + charge * 38, clock * 2, clock * 2 + Math.PI * (1 + charge)); ctx.stroke();
       if (dragDistance > 12) {
