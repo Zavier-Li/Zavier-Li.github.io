@@ -421,7 +421,6 @@
       setCamera(targetCameraY - dy * .78, targetTurn + dx * .11);
       dragOrigin.x = event.clientX; dragOrigin.y = event.clientY;
       if (now - lastHold > 420) { audio?.note('hold', charge, point.x); lastHold = now; }
-      shake(Math.min(.1, distance / 750));
     }
     trail.push({ x: point.xTo * width, y: point.yTo * height, age: 0, active: down });
     if (trail.length > 46) trail.shift();
@@ -481,7 +480,7 @@
     charge = down ? Math.min(1, charge + dt * .43) : charge * Math.exp(-dt * 3.3);
     if (down && charge >= 1 && !charged) overload();
     storm = Math.max(0, storm - dt * .9);
-    const lightning = storm * Math.max(0, Math.sin(clock * 67) * .42 + Math.sin(clock * 113) * .28);
+    const lightning = storm * storm * .5;
     hero.style.setProperty('--storm-flash', lightning.toFixed(3));
     releaseFlash *= Math.exp(-dt * 5.5);
     hero.style.setProperty('--release-flash', releaseFlash.toFixed(3));
