@@ -5,7 +5,7 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let theme = root.dataset.theme === 'cyber' ? 'cyber' : 'signal';
   if (theme === 'cyber' && page !== 'home') { location.replace(`index.html?space=${encodeURIComponent(page)}`); return; }
-  if (home) fetch('assets/cyber-universe.html?v=2').then(response => response.text()).then(markup => {
+  if (home) fetch('assets/cyber-universe.html?v=3').then(response => response.text()).then(markup => {
     document.querySelector('.site-header').insertAdjacentHTML('afterend', markup);
     const language = localStorage.getItem('zavier-lang') || 'en'; root.lang = language === 'zh' ? 'zh-CN' : 'en';
     document.querySelectorAll('.cyber-universe [data-i18n]').forEach(el => { const copy = window.ZAVIER_I18N?.[language]?.[el.dataset.i18n]; if (copy) el.innerHTML = copy; });
@@ -24,7 +24,7 @@
   let audio;
   let frame = 0, visible = true, lastFrame = 0, clock = 0;
   let down = false, activePointer = null, charge = 0, dragDistance = 0, lastArc = 0;
-  let width = 0, height = 0, ripples = [], sparks = [], trail = [];
+  let width = 0, height = 0, ripples = [], sparks = [], trail = [], shockwaves = [], releaseFlash = 0;
   const spineWorld = document.querySelector('[data-spine-world]'), spineCamera = document.querySelector('[data-spine-camera]');
   const spineSegments = [...document.querySelectorAll('[data-spine-segment]')];
   let cameraY = 0, targetCameraY = 0, worldTurn = 0, targetTurn = 0, impact = 0, lastRoll = 0, lastGlide = 0, lastHold = 0;
@@ -141,6 +141,19 @@
       crack.start(t); crack.stop(t + 1.4);
       crack.onended = () => { crack.disconnect(); filter.disconnect(); level.disconnect(); };
     }
+    discharge(x) {
+      if (!soundOn || theme !== 'cyber' || this.context.state !== 'running') return;
+      const c = this.context, t = c.currentTime, pan = c.createStereoPanner();
+      pan.pan.value = (x - .5) * 1.5; pan.connect(this.master); pan.connect(this.reverb);
+      [[370, 46, .16, .82, 'sawtooth'], [1240, 160, .055, .3, 'triangle']].forEach(([from, to, volume, duration, type]) => {
+        const tone = c.createOscillator(), level = c.createGain(); tone.type = type;
+        tone.frequency.setValueAtTime(from, t); tone.frequency.exponentialRampToValueAtTime(to, t + duration);
+        level.gain.setValueAtTime(volume, t); level.gain.exponentialRampToValueAtTime(.0001, t + duration);
+        tone.connect(level).connect(pan); tone.start(t); tone.stop(t + duration + .02);
+        tone.onended = () => { tone.disconnect(); level.disconnect(); };
+      });
+      setTimeout(() => pan.disconnect(), 1000);
+    }
   }
 
   function labels() {
@@ -219,6 +232,21 @@
     hero.classList.add('is-overloaded');
     setTimeout(() => hero.classList.remove('is-overloaded'), 900);
   }
+  function discharge() {
+    const x = point.xTo * width, y = point.yTo * height;
+    shockwaves.push({ x, y, age: 0 });
+    pulse(x, y, 1.8); releaseFlash = 1;
+    hero.style.setProperty('--release-x', `${point.xTo * 100}%`);
+    hero.style.setProperty('--release-y', `${point.yTo * 100}%`);
+    hero.style.setProperty('--impact-x', `${point.xTo * 100}%`);
+    hero.style.setProperty('--impact-y', `${point.yTo * 100}%`);
+    impact = 1; audio?.discharge(point.xTo);
+    hero.classList.add('is-discharging');
+    setTimeout(() => hero.classList.remove('is-discharging'), 900);
+  }
+  function releaseFacing() {
+    document.querySelector('.spine-fiber.is-facing')?.classList.remove('is-facing');
+  }
   function activateSegment(index) {
     if (index === activeSpine && spineSegments[index]?.querySelector('.spine-fiber.is-open')) return;
     activeSpine = index;
@@ -232,15 +260,21 @@
   }
   function paintCamera() {
     if (!spineWorld) return;
-    const depth = cameraY / segmentGap, twist = worldTurn + depth * 1.2;
+    const depth = cameraY / segmentGap;
     activateSegment(Math.round(targetCameraY / segmentGap));
-    const visibleTwist = width <= 720 ? Math.max(-4, Math.min(4, twist * .15)) : twist;
-    const pitch = width <= 720 ? 0 : Math.sin(twist * Math.PI / 180) * 2.6;
-    spineWorld.style.transform = `translate3d(0,${-cameraY}px,0) rotateY(${visibleTwist}deg) rotateX(${pitch}deg)`;
+    spineWorld.style.transform = `translate3d(0,${-cameraY}px,0) rotateY(${worldTurn}deg) rotateX(${width <= 720 ? 0 : Math.sin(depth * 1.3) * 1.5}deg)`;
     spineSegments.forEach((segment, index) => {
       const distance = Math.abs(index * segmentGap - cameraY) / segmentGap;
-      segment.style.setProperty('--clarity', Math.max(.12, 1 - distance * .46).toFixed(3));
-      segment.style.setProperty('--vertebra-turn', `${Math.sin((index * 51 + twist) * Math.PI / 180) * 17}deg`);
+      const angle = [0, 55, -55, 55, -55][index] + (depth - index) * 96;
+      const radians = angle * Math.PI / 180;
+      segment.style.setProperty('--orbit-x', `${(Math.sin(radians) * (width <= 720 ? 26 : 185)).toFixed(2)}px`);
+      segment.style.setProperty('--orbit-z', `${(index === 0 ? 0 : Math.cos(radians) * (width <= 720 ? 35 : 80)).toFixed(2)}px`);
+      segment.style.setProperty('--orbit-angle', `${angle.toFixed(2)}deg`);
+      const facingAngle = angle * (width <= 720 ? .22 : .35);
+      segment.style.setProperty('--orbit-facing-angle', `${facingAngle.toFixed(2)}deg`);
+      segment.style.setProperty('--face-yaw', `${(-facingAngle - worldTurn).toFixed(2)}deg`);
+      segment.style.setProperty('--clarity', Math.max(.1, (1 - distance * .48) * (Math.cos(radians) < 0 ? .78 : 1)).toFixed(3));
+      segment.style.setProperty('--vertebra-turn', `${Math.sin(radians) * 13}deg`);
     });
     hero.style.setProperty('--z-presence', (.7 - Math.sin(depth * 1.4) * .07).toFixed(3));
     hero.style.setProperty('--z-blur', '0px');
@@ -254,21 +288,25 @@
     else schedule();
   }
   function seekSpine(index, makeSound = true) {
+    releaseFacing();
     const next = Math.max(0, Math.min(spineSegments.length - 1, Number(index)));
-    const delta = next * segmentGap - targetCameraY;
-    setCamera(next * segmentGap, targetTurn + Math.sign(delta) * Math.min(22, Math.abs(delta) * .012));
+    setCamera(next * segmentGap, targetTurn);
     if (makeSound) { startSound(); audio?.note('roll', .34, point.x); shake(.22); }
   }
   document.querySelectorAll('.spine-trigger').forEach((button, index) => button.addEventListener('click', () => {
     activateSegment(index); seekSpine(index, false);
     startSound(); shake(.36); audio?.note('release', .42, point.x);
   }));
-  document.querySelectorAll('.spine-fiber').forEach((panel, index) => panel.addEventListener('pointerdown', event => {
-    if (event.target.closest('a,button,input,textarea,select')) return;
+  function faceSegment(panel, index, event) {
+    if (event.target.closest('a,input,textarea,select,[data-theme-toggle],[data-sound-toggle],[data-lang]')) return;
     panel.classList.add('is-facing');
-    setCamera(index * segmentGap, -index * 1.2);
+    setCamera(index * segmentGap, targetTurn);
     startSound(); audio?.note('release', .22, point.x); shake(.16);
-  }));
+  }
+  document.querySelectorAll('.spine-fiber').forEach((panel, index) => {
+    panel.addEventListener('pointerdown', event => { if (event.pointerType === 'mouse') faceSegment(panel, index, event); });
+    panel.addEventListener('click', event => { if (event.pointerType !== 'mouse') faceSegment(panel, index, event); });
+  });
   document.querySelectorAll('.spine-fiber').forEach(panel => {
     let lastTouchY = 0;
     panel.addEventListener('touchstart', event => { lastTouchY = event.touches[0].clientY; }, { passive: true });
@@ -300,7 +338,7 @@
   const routeSpace = new URLSearchParams(location.search).get('space');
   const initialSpace = ({ home: 0, about: 1, work: 2, project: 2, contact: 4 })[routeSpace];
   if (initialSpace !== undefined && theme === 'cyber') {
-    cameraY = targetCameraY = initialSpace * segmentGap; worldTurn = targetTurn = initialSpace * 12; paintCamera();
+    cameraY = targetCameraY = initialSpace * segmentGap; worldTurn = targetTurn = 0; paintCamera();
     activateSegment(initialSpace);
     const key = new URLSearchParams(location.search).get('project');
     if (key) document.querySelector(`[data-spine-project="${CSS.escape(key)}"]`)?.click();
@@ -313,9 +351,9 @@
       const now = performance.now(); if (now - lastRoll > 82) { startSound(); audio?.note('roll', .16, event.clientX / innerWidth); lastRoll = now; }
       return;
     }
-    event.preventDefault(); startSound();
+    event.preventDefault(); releaseFacing(); startSound();
     const movement = Math.max(-170, Math.min(170, event.deltaY)) * 1.45;
-    setCamera(targetCameraY + movement, targetTurn + movement * .024);
+    setCamera(targetCameraY + movement, targetTurn);
     const now = performance.now(); if (now - lastRoll > 82) { audio?.note('roll', Math.min(1, Math.abs(movement) / 170), event.clientX / innerWidth); lastRoll = now; }
     if (Math.abs(movement) > 35) shake(Math.min(.2, Math.abs(movement) / 850));
   }, { passive: false });
@@ -335,6 +373,7 @@
     if (reduced.matches) return;
     if (down) {
       const dx = event.clientX - dragOrigin.x, dy = event.clientY - dragOrigin.y;
+      if (Math.abs(dx) + Math.abs(dy) > 10) releaseFacing();
       setCamera(targetCameraY - dy * .78, targetTurn + dx * .11);
       dragOrigin.x = event.clientX; dragOrigin.y = event.clientY;
       if (now - lastHold > 420) { audio?.note('hold', charge, point.x); lastHold = now; }
@@ -363,8 +402,9 @@
   }
   window.addEventListener('pointerup', event => {
     if (!down || event.pointerId !== activePointer) return;
-    pulse(point.xTo * width, point.yTo * height, Math.max(.28, charge));
-    audio?.note('release', charge, point.xTo); shake(Math.min(.65, .28 + charge * .35)); releaseGesture();
+    if (charged || charge > .82) discharge();
+    else { pulse(point.xTo * width, point.yTo * height, Math.max(.28, charge)); audio?.note('release', charge, point.xTo); shake(Math.min(.65, .28 + charge * .35)); }
+    releaseGesture();
   });
   hero?.addEventListener('pointercancel', releaseGesture);
   hero?.addEventListener('lostpointercapture', () => { if (down) releaseGesture(); });
@@ -398,6 +438,8 @@
     if (down && charge >= 1 && !charged) overload();
     storm = Math.max(0, storm - dt * .9);
     hero.style.setProperty('--storm-flash', (storm * Math.max(0, Math.sin(clock * 67) * .42 + Math.sin(clock * 113) * .28)).toFixed(3));
+    releaseFlash *= Math.exp(-dt * 5.5);
+    hero.style.setProperty('--release-flash', releaseFlash.toFixed(3));
     if (down && soundOn && performance.now() - lastHold > 580) { audio?.note('hold', charge, point.x); lastHold = performance.now(); }
     const px = point.x - .5, py = point.y - .5;
     if (!reduced.matches) {
@@ -467,6 +509,26 @@
       }
       ctx.restore();
     }
+    for (const wave of shockwaves) {
+      wave.age += dt;
+      const progress = Math.min(1, wave.age / 1.15), radius = progress * Math.max(width, height) * .85;
+      const alpha = (1 - progress) ** 1.5;
+      ctx.save(); ctx.translate(wave.x, wave.y); ctx.globalCompositeOperation = 'screen';
+      for (let ring = 0; ring < 3; ring++) {
+        ctx.beginPath(); ctx.arc(0, 0, Math.max(1, radius - ring * 22), 0, Math.PI * 2);
+        ctx.strokeStyle = ring === 0 ? `rgba(228,247,255,${alpha})` : `rgba(${ring === 1 ? '72,166,255' : '255,69,155'},${alpha * .7})`;
+        ctx.lineWidth = ring === 0 ? 3 : 8; ctx.shadowColor = ring === 2 ? '#ff4397' : '#81baff'; ctx.shadowBlur = 30; ctx.stroke();
+      }
+      for (let spoke = 0; spoke < 18; spoke++) {
+        const angle = spoke * Math.PI / 9 + wave.age * .4, inner = radius * .76, outer = radius * (1.02 + Math.sin(spoke * 7.1) * .08);
+        ctx.beginPath(); ctx.moveTo(Math.cos(angle) * inner, Math.sin(angle) * inner);
+        ctx.lineTo(Math.cos(angle + .035) * outer, Math.sin(angle + .035) * outer);
+        ctx.strokeStyle = `rgba(${spoke % 3 ? '164,212,255' : '255,89,165'},${alpha * .75})`;
+        ctx.lineWidth = spoke % 3 ? 1.2 : 2; ctx.stroke();
+      }
+      ctx.restore();
+    }
+    shockwaves = shockwaves.filter(wave => wave.age < 1.15);
     if (down) {
       ctx.lineWidth = 1.4; ctx.strokeStyle = '#e0a2ffba'; ctx.beginPath(); ctx.arc(mx, my, 22 + charge * 38, clock * 2, clock * 2 + Math.PI * (1 + charge)); ctx.stroke();
       if (dragDistance > 12) {
