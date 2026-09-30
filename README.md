@@ -1,5 +1,25 @@
 # Zavier Li — creative coding portfolio study
 
+## Homepage themes
+
+The current Z Lab homepage offers **Z Signal** and **Night City** through the
+header switch and the hero's Style Index. Theme and sound preferences are saved
+locally. Existing content and links are shared by both themes.
+
+Night City uses an original generated city plate (`assets/night-city.webp`), a
+layered mechanical SVG Z, and a canvas for rain, flight trails and energy waves.
+Move across the scene to disturb the rain; hold an empty area to charge; drag to
+pull an arc from the Z; release to emit a shockwave. Native scrolling and text
+selection remain available. Reduced-motion mode keeps the composition static.
+
+The Web Audio soundscape combines a reactor drone, filtered rain, stereo reverb
+and interaction tones. Browsers require a gesture to start sound: switching to
+Night City or clicking the page starts it unless muted. The header audio control
+toggles sound independently. Background tabs suspend audio and rendering.
+
+Theme styles and interaction code live in `assets/cyber-theme.css` and
+`assets/cyber-theme.js`; the page requires no build step or external runtime.
+
 This is an original local study of editorial portfolio interaction patterns observed on public creative-development references. It does not copy the original site's photography, copy, brand identity, or proprietary assets.
 
 ## Run locally

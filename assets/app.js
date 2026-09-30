@@ -1,38 +1,426 @@
-window.ZAVIER_PROJECTS = {
-  zhixing:{year:"2026",category:"systems",art:"art-signal",shortTitle:"Xidian<br />Zhixing",url:"https://zhixing.xidian.edu.cn/",en:{title:"Xidian Zhixing",type:"Campus Services & AI Assistant",summary:"A campus service platform with a RAG-powered assistant, cross-platform clients and an evidence-backed knowledge layer.",copy:"I co-initiated the platform and worked as one of two core developers. The system combines Flutter, a WeChat Mini Program, web interfaces and a retrieval layer that keeps sources attached to answers.",detail:"As of August 2026, the knowledge layer indexed 1,582 documents and 4,149 knowledge chunks. The university adopted the project through its Information & Network Technology Center.",badge:"AI SYSTEMS"},zh:{title:"西电知行",type:"校园服务与 AI 助手",summary:"面向校园服务的平台，包含 RAG 助手、跨端客户端和带证据链的知识层。",copy:"我参与发起项目，并担任两名核心开发者之一。系统结合 Flutter、微信小程序、Web 界面和检索层，让回答保留对应来源。",detail:"截至 2026 年 8 月，知识层已索引 1,582 份文档和 4,149 个知识切片。项目后来被西安电子科技大学信息与网络技术中心采用。",badge:"AI 系统"}},
-  vibe:{year:"2026",category:"creative",art:"art-field",shortTitle:"Vibe<br />Videoing",url:"",media:"assets/vibe-videoing-editor.png",en:{title:"Vibe Videoing",type:"Code-Driven Video Editing",summary:"A React, TypeScript and Remotion system that turns scene modules and timelines into an editable video workspace.",copy:"The editor separates scene definitions from timeline instances, so code changes and visual adjustments can work together instead of competing.",detail:"The system has been used to produce and publish science explainer videos. It is a strong example of code becoming a creative medium.",mediaAlt:"Vibe Videoing editor showing a generated visual contract, a 3D torus scene and an audio timeline",mediaCaption:"Scene contract, generated visual component and timeline in the Vibe Videoing editor.",badge:"CREATIVE TOOLS"},zh:{title:"Vibe Videoing",type:"代码化视频编辑",summary:"使用 React、TypeScript 和 Remotion 构建的视频编辑系统，把场景模块和时间线组合成可编辑的工作台。",copy:"编辑器将场景定义与时间线实例分开，让代码修改和可视化调整可以并行工作。",detail:"这个系统已经用于制作并发布科普视频，是代码本身成为创作媒介的代表项目。",mediaAlt:"Vibe Videoing 编辑器展示生成式视觉契约、环面场景和音频时间线",mediaCaption:"Vibe Videoing 编辑器中的场景契约、生成式视觉组件与时间线。",badge:"创意工具"}},
-  er:{year:"2026",category:"systems",art:"art-orbit",shortTitle:"Entity<br />Relations",url:"https://github.com/Zavier-Li/hierarchical-er-skill",en:{title:"Hierarchical ER Skill",type:"Evidence-Backed Extraction",summary:"A reviewable entity-relation extraction product with granular modes, graph memory, confidence scoring and an error set.",copy:"The system turns extraction into a loop: choose a granularity, preserve source evidence, inspect the result, correct it and accumulate what went wrong.",detail:"A local Web review panel makes the pipeline inspectable instead of leaving the user with an opaque JSON result.",badge:"RESEARCH SYSTEMS"},zh:{title:"层级化实体关系抽取 Skill",type:"带证据的实体关系抽取",summary:"一个可审阅的实体关系抽取产品，支持多粒度模式、图谱记忆、置信度评分和错误集沉淀。",copy:"系统把抽取变成一个闭环：选择粒度、保留原始证据、检查结果、人工修订，再积累失败样本。",detail:"本地 Web 审阅面板让整个流程可检查，用户不必只接收一份无法解释的 JSON。",badge:"研究系统"}},
-  zodel:{year:"2025",category:"systems",art:"art-mono",shortTitle:"Zodel<br />Zflow",url:"https://github.com/Zavier-Li/Zodel",en:{title:"Zodel",type:"LLM Routing & Workflow",summary:"An experimental orchestration framework with dynamic model routing, streaming responses and the Zflow DSL.",copy:"Zodel routes queries from classifier to label to model, then executes multi-step workflows through a small domain-specific language.",detail:"The project is an early expression of the same direction: make powerful AI systems composable, inspectable and easier to operate.",badge:"AI ENGINEERING"},zh:{title:"Zodel",type:"LLM 路由与工作流编排",summary:"一个实验性大模型编排框架，支持动态模型路由、流式回复和 Zflow 领域专用语言。",copy:"Zodel 将请求从分类器分发到任务标签，再路由到模型，并通过轻量 DSL 执行多步骤工作流。",detail:"这个项目体现了同一条主线：让强大的 AI 系统变得可组合、可检查，也更容易操作。",badge:"AI 工程"}},
-  flowpaster:{year:"2026",category:"product",art:"art-kinetic",shortTitle:"Flow<br />Paster",url:"https://github.com/Zavier-Li/FlowPaster",media:"assets/flowpaster-showcase.jpg",en:{title:"FlowPaster",type:"Windows Clipboard Product",summary:"A keyboard-first clipboard and Quick Paste product built around a native Windows workflow.",copy:"I worked on the Quick Paste experience, interaction model and product surface, using PasteBar as the foundation while pushing the interface toward a focused Windows-native feel.",detail:"The project shows product engineering outside the AI layer: speed, configurability and repeated daily use become the design constraints.",mediaAlt:"FlowPaster showcase showing a keyboard-first clipboard search interface over a Windows desktop and Typora workspace",mediaCaption:"FlowPaster connecting clipboard search, Quick Paste and everyday Windows work.",badge:"PRODUCT ENGINEERING"},zh:{title:"FlowPaster",type:"Windows 剪贴板产品",summary:"围绕 Windows 原生工作流打造的键盘优先剪贴板与 Quick Paste 产品。",copy:"我参与 Quick Paste 页面、交互模型和产品界面的推进，在 PasteBar 基础上把体验做得更聚焦于 Windows 工作流。",detail:"这个项目展示了 AI 之外的产品工程：速度、可配置性和高频日常使用成为主要设计约束。",mediaAlt:"FlowPaster 展示图，呈现 Windows 桌面与 Typora 工作区上的键盘优先剪贴板搜索界面",mediaCaption:"FlowPaster 将剪贴板搜索、Quick Paste 和日常 Windows 工作连接起来。",badge:"产品工程"}},
-  reflex:{year:"2026",category:"product",art:"art-common",shortTitle:"Reflex<br />Training",url:"",en:{title:"Reflex",type:"Cross-Platform Learning App",summary:"A Flutter application for timed English response training with local persistence and adaptive card scheduling.",copy:"The app combines deck import and export, proficiency-weighted scheduling, recent-card cooldown and reaction-time tracking.",detail:"It is a small but complete product loop: practice, measure, adapt and return to the next useful prompt.",badge:"PRODUCT DESIGN"},zh:{title:"Reflex",type:"跨端英语反应训练应用",summary:"一个用于限时英语反应练习的 Flutter 应用，支持本地持久化和自适应卡片调度。",copy:"应用结合卡组导入导出、按熟练度加权的调度、近期卡片降权和反应时间记录。",detail:"这是一个小而完整的产品闭环：练习、记录、调整，再进入下一次有效训练。",badge:"产品设计"}}
-};
-window.ZAVIER_I18N = {
-  en:{brand:"© Code by Zavier Li","nav.work":"Work","nav.about":"About","nav.contact":"Contact","section.direction":"01 / Direction","section.selected":"02 / Selected work","section.next":"03 / Next move","home.location":"Based<br />in<br />China","home.role":"AI Systems Design<br />Cross-Platform Software<br />&amp; Vibe Videoing","home.title":"I build tools<br />for complex ideas","home.lead":"I build AI systems, developer tools and creative interfaces that make complex work easier to understand and use.","home.muted":"My work moves between software engineering, research and interaction design. The system behind the interface matters as much as the interface itself.","about.me":"About me","work.more":"More work","home.cta":"Let’s build<br />something useful.","contact.cta":"Get in touch","footer.version":"Version","footer.time":"Local time","footer.socials":"Links","work.archive":"01 / Archive","work.title":"Building systems<br />for real work","filter.all":"All <sup>06</sup>","filter.systems":"AI Systems <sup>03</sup>","filter.product":"Products <sup>02</sup>","filter.creative":"Creative <sup>01</sup>","work.cta":"Have a good<br />problem to solve?","about.point":"01 / Point of view","about.title":"I design AI systems<br />and build across platforms","about.lead":"I work across AI system design, cross-platform software development and code-driven video.","about.muted":"From RAG, entity-relation extraction and model orchestration to Flutter products and Vibe Videoing, I turn complex workflows into tools people can inspect and use.","about.principles":"02 / Principles","principle.one.title":"Make the system visible.","principle.one.body":"Good interfaces expose the right structure: evidence, state, constraints and the next useful action.","principle.two.title":"Build for review.","principle.two.body":"Tools become trustworthy when people can inspect what happened, correct it and carry the result forward.","principle.three.title":"Use motion with a reason.","principle.three.body":"Interaction should clarify a relationship or create a memorable entry point, not hide the content.","about.experience":"03 / Experience","experience.zhixing.title":"Xidian Zhixing","experience.zhixing.role":"Co-initiator & Core Developer","experience.zhixing.body":"Co-initiated the campus platform and helped move it from community prototype to a university-adopted service. Worked across Flutter, WeChat Mini Program, Web and the RAG knowledge layer.","experience.current":"Current","experience.zlab.title":"Z Lab","experience.zlab.role":"Co-founder","experience.zlab.body":"Co-founded Z Lab to explore AI systems, software tools and creative technology through focused engineering projects.","experience.vibe.title":"Vibe Videoing","experience.vibe.role":"Independent Developer","experience.vibe.body":"Built a React, TypeScript and Remotion editing system with agent-editable scene modules, a visual timeline, revision history and video export.","experience.er.title":"Data Fabric & Entity-Relation Extraction","experience.er.role":"Research Project Member","experience.er.body":"Developed multi-granularity extraction, evidence-linked outputs, entity normalization, graph memory, confidence scoring and a local review interface.","experience.education.title":"Xidian University","experience.education.role":"B.S. Software Engineering · in progress","experience.education.body":"Building a foundation across software engineering, AI systems and product development.","about.credentials":"03 / Background","about.education.title":"Education","about.education.body":"B.S. Software Engineering · 2025–2029 expected","about.focus":"04 / AI focus","about.focus.title":"AI systems &amp; tooling","about.focus.body":"Codex · Skill and Plugin development · production AI workflows","about.focus.detail":"I use Codex deeply and build Skills and Plugins that turn AI capabilities into repeatable tools for production work.","about.next":"05 / Next move","about.recognition.title":"Recognition","about.recognition.body":"ResearchPal · National second-round qualifier<br />“Zhengda Cup” · Shaanxi provincial second prize","about.cta":"Good work starts<br />with a clear question.","contact.start":"01 / Start here","contact.title":"Let’s start a<br />useful project","form.name":"What’s your name?","form.name.placeholder":"Your name *","form.email":"What’s your email?","form.email.placeholder":"you@example.com *","form.message":"Tell me about it.","form.message.placeholder":"A few words about the project","form.send":"Send enquiry","contact.details":"Contact details","contact.location":"Beijing, China","contact.availability":"Availability","contact.availability.body":"Open to research collaborations, product engineering and creative technology work.","project.label":"Project / 2026","project.case":"case study","project.open":"Open project ↗","project.media.alt":"Vibe Videoing editor showing a generated visual contract, a 3D torus scene and an audio timeline","project.media.caption":"Scene contract, generated visual component and timeline in the Vibe Videoing editor.","project.approach":"01 / Approach","project.cta":"Have a system<br />worth building?"},
-  zh:{brand:"© Zavier Li","nav.work":"项目","nav.about":"关于","nav.contact":"联系","section.direction":"01 / 方向","section.selected":"02 / 精选项目","section.next":"03 / 下一步","home.location":"来自<br />中国<br />北京","home.role":"AI 系统设计<br />跨端软件开发<br />&amp; Vibe Videoing","home.title":"把复杂想法<br />做成可用工具","home.lead":"我构建 AI 系统、开发者工具和创意界面，让复杂的工作更容易理解，也更容易使用。","home.muted":"我的工作横跨软件工程、研究和交互设计。界面背后的系统，和界面本身同样重要。","about.me":"关于我","work.more":"更多项目","home.cta":"一起做点<br />有用的东西。","contact.cta":"联系我","footer.version":"版本","footer.time":"本地时间","footer.socials":"链接","work.archive":"01 / 项目档案","work.title":"为真实问题<br />构建系统","filter.all":"全部 <sup>06</sup>","filter.systems":"AI 系统 <sup>03</sup>","filter.product":"产品 <sup>02</sup>","filter.creative":"创意工具 <sup>01</sup>","work.cta":"有一个值得<br />解决的问题？","about.point":"01 / 我的方向","about.title":"做 AI 系统设计<br />跨端软件开发<br />和代码化视频","about.lead":"我的工作聚焦 AI 系统设计、跨端软件开发，以及用 Vibe Videoing 把代码变成可编辑的视频创作工具。","about.muted":"我从 RAG、实体关系抽取和模型编排，到 Flutter / Web 产品和 Remotion 视频系统，把复杂工作流做成可检查、可使用的工具。","about.principles":"02 / 做事原则","principle.one.title":"让系统结构可见。","principle.one.body":"好的界面会暴露正确的结构：证据、状态、约束和下一步有用的行动。","principle.two.title":"让结果可以审阅。","principle.two.body":"当人可以检查发生了什么、修正结果并继续使用时，工具才真正值得信任。","principle.three.title":"让动效承担意义。","principle.three.body":"交互应该解释关系，或创造一个值得记住的入口，不应该遮挡内容。","about.experience":"03 / 经历","experience.zhixing.title":"西电知行","experience.zhixing.role":"联合发起人兼核心开发者","experience.zhixing.body":"联合发起校园平台，推动项目从社区原型发展为被学校采用的服务，负责 Flutter、微信小程序、Web 与 RAG 知识层等工作。","experience.current":"持续进行","experience.zlab.title":"Z Lab","experience.zlab.role":"联合创办人","experience.zlab.body":"联合创办 Z Lab，围绕 AI 系统、软件工具与创意技术开展聚焦的工程实践。","experience.vibe.title":"Vibe Videoing","experience.vibe.role":"独立开发者","experience.vibe.body":"使用 React、TypeScript 与 Remotion 构建代码化视频编辑系统，支持可由 Agent 编辑的场景模块、可视时间线、版本历史和视频导出。","experience.er.title":"数据编织与实体关系抽取","experience.er.role":"研究项目成员","experience.er.body":"开发多粒度信息抽取、关联原始证据的结果、实体归一、图谱记忆、置信度评分和本地审阅界面。","experience.education.title":"西安电子科技大学","experience.education.role":"软件工程本科 · 在读","experience.education.body":"持续建立软件工程、AI 系统与产品开发方面的基础。","about.credentials":"03 / 背景","about.education.title":"教育经历","about.education.body":"软件工程本科 · 2025–2029（预计）","about.focus":"04 / AI 技能与工具","about.focus.title":"AI 系统与工具构建","about.focus.body":"Codex · Skill 与 Plugin 构建 · 面向生产的 AI 工作流","about.focus.detail":"熟练使用 Codex，并构建用于生产工作的 Skill 与 Plugin，把 AI 能力组织成可复用、可执行的工具。","about.next":"05 / 下一步","about.recognition.title":"经历与荣誉","about.recognition.body":"ResearchPal · 全国复赛入围<br />“正大杯” · 陕西赛区本科组二等奖","about.cta":"好的项目<br />从一个清晰的问题开始。","contact.start":"01 / 从这里开始","contact.title":"一起做一个<br />有用的项目","form.name":"你的名字是？","form.name.placeholder":"姓名 *","form.email":"你的邮箱是？","form.email.placeholder":"邮箱 *","form.message":"想做什么？","form.message.placeholder":"简单介绍一下项目","form.send":"发送需求","contact.details":"联系方式","contact.location":"中国 · 北京","contact.availability":"合作方向","contact.availability.body":"欢迎交流研究合作、产品工程和创意技术项目。","project.label":"项目 / 2026","project.case":"项目案例","project.open":"打开项目 ↗","project.media.alt":"Vibe Videoing 编辑器展示生成式视觉契约、环面场景和音频时间线","project.media.caption":"Vibe Videoing 编辑器中的场景契约、生成式视觉组件与时间线。","project.approach":"01 / 方法","project.cta":"有一个系统<br />值得一起构建吗？"}
-};
 (() => {
-  const body=document.body, page=body.dataset.page||"home", wipe=document.querySelector(".page-wipe"), reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let lang=localStorage.getItem("zavier-lang")||"en";
-  const projects=window.ZAVIER_PROJECTS, dict=window.ZAVIER_I18N;
-  const t=k=>(dict[lang]&&dict[lang][k])||k;
-  function updateProjectFields(){
-    document.querySelectorAll("[data-project-field]").forEach(el=>{const key=el.dataset.project||el.closest("[data-project]")?.dataset.project,p=projects[key];if(!p)return;const f=el.dataset.projectField;el.innerHTML=f==="shortTitle"?p.shortTitle:f==="year"?p.year:p[lang][f]||"";});
-    document.querySelectorAll("[data-project]").forEach(container=>{const p=projects[container.dataset.project],image=container.querySelector("[data-project-image]"),visual=container.querySelector(".card-art,.feature-visual");if(!p||!image||!visual)return;const hasMedia=Boolean(p.media);image.hidden=!hasMedia;image.src=hasMedia?p.media:"";image.alt=hasMedia?(p[lang].mediaAlt||p[lang].title):"";visual.classList.toggle("has-project-media",hasMedia);});
-    if(page!=="project")return;
-    const key=new URLSearchParams(location.search).get("project")||"zhixing",p=projects[key]||projects.zhixing,copy=document.querySelector("[data-project-copy]"),detail=document.querySelector("[data-project-detail]"),title=document.querySelector("[data-project-title]"),summary=document.querySelector("[data-project-summary]"),art=document.querySelector("[data-project-art]"),artImage=document.querySelector("[data-project-art-image]"),artPlaceholder=document.querySelector("[data-project-art-placeholder]"),link=document.querySelector("[data-project-url]");
-    if(title)title.textContent=p[lang].title;if(summary)summary.textContent=p[lang].summary;if(copy)copy.textContent=p[lang].copy;if(detail)detail.textContent=p[lang].detail;if(art){if(p.media){art.className="project-art project-art-media";artImage.hidden=false;artImage.src=p.media;artImage.alt=p[lang].mediaAlt||p[lang].title;artPlaceholder.hidden=true;}else{art.className="project-art "+p.art;artImage.hidden=true;artImage.src="";artPlaceholder.hidden=false;artPlaceholder.querySelector("span").textContent=t("project.case");artPlaceholder.querySelector("b").innerHTML=p[lang].title.replace(" ","<br />");}}if(link){link.href=p.url||"#";link.classList.toggle("is-disabled",!p.url);link.setAttribute("aria-hidden",String(!p.url));}document.title="Zavier Li — "+p[lang].title;
+  const body = document.body;
+  if (!body || !body.classList.contains("zl-site")) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = window.matchMedia("(pointer: fine)").matches;
+  const i18n = {
+    en: {
+      "nav.work": "WORK",
+      "nav.method": "METHOD",
+      "nav.contact": "CONTACT",
+      "header.status": "OPEN TO GOOD QUESTIONS",
+      "hero.kicker": "AI SYSTEMS · SOFTWARE TOOLS · CREATIVE TECHNOLOGY",
+      "hero.title.one": "MAKE THE",
+      "hero.title.two": "INVISIBLE",
+      "hero.title.three": "LEGIBLE.",
+      "hero.deck": "Z Lab turns complex ideas into systems people can inspect, use and carry forward.",
+      "hero.action": "ENTER THE LAB",
+      "hero.secondary": "READ THE SIGNAL",
+      "hero.note": "Good tools make the next move obvious.",
+      "hero.scroll": "SCROLL TO DECODE",
+      "manifesto.label": "SIGNAL / POINT OF VIEW",
+      "manifesto.title.one": "WE TURN",
+      "manifesto.title.two": "COMPLEX",
+      "manifesto.title.three": "INTO CLEAR MOVES.",
+      "manifesto.copy": "A small studio for the strange middle: where research becomes a product, where code becomes a medium, and where a hard question gets a shape.",
+      "manifesto.link": "SEE HOW WE WORK",
+      "work.label": "ACTIVE MATTER / SELECTED WORK",
+      "work.title": "Things we have<br /><em>made useful.</em>",
+      "work.copy": "From a campus knowledge layer to a keyboard-first tool: a few systems that made it out of the lab.",
+      "project.zhixing": "Campus services + an evidence-backed AI assistant.",
+      "project.vibe": "Code-driven video editing as an editable system.",
+      "project.er": "Entity-relation extraction people can actually review.",
+      "project.zodel": "Model routing and workflow orchestration for curious machines.",
+      "work.footer": "The archive keeps growing.",
+      "method.label": "METHOD / HOW WE MOVE",
+      "method.title": "Keep the magic.<br /><em>Show the mechanism.</em>",
+      "method.copy": "The best interface is a window into the system. We work in public with the important parts: evidence, states, constraints and the next useful action.",
+      "method.one.title": "SURFACE THE SIGNAL",
+      "method.one.copy": "Find the hidden structure before choosing a surface. A clear model gives the visual somewhere to go.",
+      "method.two.title": "MAKE IT INSPECTABLE",
+      "method.two.copy": "Keep sources close, expose state and leave room for a human to correct the machine.",
+      "method.three.title": "SHIP THE STRANGE",
+      "method.three.copy": "A memorable idea only matters when it survives contact with real work, real devices and a real next step.",
+      "trace.one": "listen --for=the_real_question",
+      "trace.two": "make --structure=visible",
+      "trace.three": "ship --with=one_strange_detail",
+      "contact.label": "OPEN CHANNEL / NEXT MOVE",
+      "contact.title.one": "BRING A",
+      "contact.title.two": "STRANGE",
+      "contact.title.three": "QUESTION.",
+      "contact.copy": "Research collaboration, product engineering or a creative system with a pulse — send the first signal.",
+      "contact.location": "BEIJING / CHINA",
+      "contact.availability": "AVAILABLE FOR SELECT COLLABORATIONS",
+      "footer.time": "LOCAL TIME",
+      "footer.credit": "BUILT WITH CURIOSITY"
+    },
+    zh: {
+      "nav.work": "项目",
+      "nav.method": "方法",
+      "nav.contact": "联系",
+      "header.status": "欢迎有趣的问题",
+      "hero.kicker": "AI 系统 · 软件工具 · 创意技术",
+      "hero.title.one": "让不可见的",
+      "hero.title.two": "复杂",
+      "hero.title.three": "变得清晰。",
+      "hero.deck": "Z Lab 把复杂想法变成可以检查、使用并继续生长的系统。",
+      "hero.action": "进入实验室",
+      "hero.secondary": "读取信号",
+      "hero.note": "好的工具，会让下一步自然出现。",
+      "hero.scroll": "向下解码",
+      "manifesto.label": "信号 / 我们的方向",
+      "manifesto.title.one": "把复杂",
+      "manifesto.title.two": "变成",
+      "manifesto.title.three": "清晰的行动。",
+      "manifesto.copy": "一个处理奇异中间地带的小型工作室：让研究变成产品，让代码成为媒介，让难题拥有形状。",
+      "manifesto.link": "看看我们如何工作",
+      "work.label": "正在发生 / 精选项目",
+      "work.title": "我们把一些东西<br /><em>做得有用了。</em>",
+      "work.copy": "从校园知识层到键盘优先工具：一些真正走出实验室的系统。",
+      "project.zhixing": "校园服务与带证据链的 AI 助手。",
+      "project.vibe": "把代码化视频编辑做成可修改的系统。",
+      "project.er": "让人真正可以审阅的实体关系抽取。",
+      "project.zodel": "给好奇机器使用的模型路由与工作流编排。",
+      "work.footer": "档案仍在生长。",
+      "method.label": "方法 / 我们如何移动",
+      "method.title": "保留魔法。<br /><em>展示机制。</em>",
+      "method.copy": "最好的界面，是进入系统的一扇窗。我们把重要的部分放到台面上：证据、状态、约束，以及下一步有用的动作。",
+      "method.one.title": "让信号浮现",
+      "method.one.copy": "先找到隐藏的结构，再选择表面。清晰的模型会告诉视觉该往哪里走。",
+      "method.two.title": "让结果可审阅",
+      "method.two.copy": "保留来源、暴露状态，也为人修正机器留下空间。",
+      "method.three.title": "把奇怪的想法交付出去",
+      "method.three.copy": "值得记住的想法，必须经得起真实工作、真实设备和下一步行动。",
+      "trace.one": "listen --for=the_real_question",
+      "trace.two": "make --structure=visible",
+      "trace.three": "ship --with=one_strange_detail",
+      "contact.label": "开放频道 / 下一步",
+      "contact.title.one": "带来一个",
+      "contact.title.two": "奇怪的",
+      "contact.title.three": "问题。",
+      "contact.copy": "研究合作、产品工程，或者一个有脉搏的创意系统——把第一条信号发过来。",
+      "contact.location": "中国 / 北京",
+      "contact.availability": "接受精选合作",
+      "footer.time": "本地时间",
+      "footer.credit": "带着好奇心构建"
+    }
+  };
+
+  let language = localStorage.getItem("zlab-language") || "en";
+  const translate = (key) => (i18n[language] && i18n[language][key]) || key;
+
+  function applyLanguage() {
+    document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+    document.querySelectorAll("[data-i18n]").forEach((node) => {
+      node.innerHTML = translate(node.dataset.i18n);
+    });
+    document.querySelectorAll("[data-lang]").forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.lang === language);
+    });
+    document.title = language === "zh" ? "Z LAB — 让复杂变得清晰" : "Z LAB — Signal for useful futures";
   }
-  function applyLanguage(){document.documentElement.lang=lang==="zh"?"zh-CN":"en";document.querySelectorAll("[data-i18n]").forEach(el=>el.innerHTML=t(el.dataset.i18n));document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>el.placeholder=t(el.dataset.i18nPlaceholder));document.querySelectorAll("[data-i18n-alt]").forEach(el=>el.alt=t(el.dataset.i18nAlt));document.querySelectorAll("[data-lang]").forEach(el=>el.classList.toggle("is-active",el.dataset.lang===lang));const titles={home:{en:"Zavier Li — Home",zh:"Zavier Li — 首页"},work:{en:"Zavier Li — Work",zh:"Zavier Li — 项目"},about:{en:"Zavier Li — About",zh:"Zavier Li — 关于"},contact:{en:"Zavier Li — Contact",zh:"Zavier Li — 联系"},project:{en:"Zavier Li — Project",zh:"Zavier Li — 项目"}};if(titles[page])document.title=titles[page][lang];updateProjectFields();}
-  document.querySelectorAll("[data-lang]").forEach(btn=>btn.addEventListener("click",()=>{lang=btn.dataset.lang;localStorage.setItem("zavier-lang",lang);applyLanguage();}));applyLanguage();
-  function updateClock(){document.querySelectorAll("[data-clock]").forEach(el=>{const d=new Date();el.textContent="GMT+8 "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");});}updateClock();setInterval(updateClock,30000);
-  function initCursor(){const cursor=document.querySelector(".cursor");if(!cursor||!window.matchMedia("(pointer:fine)").matches)return;body.classList.add("cursor-ready");addEventListener("pointermove",e=>{cursor.style.left=e.clientX+"px";cursor.style.top=e.clientY+"px"},{passive:true});document.querySelectorAll("a,button,.magnetic").forEach(el=>{el.addEventListener("mouseenter",()=>cursor.classList.add("is-hover"));el.addEventListener("mouseleave",()=>cursor.classList.remove("is-hover"));});}
-  function initMagnetic(){if(!window.matchMedia("(pointer:fine)").matches)return;document.querySelectorAll(".magnetic").forEach(el=>{el.addEventListener("pointermove",e=>{const r=el.getBoundingClientRect(),dx=(e.clientX-r.left-r.width/2)*.12,dy=(e.clientY-r.top-r.height/2)*.12;el.style.transform="translate("+dx+"px,"+dy+"px)"});el.addEventListener("pointerleave",()=>el.style.transform="");});}
-  initCursor();initMagnetic();
-  document.querySelectorAll("[data-transition]").forEach(link=>link.addEventListener("click",e=>{const href=link.getAttribute("href");if(!href||href.startsWith("#")||href.startsWith("mailto:")||href.startsWith("tel:")||href.startsWith("http")||e.metaKey||e.ctrlKey)return;e.preventDefault();if(reduceMotion){location.href=href;return;}if(wipe&&window.gsap)gsap.to(wipe,{scaleY:1,duration:.55,ease:"power4.inOut",onComplete:()=>location.href=href});else location.href=href;}));
-  if(wipe&&!reduceMotion&&window.gsap)gsap.fromTo(wipe,{scaleY:1},{scaleY:0,duration:.8,delay:.08,ease:"power4.inOut",transformOrigin:"top"});
-  const reveals=document.querySelectorAll("[data-reveal]");
-  if(window.gsap&&window.ScrollTrigger&&!reduceMotion){gsap.registerPlugin(ScrollTrigger);reveals.forEach(el=>gsap.fromTo(el,{y:30,opacity:0},{y:0,opacity:1,duration:1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 88%",once:true}}));if(document.querySelector(".hero-name-track"))gsap.to(".hero-name-track",{xPercent:-16,scrollTrigger:{trigger:".home-hero",start:"top top",end:"bottom top",scrub:1}});}else if(!reduceMotion){const ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.opacity=1;e.target.style.transform="none";ob.unobserve(e.target);}}),{threshold:.1});reveals.forEach(el=>{el.style.opacity=0;el.style.transform="translateY(30px)";ob.observe(el);});}
-  document.querySelectorAll("[data-filter]").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll("[data-filter]").forEach(b=>b.classList.remove("is-selected"));btn.classList.add("is-selected");const f=btn.dataset.filter;document.querySelectorAll(".work-card").forEach(card=>card.classList.toggle("is-hidden",f!=="all"&&card.dataset.category!==f));if(window.ScrollTrigger)ScrollTrigger.refresh();}));
-  const canvas=document.querySelector("#hero-canvas");
-  if(canvas){const ctx=canvas.getContext("2d"),points=[];let w=0,h=0,dpr=1,mx=.5,my=.5,time=0;const resize=()=>{dpr=Math.min(devicePixelRatio||1,1.6);w=canvas.clientWidth;h=canvas.clientHeight;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);points.length=0;for(let i=0;i<110;i++)points.push({x:Math.random(),y:Math.random(),r:Math.random()*2+.2,a:Math.random()*.35+.1});};resize();addEventListener("resize",resize);addEventListener("pointermove",e=>{mx=e.clientX/innerWidth;my=e.clientY/innerHeight});const draw=()=>{time+=.008;ctx.clearRect(0,0,w,h);const cx=w*(.5+(mx-.5)*.08),cy=h*(.47+(my-.5)*.06),rx=Math.min(w*.31,370),ry=Math.min(h*.49,490),g=ctx.createRadialGradient(cx-rx*.2,cy-ry*.45,20,cx,cy,rx);g.addColorStop(0,"#dfdfd6");g.addColorStop(.38,"#8c9895");g.addColorStop(.72,"#1b2831");g.addColorStop(1,"rgba(21,28,33,.08)");ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);ctx.fill();ctx.save();ctx.beginPath();ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);ctx.clip();for(let i=0;i<18;i++){const y=cy-ry+i*(ry*2/17)+Math.sin(time+i)*8;ctx.strokeStyle="rgba(255,255,255,"+(.035+(i%3)*.015)+")";ctx.beginPath();ctx.moveTo(cx-rx,y);ctx.bezierCurveTo(cx-rx*.2,y+Math.sin(time+i)*34,cx+rx*.2,y-Math.sin(time+i)*28,cx+rx,y);ctx.stroke();}points.forEach(p=>{const px=(p.x-.5)*rx*1.8+cx,py=(p.y-.5)*ry*2+cy;ctx.fillStyle="rgba(255,255,255,"+p.a+")";ctx.beginPath();ctx.arc(px,py,p.r,0,Math.PI*2);ctx.fill();});ctx.restore();requestAnimationFrame(draw);};if(!reduceMotion)draw();else{ctx.fillStyle="#53606a";ctx.beginPath();ctx.ellipse(w*.5,h*.48,Math.min(w*.3,340),Math.min(h*.45,440),0,0,Math.PI*2);ctx.fill();}}
+
+  document.querySelectorAll("[data-lang]").forEach((button) => {
+    button.addEventListener("click", () => {
+      language = button.dataset.lang;
+      localStorage.setItem("zlab-language", language);
+      applyLanguage();
+    });
+  });
+  applyLanguage();
+
+  function updateClock() {
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Shanghai", hour: "2-digit", minute: "2-digit", hour12: false });
+    document.querySelectorAll("[data-clock]").forEach((node) => { node.textContent = `GMT+8 ${formatter.format(now)}`; });
+  }
+  updateClock();
+  window.setInterval(updateClock, 30000);
+
+  function initScrollProgress() {
+    const bar = document.querySelector(".scroll-progress i");
+    if (!bar) return;
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.height = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+  }
+  initScrollProgress();
+
+  function initCursor() {
+    const cursor = document.querySelector(".cursor");
+    if (!cursor || !finePointer) return;
+    body.classList.add("cursor-ready");
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+    let tx = x;
+    let ty = y;
+    const move = (event) => { tx = event.clientX; ty = event.clientY; };
+    window.addEventListener("pointermove", move, { passive: true });
+    const render = () => {
+      const follow = document.documentElement.dataset.theme === "cyber" ? 1 : .22;
+      x += (tx - x) * follow;
+      y += (ty - y) * follow;
+      cursor.style.left = `${x}px`;
+      cursor.style.top = `${y}px`;
+      requestAnimationFrame(render);
+    };
+    render();
+    document.querySelectorAll("[data-cursor]").forEach((target) => {
+      target.addEventListener("mouseenter", () => {
+        const label = target.dataset.cursor || "MOVE";
+        const labelNode = cursor.querySelector(".cursor-label");
+        if (labelNode) labelNode.textContent = label;
+        cursor.classList.add("is-active");
+      });
+      target.addEventListener("mouseleave", () => cursor.classList.remove("is-active"));
+    });
+  }
+  initCursor();
+
+  function initMagnetic() {
+    if (!finePointer) return;
+    document.querySelectorAll(".magnetic").forEach((node) => {
+      node.addEventListener("pointermove", (event) => {
+        const box = node.getBoundingClientRect();
+        const dx = (event.clientX - box.left - box.width / 2) * .12;
+        const dy = (event.clientY - box.top - box.height / 2) * .12;
+        node.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+      });
+      node.addEventListener("pointerleave", () => { node.style.transform = ""; });
+    });
+  }
+  initMagnetic();
+
+  function initReveal() {
+    const revealNodes = document.querySelectorAll(".manifesto-grid, .work-intro, .project-card, .method-head, .method-item, .process-trace, .contact-layout");
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      revealNodes.forEach((node) => { node.style.opacity = "1"; node.style.transform = "none"; });
+      return;
+    }
+    revealNodes.forEach((node) => {
+      node.dataset.reveal = "";
+      node.style.transition = "opacity .9s var(--ease), transform .9s var(--ease)";
+      node.style.transitionDelay = `${Math.min((Array.from(node.parentElement.children).indexOf(node) || 0) * 70, 280)}ms`;
+    });
+    const observer = new IntersectionObserver((entries, current) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "none";
+        current.unobserve(entry.target);
+      });
+    }, { threshold: .12, rootMargin: "0px 0px -8% 0px" });
+    revealNodes.forEach((node) => observer.observe(node));
+  }
+  initReveal();
+
+  function initHeroPointer() {
+    const hero = document.querySelector(".hero");
+    const z = document.querySelector(".hero-z");
+    const xReadout = document.querySelector("[data-pointer-x]");
+    const yReadout = document.querySelector("[data-pointer-y]");
+    if (!hero) return;
+    hero.addEventListener("pointermove", (event) => {
+      const rect = hero.getBoundingClientRect();
+      const px = (event.clientX - rect.left) / rect.width;
+      const py = (event.clientY - rect.top) / rect.height;
+      hero.style.setProperty("--pointer-x", `${(px * 100).toFixed(1)}%`);
+      hero.style.setProperty("--pointer-y", `${(py * 100).toFixed(1)}%`);
+      if (xReadout) xReadout.textContent = String(Math.round(px * 100)).padStart(3, "0");
+      if (yReadout) yReadout.textContent = String(Math.round(py * 100)).padStart(3, "0");
+      if (z && finePointer) z.style.transform = `translate(calc(-50% + ${(px - .5) * 22}px), calc(-50% + ${(py - .5) * 18}px)) rotate(${(-11 + (px - .5) * 8).toFixed(2)}deg) skewY(-7deg)`;
+    }, { passive: true });
+    hero.addEventListener("pointerleave", () => {
+      if (z) z.style.transform = "";
+      if (xReadout) xReadout.textContent = "050";
+      if (yReadout) yReadout.textContent = "050";
+    });
+  }
+  initHeroPointer();
+
+  function initProjectSignals() {
+    document.querySelectorAll(".project-card").forEach((card) => {
+      card.addEventListener("mouseenter", () => { body.dataset.signal = card.dataset.signal || "acid"; });
+      card.addEventListener("mouseleave", () => { body.dataset.signal = "acid"; });
+    });
+  }
+  initProjectSignals();
+
+  function initSignalCanvas() {
+    const canvas = document.querySelector("#signal-canvas");
+    if (!canvas) return;
+    const context = canvas.getContext("2d", { alpha: true });
+    if (!context) return;
+    let width = 0;
+    let height = 0;
+    let dpr = Math.min(window.devicePixelRatio || 1, 1.65);
+    let frame = 0;
+    let time = 0;
+    let isVisible = true;
+    let pointerX = .5;
+    let pointerY = .5;
+    let targetX = .5;
+    let targetY = .5;
+    let stars = [];
+    const palette = {
+      acid: { core: "#d8ff3e", soft: "rgba(216,255,62,.65)", line: "rgba(216,255,62,.16)" },
+      violet: { core: "#b1a7ff", soft: "rgba(170,158,255,.65)", line: "rgba(170,158,255,.15)" },
+      orange: { core: "#ff704d", soft: "rgba(255,112,77,.6)", line: "rgba(255,112,77,.15)" },
+      blue: { core: "#8fe7ff", soft: "rgba(143,231,255,.6)", line: "rgba(143,231,255,.15)" }
+    };
+    const getPalette = () => palette[body.dataset.signal] || palette.acid;
+    const seed = () => {
+      stars = Array.from({ length: 260 }, (_, index) => ({
+        a: Math.random() * Math.PI * 2,
+        r: Math.sqrt(Math.random()),
+        z: Math.random(),
+        s: Math.random() * .8 + .2,
+        twinkle: Math.random() * Math.PI * 2,
+        index
+      }));
+    };
+    const resize = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      dpr = Math.min(window.devicePixelRatio || 1, 1.65);
+      width = canvas.clientWidth || window.innerWidth;
+      height = canvas.clientHeight || window.innerHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      seed();
+      draw();
+    };
+    const projectStar = (star, cx, cy, radiusX, radiusY) => {
+      const rotation = time * .045 + star.z * .45;
+      const depth = .35 + star.z * .9;
+      const x = Math.cos(star.a + rotation) * radiusX * star.r;
+      const y = Math.sin(star.a + rotation) * radiusY * star.r;
+      const wave = Math.sin(time * .8 + star.twinkle + star.z * 5) * 4;
+      return { x: cx + x * depth + (targetX - .5) * 38, y: cy + y * depth + (targetY - .5) * 24 + wave, scale: depth, alpha: (.12 + star.z * .75) * (.75 + Math.sin(time * 1.2 + star.twinkle) * .25) };
+    };
+    const draw = () => {
+      frame = 0;
+      if (document.documentElement.dataset.theme === "cyber" || document.hidden) return;
+      if (!width || !height) return;
+      const colors = getPalette();
+      pointerX += (targetX - pointerX) * .06;
+      pointerY += (targetY - pointerY) * .06;
+      context.clearRect(0, 0, width, height);
+      const cx = width * (.63 + (pointerX - .5) * .025);
+      const cy = height * (.5 + (pointerY - .5) * .02);
+      const radiusX = Math.min(width * .34, 510);
+      const radiusY = Math.min(height * .44, 440);
+      const glow = context.createRadialGradient(cx, cy, 8, cx, cy, Math.max(radiusX, radiusY));
+      glow.addColorStop(0, colors.soft);
+      glow.addColorStop(.15, colors.line);
+      glow.addColorStop(.54, "rgba(10,11,15,.02)");
+      glow.addColorStop(1, "rgba(10,11,15,0)");
+      context.fillStyle = glow;
+      context.beginPath();
+      context.ellipse(cx, cy, radiusX, radiusY, -.23, 0, Math.PI * 2);
+      context.fill();
+
+      context.save();
+      context.translate(cx, cy);
+      context.rotate(-.23);
+      for (let ring = 0; ring < 14; ring += 1) {
+        const ratio = .16 + ring / 15 * .88;
+        context.beginPath();
+        context.ellipse(0, 0, radiusX * ratio, radiusY * ratio, 0, 0, Math.PI * 2);
+        context.strokeStyle = ring % 3 === 0 ? colors.line : "rgba(243,240,233,.05)";
+        context.lineWidth = ring % 4 === 0 ? 1.2 : .65;
+        context.setLineDash([2 + ring * .4, 10 + ring * 1.9]);
+        context.lineDashOffset = -time * (ring % 2 ? 10 : -7) - ring * 7;
+        context.stroke();
+      }
+      context.setLineDash([]);
+      context.restore();
+
+      const projected = [];
+      stars.forEach((star) => {
+        const point = projectStar(star, cx, cy, radiusX * 1.06, radiusY * 1.08);
+        projected.push(point);
+        const size = Math.max(.45, star.s * point.scale * 1.6);
+        context.globalAlpha = point.alpha;
+        context.fillStyle = star.index % 7 === 0 ? colors.core : "#f3f0e9";
+        context.beginPath();
+        context.arc(point.x, point.y, size, 0, Math.PI * 2);
+        context.fill();
+      });
+      context.globalAlpha = 1;
+      context.lineWidth = .7;
+      for (let index = 0; index < projected.length; index += 7) {
+        const from = projected[index];
+        const to = projected[(index + 17) % projected.length];
+        const dx = from.x - to.x;
+        const dy = from.y - to.y;
+        if (dx * dx + dy * dy < 19000) {
+          context.strokeStyle = colors.line;
+          context.beginPath();
+          context.moveTo(from.x, from.y);
+          context.lineTo(to.x, to.y);
+          context.stroke();
+        }
+      }
+
+      context.save();
+      context.translate(cx, cy);
+      context.rotate(-.23 + Math.sin(time * .28) * .035);
+      const zWidth = radiusX * 1.28;
+      const zHeight = radiusY * .92;
+      context.strokeStyle = colors.soft;
+      context.lineWidth = 1.2;
+      context.setLineDash([3, 13]);
+      context.beginPath();
+      context.moveTo(-zWidth * .46, -zHeight * .3);
+      context.lineTo(zWidth * .44, -zHeight * .3);
+      context.lineTo(-zWidth * .44, zHeight * .3);
+      context.lineTo(zWidth * .46, zHeight * .3);
+      context.stroke();
+      context.setLineDash([]);
+      context.restore();
+
+      if (!reduceMotion && isVisible) {
+        time += .008;
+        frame = requestAnimationFrame(draw);
+      }
+    };
+    const pointer = (event) => {
+      targetX = event.clientX / window.innerWidth;
+      targetY = event.clientY / window.innerHeight;
+    };
+    window.addEventListener("pointermove", pointer, { passive: true });
+    window.addEventListener("resize", resize, { passive: true });
+    window.addEventListener("zlab:themechange", () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      if (document.documentElement.dataset.theme !== "cyber") resize();
+    });
+    document.addEventListener("visibilitychange", () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      if (!document.hidden && isVisible) draw();
+    });
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        isVisible = entry.isIntersecting;
+        if (isVisible && !reduceMotion && !frame) frame = requestAnimationFrame(draw);
+        if (!isVisible && frame) { cancelAnimationFrame(frame); frame = 0; }
+      }, { threshold: 0 });
+      observer.observe(canvas);
+    }
+    resize();
+    if (reduceMotion) draw();
+  }
+  initSignalCanvas();
+
+  const boot = document.querySelector(".boot-screen");
+  if (boot) window.setTimeout(() => boot.classList.add("is-complete"), 1300);
 })();
