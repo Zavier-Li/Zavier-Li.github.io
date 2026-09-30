@@ -5,7 +5,7 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let theme = root.dataset.theme === 'cyber' ? 'cyber' : 'signal';
   if (theme === 'cyber' && page !== 'home') { location.replace(`index.html?space=${encodeURIComponent(page)}`); return; }
-  if (home) fetch('assets/cyber-universe.html?v=6').then(response => response.text()).then(markup => {
+  if (home) fetch('assets/cyber-universe.html?v=7').then(response => response.text()).then(markup => {
     document.querySelector('.site-header').insertAdjacentHTML('afterend', markup);
     const language = localStorage.getItem('zavier-lang') || 'en'; root.lang = language === 'zh' ? 'zh-CN' : 'en';
     document.querySelectorAll('.cyber-universe [data-i18n]').forEach(el => { const copy = window.ZAVIER_I18N?.[language]?.[el.dataset.i18n]; if (copy) el.innerHTML = copy; });
@@ -16,6 +16,17 @@
     }));
     initializeUniverse();
   }); else initializeUniverse();
+  if (home) {
+    const entrance = document.querySelector('.site-header .theme-tools');
+    const fadeEntrance = () => {
+      const progress = Math.min(1, Math.max(0, (scrollY - innerHeight * .08) / (innerHeight * .52)));
+      entrance.style.setProperty('--entry-opacity', (1 - progress).toFixed(3));
+      entrance.inert = progress >= .98;
+    };
+    addEventListener('scroll', fadeEntrance, { passive: true });
+    addEventListener('resize', fadeEntrance, { passive: true });
+    fadeEntrance();
+  }
   function initializeUniverse() {
   const hero = document.querySelector('.cyber-universe');
   const effects = hero?.querySelector('.cyber-effects');
@@ -24,7 +35,7 @@
   const bgm = hero?.querySelector('.cyber-bgm');
   if (bgm) bgm.volume = 1;
   let audio;
-  let frame = 0, visible = true, lastFrame = 0, clock = 0;
+  let frame = 0, visible = true, lastFrame = 0, clock = 0, musicLight = 0;
   let down = false, activePointer = null, charge = 0, dragDistance = 0, lastArc = 0;
   let width = 0, height = 0, ripples = [], sparks = [], trail = [], shockwaves = [], releaseFlash = 0;
   const spineWorld = document.querySelector('[data-spine-world]'), spineCamera = document.querySelector('[data-spine-camera]');
@@ -42,7 +53,10 @@
       this.master = c.createGain(); this.master.gain.value = 0; this.master.connect(c.destination);
       if (bgm) {
         this.musicGain = c.createGain(); this.musicGain.gain.value = 0;
-        c.createMediaElementSource(bgm).connect(this.musicGain).connect(c.destination);
+        this.musicAnalyser = c.createAnalyser(); this.musicAnalyser.fftSize = 1024;
+        this.musicSamples = new Float32Array(this.musicAnalyser.fftSize);
+        this.musicAverage = 0;
+        c.createMediaElementSource(bgm).connect(this.musicGain).connect(this.musicAnalyser).connect(c.destination);
         this.musicStarted = false;
       }
       this.reverb = c.createConvolver();
@@ -100,6 +114,15 @@
         this.musicStarted = false;
       }
       this.suspendTimer = setTimeout(() => this.context.suspend().then(labels), 500);
+    }
+    musicLevel() {
+      if (!this.musicAnalyser || this.context.state !== 'running' || bgm.paused) return 0;
+      this.musicAnalyser.getFloatTimeDomainData(this.musicSamples);
+      let energy = 0;
+      for (const sample of this.musicSamples) energy += sample * sample;
+      const rms = Math.sqrt(energy / this.musicSamples.length);
+      this.musicAverage += (rms - this.musicAverage) * .025;
+      return Math.min(1, rms * 7 + Math.max(0, rms - this.musicAverage) * 10);
     }
     movement(speed, energy, x) {
       const t = this.context.currentTime;
@@ -298,7 +321,6 @@
       segment.style.setProperty('--clarity', Math.max(.1, (1 - distance * .48) * (Math.cos(radians) < 0 ? .78 : 1)).toFixed(3));
       segment.style.setProperty('--vertebra-turn', `${Math.sin(radians) * 13}deg`);
     });
-    hero.style.setProperty('--z-presence', (.7 - Math.sin(depth * 1.4) * .07).toFixed(3));
     hero.style.setProperty('--z-blur', '0px');
     hero.style.setProperty('--z-scale', (1 + Math.sin(depth * Math.PI) * .065).toFixed(3));
     const jolt = Math.min(1, impact);
@@ -459,9 +481,24 @@
     charge = down ? Math.min(1, charge + dt * .43) : charge * Math.exp(-dt * 3.3);
     if (down && charge >= 1 && !charged) overload();
     storm = Math.max(0, storm - dt * .9);
-    hero.style.setProperty('--storm-flash', (storm * Math.max(0, Math.sin(clock * 67) * .42 + Math.sin(clock * 113) * .28)).toFixed(3));
+    const lightning = storm * Math.max(0, Math.sin(clock * 67) * .42 + Math.sin(clock * 113) * .28);
+    hero.style.setProperty('--storm-flash', lightning.toFixed(3));
     releaseFlash *= Math.exp(-dt * 5.5);
     hero.style.setProperty('--release-flash', releaseFlash.toFixed(3));
+    const playing = soundOn && bgm && !bgm.paused;
+    const targetLight = playing ? audio?.musicLevel() || 0 : 0;
+    const response = targetLight > musicLight ? 7 : playing ? .65 : 9;
+    musicLight += (targetLight - musicLight) * (1 - Math.exp(-dt * response));
+    const musicGlow = Math.min(1, musicLight + Math.max(0, targetLight - musicLight) * .18);
+    const eventLight = Math.min(1, charge * .2 + storm * .12 + lightning * .85 + releaseFlash * .85);
+    const sceneLight = Math.min(1.1, musicGlow + eventLight);
+    hero.style.setProperty('--z-emission', (.012 + musicGlow * .988).toFixed(3));
+    hero.style.setProperty('--z-aura', (musicGlow * .45).toFixed(3));
+    hero.style.setProperty('--scene-brightness', (.025 + sceneLight * .92).toFixed(3));
+    hero.style.setProperty('--ambient-light', Math.min(1, sceneLight * .75).toFixed(3));
+    hero.style.setProperty('--node-light', Math.min(1, .06 + sceneLight * .8).toFixed(3));
+    hero.style.setProperty('--effects-light', Math.min(1, .04 + sceneLight * .9).toFixed(3));
+    hero.style.setProperty('--event-light', eventLight.toFixed(3));
     if (down && soundOn && performance.now() - lastHold > 580) { audio?.note('hold', charge, point.x); lastHold = performance.now(); }
     const px = point.x - .5, py = point.y - .5;
     if (!reduced.matches) {
