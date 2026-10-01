@@ -6,7 +6,7 @@
   const lowPower = matchMedia('(max-width: 720px), (pointer: coarse)').matches;
   let theme = root.dataset.theme === 'cyber' ? 'cyber' : 'signal';
   if (theme === 'cyber' && page !== 'home') { location.replace(`index.html?space=${encodeURIComponent(page)}`); return; }
-  if (home) fetch('assets/cyber-universe.html?v=7').then(response => response.text()).then(markup => {
+  if (home) fetch('assets/cyber-universe.html?v=8').then(response => response.text()).then(markup => {
     document.querySelector('.site-header').insertAdjacentHTML('afterend', markup);
     const language = localStorage.getItem('zavier-lang') || 'en'; root.lang = language === 'zh' ? 'zh-CN' : 'en';
     document.querySelectorAll('.cyber-universe [data-i18n]').forEach(el => { const copy = window.ZAVIER_I18N?.[language]?.[el.dataset.i18n]; if (copy) el.innerHTML = copy; });
@@ -39,7 +39,7 @@
   let frame = 0, visible = true, lastFrame = 0, clock = 0, musicLight = 0;
   let down = false, activePointer = null, charge = 0, dragDistance = 0, lastArc = 0;
   let width = 0, height = 0, ripples = [], sparks = [], trail = [], shockwaves = [], releaseFlash = 0;
-  const spineWorld = document.querySelector('[data-spine-world]'), spineCamera = document.querySelector('[data-spine-camera]');
+  const spineWorld = document.querySelector('[data-spine-world]');
   const spineSegments = [...document.querySelectorAll('[data-spine-segment]')];
   let cameraY = 0, targetCameraY = 0, worldTurn = 0, targetTurn = 0, impact = 0, lastRoll = 0, lastGlide = 0, lastHold = 0;
   let activeSpine = -1, charged = false, storm = 0;
@@ -307,8 +307,10 @@
   function paintCamera() {
     if (!spineWorld) return;
     const depth = cameraY / segmentGap;
+    const jolt = Math.min(1, impact);
+    const shakeX = Math.sin(clock * 71) * jolt * 3, shakeY = Math.cos(clock * 83) * jolt * 2;
     activateSegment(Math.round(targetCameraY / segmentGap));
-    spineWorld.style.transform = `translate3d(0,${-cameraY}px,0) rotateY(${worldTurn}deg) rotateX(${width <= 720 ? 0 : Math.sin(depth * 1.3) * 1.5}deg)`;
+    spineWorld.style.transform = `translate3d(${shakeX}px,${-cameraY + shakeY}px,0) rotateY(${worldTurn}deg) rotateX(${width <= 720 ? 0 : Math.sin(depth * 1.3) * 1.5}deg)`;
     spineSegments.forEach((segment, index) => {
       const distance = Math.abs(index * segmentGap - cameraY) / segmentGap;
       const angle = [0, 55, -55, 55, -55][index] + (depth - index) * 96;
@@ -325,8 +327,6 @@
     });
     hero.style.setProperty('--z-blur', '0px');
     hero.style.setProperty('--z-scale', (1 + Math.sin(depth * Math.PI) * .065).toFixed(3));
-    const jolt = Math.min(1, impact);
-    if (spineCamera) spineCamera.style.transform = `translate3d(${Math.sin(clock * 71) * jolt * 3}px,${Math.cos(clock * 83) * jolt * 2}px,0)`;
   }
   function setCamera(y, turn = targetTurn) {
     targetCameraY = Math.max(0, Math.min(maxCameraY, y)); targetTurn = turn;
@@ -383,7 +383,7 @@
   }
   document.addEventListener('wheel', event => {
     if (theme !== 'cyber') return;
-    const panel = event.target.closest('.spine-fiber.is-open');
+    const panel = event.target.closest('.spine-fiber.is-open')?.querySelector('.spine-fiber-content');
     if (panel && panel.scrollHeight > panel.clientHeight && ((event.deltaY > 0 && panel.scrollTop + panel.clientHeight < panel.scrollHeight - 2) || (event.deltaY < 0 && panel.scrollTop > 2))) {
       const now = performance.now(); if (now - lastRoll > 82) { startSound(); audio?.note('roll', .16, event.clientX / innerWidth); lastRoll = now; }
       return;
