@@ -3,6 +3,7 @@
   const home = document.querySelector('.page-home');
   const page = document.body.dataset.page;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const lowPower = matchMedia('(max-width: 720px), (pointer: coarse)').matches;
   let theme = root.dataset.theme === 'cyber' ? 'cyber' : 'signal';
   if (theme === 'cyber' && page !== 'home') { location.replace(`index.html?space=${encodeURIComponent(page)}`); return; }
   if (home) fetch('assets/cyber-universe.html?v=7').then(response => response.text()).then(markup => {
@@ -44,8 +45,8 @@
   let activeSpine = -1, charged = false, storm = 0;
   const segmentGap = 820, maxCameraY = segmentGap * (spineSegments.length - 1);
   const point = { x: .66, y: .4, xTo: .66, yTo: .4, speed: 0, inside: false };
-  const rain = Array.from({ length: matchMedia('(pointer:fine)').matches ? 140 : 68 }, () => ({ x: Math.random(), y: Math.random(), z: .22 + Math.random() * .78 }));
-  const dust = Array.from({ length: 44 }, () => ({ x: Math.random(), y: Math.random(), phase: Math.random() * 6.28, z: Math.random() }));
+  const rain = Array.from({ length: lowPower ? 36 : matchMedia('(pointer:fine)').matches ? 140 : 68 }, () => ({ x: Math.random(), y: Math.random(), z: .22 + Math.random() * .78 }));
+  const dust = Array.from({ length: lowPower ? 22 : 44 }, () => ({ x: Math.random(), y: Math.random(), phase: Math.random() * 6.28, z: Math.random() }));
 
   class Soundscape {
     constructor() {
@@ -240,7 +241,7 @@
   function resize() {
     if (!hero || !effects || !ctx) return;
     width = hero.clientWidth; height = hero.clientHeight;
-    const dpr = Math.min(devicePixelRatio || 1, 1.6);
+    const dpr = Math.min(devicePixelRatio || 1, lowPower ? 1 : 1.6);
     effects.width = Math.round(width * dpr); effects.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     if (reduced.matches && theme === 'cyber' && visible) draw(performance.now());
@@ -317,7 +318,8 @@
       segment.style.setProperty('--orbit-angle', `${angle.toFixed(2)}deg`);
       const facingAngle = angle * (width <= 720 ? .22 : .35);
       segment.style.setProperty('--orbit-facing-angle', `${facingAngle.toFixed(2)}deg`);
-      segment.style.setProperty('--face-yaw', `${(-facingAngle - worldTurn).toFixed(2)}deg`);
+      // Counter the segment's own yaw, but let the world turn remain visible on the panel.
+      segment.style.setProperty('--face-yaw', `${(-facingAngle).toFixed(2)}deg`);
       segment.style.setProperty('--clarity', Math.max(.1, (1 - distance * .48) * (Math.cos(radians) < 0 ? .78 : 1)).toFixed(3));
       segment.style.setProperty('--vertebra-turn', `${Math.sin(radians) * 13}deg`);
     });
@@ -350,15 +352,6 @@
   document.querySelectorAll('.spine-fiber').forEach((panel, index) => {
     panel.addEventListener('pointerdown', event => { if (event.pointerType === 'mouse') faceSegment(panel, index, event); });
     panel.addEventListener('click', event => { if (event.pointerType !== 'mouse') faceSegment(panel, index, event); });
-  });
-  document.querySelectorAll('.spine-fiber').forEach(panel => {
-    let lastTouchY = 0;
-    panel.addEventListener('touchstart', event => { lastTouchY = event.touches[0].clientY; }, { passive: true });
-    panel.addEventListener('touchmove', event => {
-      const y = event.touches[0].clientY;
-      panel.scrollTop += lastTouchY - y; lastTouchY = y;
-      event.preventDefault();
-    }, { passive: false });
   });
   document.querySelectorAll('[data-spine-filter]').forEach(button => button.addEventListener('click', () => {
     const filter = button.dataset.spineFilter;

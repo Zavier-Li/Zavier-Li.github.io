@@ -221,3 +221,14 @@ html[data-theme="signal"] .theme-tools .theme-exchange{display:none}
   .spine-contact-form button{font-size:10px;padding:11px 15px}
 }
 @media(pointer:coarse){.cursor{display:none!important}}
+
+/* Preserve touch-driven world rotation while native scrolling stays inside open panels. */
+.cyber-universe{touch-action:pan-y}
+.cyber-universe>.cyber-city{pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.cyber-universe>.cyber-city-emissive,.cyber-universe>.cyber-atmosphere,.cyber-universe>.cyber-beam,.cyber-universe>.cyber-halo,.cyber-universe>.cyber-monument,.cyber-universe>.cyber-effects,.cyber-universe>.cyber-scan,.cyber-universe>.cyber-vignette,.cyber-universe>.cyber-storm-flash,.cyber-universe>.cyber-release-flash{pointer-events:none}
+.cyber-universe>.cyber-monument,.cyber-universe>.cyber-monument *{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.cyber-universe>.cyber-monument img{-webkit-user-drag:none}
+.spine-camera,.spine-world,.spine-thread{pointer-events:none}
+.spine-vertebra{pointer-events:auto;touch-action:none}
+.spine-fiber.is-open{touch-action:pan-y;-webkit-overflow-scrolling:touch}
+@media(max-width:720px){.spine-fiber{backdrop-filter:none;-webkit-backdrop-filter:none}}
